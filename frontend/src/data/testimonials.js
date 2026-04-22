@@ -1,0 +1,42 @@
+export const TESTIMONIALS = [
+  {
+    id: 't01',
+    name: 'Vikram Mehta',
+    role: 'Property Investor',
+    avatar: 'VM',
+    rating: 5,
+    text: 'Black Tie Hospitality has transformed the way we manage our properties. Their professionalism and ROI focus is unmatched. Our occupancy has never been higher and the reporting is crystal clear.',
+  },
+  {
+    id: 't02',
+    name: 'Neha Kapoor',
+    role: 'NRI Investor',
+    avatar: 'NK',
+    rating: 5,
+    text: 'Transparent, reliable and result-driven team. Our property income has significantly increased since we partnered with BTH. Managing from abroad has never been this stress-free.',
+  },
+  {
+    id: 't03',
+    name: 'Arjun Malhotra',
+    role: 'Real Estate Developer',
+    avatar: 'AM',
+    rating: 5,
+    text: 'From tenant management to maintenance, everything is handled seamlessly. Highly recommended! The team is responsive, professional, and genuinely cares about maximizing returns.',
+  },
+  {
+    id: 't04',
+    name: 'Priya Sharma',
+    role: 'Property Owner',
+    avatar: 'PS',
+    rating: 5,
+    text: 'I was skeptical at first but BTH exceeded all expectations. The fixed lease model gives me guaranteed income every month without any headaches. Best decision I made for my property.',
+  },
+  {
+    id: 't05',
+    name: 'Rahul Gupta',
+    role: 'Business Owner',
+    avatar: 'RG',
+    rating: 4,
+    text: 'Excellent service and very professional team. They found quality tenants within a week of listing and have maintained the property impeccably. Would definitely work with them again.',
+  },
+]
