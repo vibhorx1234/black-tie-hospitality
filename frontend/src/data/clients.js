@@ -1,16 +1,32 @@
+import au from "../clients/au.png";
+import bombay_hospital from "../clients/bombay_hospital.png";
+import dotsquares from "../clients/dotsquares.png";
+import genpact from "../clients/genpact.png";
+import jecrc from "../clients/jecrc.png";
+import mahatma_gandhi_hospital from "../clients/mahatma_gandhi_hospital.png";
+import nav from "../clients/nav.png";
+import sk_finance from "../clients/sk_finance.png";
+import tp from "../clients/tp.png";
+import double_bed from "../vectors/double-bed.svg"
+import clock from "../vectors/clock.svg"
+import building from "../vectors/building.svg"
+import award from "../vectors/award.svg"
+
 export const CLIENTS = [
-  { id: 'c01', name: 'Radisson', logo: 'RADISSON', color: '#E31837' },
-  { id: 'c02', name: 'Lemon Tree', logo: 'lemon tree', color: '#7AB317' },
-  { id: 'c03', name: 'Airbnb', logo: 'airbnb', color: '#FF5A5F' },
-  { id: 'c04', name: 'OYO', logo: 'OYO', color: '#EE2B25' },
-  { id: 'c05', name: 'Marriott', logo: 'Marriott', color: '#8B1A1A' },
-  { id: 'c06', name: 'IHG', logo: 'IHG', color: '#003087' },
-  { id: 'c07', name: 'Sarovar', logo: 'SAROVAR', color: '#C9A84C' },
-]
+  { id: "c01", logo: au },
+  { id: "c02", logo: bombay_hospital },
+  { id: "c03", logo: dotsquares },
+  { id: "c04", logo: genpact },
+  { id: "c05", logo: jecrc },
+  { id: "c06", logo: mahatma_gandhi_hospital },
+  { id: "c07", logo: nav },
+  { id: "c08", logo: sk_finance },
+  { id: "c09", logo: tp },
+];
 
 export const STATS = [
-  { value: '500+', label: 'Rooms Managed', icon: 'BedDouble' },
-  { value: '10+', label: 'Years Experience', icon: 'Clock' },
-  { value: '50+', label: 'Properties', icon: 'Building2' },
-  { value: '25+', label: 'Top Brand Clients', icon: 'Award' },
+  { value: '500+', label: 'Rooms Managed', icon: double_bed },
+  { value: '10+', label: 'Years Experience', icon: clock },
+  { value: '50+', label: 'Properties', icon: building },
+  { value: '25+', label: 'Top Brand Clients', icon: award },
 ]

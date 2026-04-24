@@ -17,12 +17,6 @@ export default function CTABanner() {
         pointerEvents: "none",
       }} />
 
-      {/* Decorative chart icon */}
-      <div style={{
-        position: "absolute", right: "10%", top: "50%", transform: "translateY(-50%)",
-        opacity: 0.12,
-        fontSize: "80px",
-      }}>📊</div>
 
       <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem", position: "relative", zIndex: 1 }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "24px" }}>

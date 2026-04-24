@@ -1,34 +1,72 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import React from "react";
-
-const properties = [
-  { id: 1, name: "Luxury Residence", location: "Jaipur", img: "https://picsum.photos/seed/prop1/420/280" },
-  { id: 2, name: "Urban Living", location: "Bengaluru", img: "https://picsum.photos/seed/prop2/420/280" },
-  { id: 3, name: "Premium Stay", location: "Mumbai", img: "https://picsum.photos/seed/prop3/420/280" },
-  { id: 4, name: "Smart Homes", location: "Pune", img: "https://picsum.photos/seed/prop4/420/280" },
-  { id: 5, name: "Business Stay", location: "Delhi", img: "https://picsum.photos/seed/prop5/420/280" },
-  { id: 6, name: "Heritage Suites", location: "Jaipur", img: "https://picsum.photos/seed/prop6/420/280" },
-];
+import { ALL_PROPERTIES } from "../../data/properties";
 
 export default function PropertiesShowcase() {
-  const [current, setCurrent] = useState(0);
-  const visibleCount = 5;
-  const maxIndex = properties.length - visibleCount;
+  const VISIBLE = 5;
+  const ITEM_WIDTH = 100 / VISIBLE;
 
-  const prev = () => setCurrent((c) => Math.max(0, c - 1));
-  const next = () => setCurrent((c) => Math.min(maxIndex, c + 1));
+  const [index, setIndex] = useState(0);
+  const [selected, setSelected] = useState(null);
+
+  const total = ALL_PROPERTIES.length;
+
+  const mod = (n, m) => ((n % m) + m) % m;
+
+  const next = () => setIndex((p) => mod(p + 1, total));
+  const prev = () => setIndex((p) => mod(p - 1, total));
+
+  const selectedIndex = selected
+    ? ALL_PROPERTIES.findIndex((p) => p.id === selected.id)
+    : -1;
+
+  const nextModal = () => {
+    const nextIdx = mod(selectedIndex + 1, total);
+    setSelected(ALL_PROPERTIES[nextIdx]);
+    setIndex(nextIdx);
+  };
+
+  const prevModal = () => {
+    const prevIdx = mod(selectedIndex - 1, total);
+    setSelected(ALL_PROPERTIES[prevIdx]);
+    setIndex(prevIdx);
+  };
+
+  // swipe
+  let startX = 0;
+  let dragging = false;
+
+  const onStart = (e) => {
+    dragging = true;
+    startX = e.touches ? e.touches[0].clientX : e.clientX;
+  };
+
+  const onEnd = (e) => {
+    if (!dragging) return;
+
+    const endX = e.changedTouches
+      ? e.changedTouches[0].clientX
+      : e.clientX;
+
+    const diff = endX - startX;
+
+    if (diff > 50) prev();
+    if (diff < -50) next();
+
+    dragging = false;
+  };
 
   return (
     <section style={{ background: "#0D1117", padding: "72px 0" }}>
       <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
-        {/* Header */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "28px" }}>
-          <div>
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "4px" }}>
-              PROPERTIES SHOWCASE
-            </p>
-          </div>
+
+        {/* HEADER */}
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "28px" }}>
+          <p style={{ color: "#C9A84C", letterSpacing: "0.22em", fontSize: "0.85rem" }}>
+            PROPERTIES SHOWCASE
+          </p>
+
           <Link
             to="/properties"
             style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#C9A84C", textDecoration: "none", display: "flex", alignItems: "center", gap: "6px" }}
@@ -39,95 +77,326 @@ export default function PropertiesShowcase() {
           </Link>
         </div>
 
-        {/* Carousel */}
-        <div style={{ position: "relative" }}>
-          {/* Prev button */}
-          <button
-            onClick={prev}
-            disabled={current === 0}
-            style={{
-              position: "absolute", left: "-20px", top: "50%", transform: "translateY(-50%)",
-              zIndex: 2, width: "40px", height: "40px", borderRadius: "50%",
-              background: current === 0 ? "rgba(255,255,255,0.05)" : "rgba(201,168,76,0.15)",
-              border: `1px solid ${current === 0 ? "rgba(255,255,255,0.1)" : "rgba(201,168,76,0.4)"}`,
-              color: current === 0 ? "#555" : "#C9A84C",
-              cursor: current === 0 ? "not-allowed" : "pointer",
-              fontSize: "16px", display: "flex", alignItems: "center", justifyContent: "center",
-              transition: "all 0.2s",
-            }}
-          >‹</button>
+        {/* CAROUSEL */}
+        <div style={{ position: "relative", overflow: "hidden" }}>
 
-          {/* Cards */}
-          <div style={{ overflow: "hidden" }}>
-            <div style={{
+          <button onClick={prev} style={arrow("left")}>‹</button>
+
+          {/* TRACK */}
+          <div
+            onMouseDown={onStart}
+            onMouseUp={onEnd}
+            onMouseLeave={() => (dragging = false)}
+            onTouchStart={onStart}
+            onTouchEnd={onEnd}
+            style={{
               display: "flex",
-              gap: "16px",
-              transform: `translateX(calc(-${current * (100 / visibleCount)}% - ${current * 16 / visibleCount}px))`,
-              transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-            }}>
-              {properties.map((p) => (
+              transition: "transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)",
+              transform: `translateX(-${index * ITEM_WIDTH}%)`,
+            }}
+          >
+            {ALL_PROPERTIES.concat(ALL_PROPERTIES).map((p, i) => (
+              <div key={i} style={{ minWidth: `${ITEM_WIDTH}%`, padding: "6px" }}>
                 <div
-                  key={p.id}
-                  style={{
-                    flex: `0 0 calc(${100 / visibleCount}% - ${16 * (visibleCount - 1) / visibleCount}px)`,
-                    minWidth: 0,
-                    borderRadius: "8px",
-                    overflow: "hidden",
-                    position: "relative",
-                    cursor: "pointer",
-                  }}
+                  onClick={() => setSelected(p)}
                   className="prop-card"
+                  style={{
+                    position: "relative",
+                    borderRadius: "10px",
+                    overflow: "hidden",
+                    cursor: "pointer",
+                    aspectRatio: "3/2",
+                  }}
                 >
-                  <div style={{ aspectRatio: "3/2", overflow: "hidden" }}>
-                    <img
-                      src={p.img}
-                      alt={p.name}
-                      style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.5s ease" }}
-                      className="prop-img"
-                    />
-                  </div>
-                  <div style={{
-                    position: "absolute", bottom: 0, left: 0, right: 0,
-                    background: "linear-gradient(transparent, rgba(0,0,0,0.85))",
-                    padding: "40px 14px 14px",
-                  }}>
-                    <p style={{ fontFamily: "'Cinzel', serif", fontSize: "13px", color: "#F5F0E8", fontWeight: 600, marginBottom: "2px" }}>{p.name}</p>
-                    <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "11px", color: "#C9A84C", display: "flex", alignItems: "center", gap: "4px" }}>
-                      <span>📍</span> {p.location}
-                    </p>
+                  <img
+                    src={p.image}
+                    className="prop-img"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      transition: "transform 0.5s ease",
+                    }}
+                  />
+
+                  {/* overlay */}
+                  <div className="prop-overlay" />
+
+                  {/* + button */}
+                  <div className="prop-plus">+</div>
+
+                  {/* badge */}
+                  <div className="prop-badge">{p.badge}</div>
+
+                  {/* text */}
+                  <div className="prop-text">
+                    <p className="prop-name">{p.name}</p>
+                    <p className="prop-location">📍 {p.location}</p>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
 
-          {/* Next button */}
-          <button
-            onClick={next}
-            disabled={current >= maxIndex}
-            style={{
-              position: "absolute", right: "-20px", top: "50%", transform: "translateY(-50%)",
-              zIndex: 2, width: "40px", height: "40px", borderRadius: "50%",
-              background: current >= maxIndex ? "rgba(255,255,255,0.05)" : "rgba(201,168,76,0.15)",
-              border: `1px solid ${current >= maxIndex ? "rgba(255,255,255,0.1)" : "rgba(201,168,76,0.4)"}`,
-              color: current >= maxIndex ? "#555" : "#C9A84C",
-              cursor: current >= maxIndex ? "not-allowed" : "pointer",
-              fontSize: "16px", display: "flex", alignItems: "center", justifyContent: "center",
-              transition: "all 0.2s",
-            }}
-          >›</button>
+          <button onClick={next} style={arrow("right")}>›</button>
         </div>
       </div>
 
+      {/* MODAL */}
+      {selected && (
+        <div
+          onClick={() => setSelected(null)}
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0,0,0,0.75)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 1000,
+          }}
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              position: "relative",
+              background: "#111827",
+              maxWidth: "650px",
+              width: "100%",
+              borderRadius: "12px",
+              overflow: "hidden",
+            }}
+          >
+            {/* IMAGE */}
+            <img
+              src={selected.image}
+              style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover" }}
+            />
+
+            <button onClick={prevModal} style={modalArrow("left")}>‹</button>
+            <button onClick={nextModal} style={modalArrow("right")}>›</button>
+
+            {/* CONTENT */}
+            <div style={{ padding: "24px 28px 28px", color: "#F5F0E8" }}>
+
+  {/* EYEBROW */}
+  <p style={{
+    fontFamily: "'Cinzel', serif",
+    fontSize: "0.6rem",
+    letterSpacing: "0.25em",
+    color: "#C9A84C",
+    textTransform: "uppercase",
+    margin: "0 0 8px 0",
+  }}>
+    {selected.type} · {selected.category}
+  </p>
+
+  {/* TITLE */}
+  <h2 style={{
+    fontFamily: "'Cinzel', serif",
+    fontSize: "1.35rem",
+    fontWeight: 600,
+    color: "#F5F0E8",
+    margin: "0 0 6px 0",
+    lineHeight: 1.3,
+  }}>
+    {selected.name}
+  </h2>
+
+  {/* LOCATION */}
+  <p style={{
+    fontFamily: "'Outfit', sans-serif",
+    fontSize: "0.75rem",
+    color: "#C9A84C",
+    margin: "0 0 14px 0",
+    letterSpacing: "0.05em",
+  }}>
+    📍 {selected.location}
+  </p>
+
+  {/* DIVIDER */}
+  <div style={{
+    width: "36px",
+    height: "1px",
+    background: "rgba(201,168,76,0.4)",
+    marginBottom: "14px",
+  }} />
+
+  {/* DESCRIPTION */}
+  <p style={{
+    fontFamily: "'Outfit', sans-serif",
+    fontSize: "0.8rem",
+    color: "#8a8580",
+    lineHeight: 1.75,
+    margin: "0 0 16px 0",
+  }}>
+    {selected.description}
+  </p>
+
+  {/* STATS ROW */}
+  <div style={{
+    display: "flex",
+    gap: "20px",
+    marginBottom: "16px",
+    padding: "12px 0",
+    borderTop: "1px solid rgba(255,255,255,0.06)",
+    borderBottom: "1px solid rgba(255,255,255,0.06)",
+  }}>
+    {selected.rooms && (
+      <div>
+        <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.rooms}</p>
+        <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rooms</p>
+      </div>
+    )}
+    {selected.units && (
+      <div>
+        <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.units}</p>
+        <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Units</p>
+      </div>
+    )}
+    <div>
+      <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#C9A84C", margin: 0 }}>{selected.rating} ★</p>
+      <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rating</p>
+    </div>
+  </div>
+
+  {/* AMENITIES */}
+  <div>
+    <p style={{
+      fontFamily: "'Outfit', sans-serif",
+      fontSize: "0.65rem",
+      letterSpacing: "0.18em",
+      color: "#C9A84C",
+      textTransform: "uppercase",
+      marginBottom: "10px",
+    }}>
+      Amenities
+    </p>
+    <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+      {selected.amenities.map((a, i) => (
+        <span key={i} style={{
+          fontFamily: "'Outfit', sans-serif",
+          fontSize: "0.7rem",
+          color: "#8a8580",
+          background: "rgba(255,255,255,0.04)",
+          border: "1px solid rgba(255,255,255,0.08)",
+          borderRadius: "4px",
+          padding: "4px 10px",
+        }}>
+          {a}
+        </span>
+      ))}
+    </div>
+  </div>
+
+</div>
+          </div>
+        </div>
+      )}
+
+      {/* STYLES */}
       <style>{`
         .prop-card:hover .prop-img { transform: scale(1.06); }
-        @media (max-width: 900px) {
-          .prop-card { flex: 0 0 calc(33.33% - 11px) !important; }
+
+        .prop-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(0,0,0,0);
+          transition: 0.3s ease;
         }
-        @media (max-width: 600px) {
-          .prop-card { flex: 0 0 calc(50% - 8px) !important; }
+
+        .prop-card:hover .prop-overlay {
+          background: rgba(0,0,0,0.45);
+        }
+
+        .prop-plus {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          border: 1px solid #C9A84C;
+          color: #C9A84C;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          opacity: 0;
+          transition: 0.3s ease;
+          background: rgba(13,17,23,0.3);
+          backdrop-filter: blur(4px);
+        }
+
+        .prop-card:hover .prop-plus {
+          opacity: 1;
+        }
+
+        .prop-badge {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          background: rgba(13,17,23,0.7);
+          border: 1px solid rgba(201,168,76,0.3);
+          color: #C9A84C;
+          font-size: 11px;
+          padding: 4px 8px;
+          border-radius: 4px;
+        }
+
+        .prop-text {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          padding: 40px 12px 12px;
+          background: linear-gradient(transparent, rgba(0,0,0,0.85));
+        }
+
+        .prop-name {
+          font-size: 13px;
+          color: #fff;
+          font-weight: 600;
+        }
+
+        .prop-location {
+          font-size: 11px;
+          color: #C9A84C;
         }
       `}</style>
     </section>
   );
+}
+
+/* ARROWS */
+function arrow(side) {
+  return {
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
+    [side]: "10px",
+    width: "38px",
+    height: "38px",
+    borderRadius: "50%",
+    background: "rgba(13,17,23,0.7)",
+    border: "1px solid rgba(201,168,76,0.3)",
+    color: "#C9A84C",
+    cursor: "pointer",
+    zIndex: 10,
+  };
+}
+
+function modalArrow(side) {
+  return {
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
+    [side]: "10px",
+    width: "38px",
+    height: "38px",
+    borderRadius: "50%",
+    background: "rgba(13,17,23,0.6)",
+    border: "1px solid rgba(201,168,76,0.3)",
+    color: "#C9A84C",
+    cursor: "pointer",
+  };
 }

@@ -2,56 +2,217 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import CTABanner from "../components/home/CTABanner";
+import { HOTELS, APARTMENTS, ALL_PROPERTIES } from "../data/properties";
+import { STATS } from "../data/clients";
 
-const hotels = [
-  { id: 1, name: "Tanya Resorts", location: "Jaipur", img: "https://picsum.photos/seed/h1/300/220" },
-  { id: 2, name: "The Orion", location: "Jaipur", img: "https://picsum.photos/seed/h2/300/220" },
-  { id: 3, name: "The Queen's", location: "Jaipur", img: "https://picsum.photos/seed/h3/300/220" },
-  { id: 4, name: "Reeve Inn", location: "Jaipur", img: "https://picsum.photos/seed/h4/300/220" },
-  { id: 5, name: "Shivir", location: "Jaipur", img: "https://picsum.photos/seed/h5/300/220" },
-  { id: 6, name: "Mark Inn", location: "Jaipur", img: "https://picsum.photos/seed/h6/300/220" },
-  { id: 7, name: "2 Glassy", location: "Jaipur", img: "https://picsum.photos/seed/h7/300/220" },
-  { id: 8, name: "Crown Plaza", location: "Jaipur", img: "https://picsum.photos/seed/h8/300/220" },
-  { id: 9, name: "Devensh", location: "Jaipur", img: "https://picsum.photos/seed/h9/300/220" },
-  { id: 10, name: "Yatrik", location: "Jaipur", img: "https://picsum.photos/seed/h10/300/220" },
-  { id: 11, name: "Jaipur One", location: "Jaipur", img: "https://picsum.photos/seed/h11/300/220" },
-  { id: 12, name: "Carrots and Cabbages", location: "Jaipur", img: "https://picsum.photos/seed/h12/300/220" },
-  { id: 13, name: "Joker Bar", location: "Jaipur", img: "https://picsum.photos/seed/h13/300/220" },
-  { id: 14, name: "Guman Heritage", location: "Jaipur", img: "https://picsum.photos/seed/h14/300/220" },
-  { id: 15, name: "And many more hotels...", location: "Jaipur & Nearby", img: null },
-];
+// Modal arrow style helper
+function modalArrow(side) {
+  return {
+    position: "absolute",
+    top: "50%",
+    transform: "translateY(-50%)",
+    [side]: "10px",
+    width: "38px",
+    height: "38px",
+    borderRadius: "50%",
+    background: "rgba(13,17,23,0.6)",
+    border: "1px solid rgba(201,168,76,0.3)",
+    color: "#C9A84C",
+    cursor: "pointer",
+    fontSize: "22px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 10,
+  };
+}
 
-const apartments = [
-  { id: 1, name: "Grand Anukampa", location: "Jaipur", img: "https://picsum.photos/seed/a1/300/220" },
-  { id: 2, name: "Avenue 1st", location: "Jaipur", img: "https://picsum.photos/seed/a2/300/220" },
-  { id: 3, name: "Solitaire Suites", location: "Jaipur", img: "https://picsum.photos/seed/a3/300/220" },
-  { id: 4, name: "Manhattan Rivverra", location: "Jaipur", img: "https://picsum.photos/seed/a4/300/220" },
-  { id: 5, name: "Coral Suits", location: "Jaipur", img: "https://picsum.photos/seed/a5/300/220" },
-  { id: 6, name: "Redwood's Magnus", location: "Jaipur", img: "https://picsum.photos/seed/a6/300/220" },
-  { id: 7, name: "Vega Apartments", location: "Jaipur", img: "https://picsum.photos/seed/a7/300/220" },
-  { id: 8, name: "Century 21st Elite", location: "Jaipur", img: "https://picsum.photos/seed/a8/300/220" },
-  { id: 9, name: "Balaji Tower", location: "Jaipur", img: "https://picsum.photos/seed/a9/300/220" },
-];
+function PropertyModal({ selected, onClose, onPrev, onNext }) {
+  if (!selected) return null;
 
-const locations = [
-  { name: "Jaipur", count: "15+", icon: "🕌" },
-  { name: "Sikar", count: "2+", icon: "🏛️" },
-  { name: "Kota", count: "2+", icon: "🌉" },
-  { name: "Ayodhya", count: "1+", icon: "⛩️" },
-  { name: "Mehndipur Balaji", count: "1+", icon: "🛕" },
-  { name: "Khatushyam Ji", count: "1+", icon: "🏯" },
-];
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,0.75)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        zIndex: 1000,
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          position: "relative",
+          background: "#111827",
+          maxWidth: "650px",
+          width: "100%",
+          borderRadius: "12px",
+          overflow: "hidden",
+        }}
+      >
+        {/* IMAGE */}
+        <img
+          src={selected.image}
+          alt={selected.name}
+          style={{ width: "100%", aspectRatio: "16/9", objectFit: "cover", display: "block" }}
+        />
 
-const stats = [
-  { value: "25+", label: "Properties" },
-  { value: "Jaipur & Nearby", label: "Key Locations" },
-  { value: "500+", label: "Rooms Managed" },
-];
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          style={{
+            position: "absolute",
+            top: "12px",
+            right: "12px",
+            width: "32px",
+            height: "32px",
+            borderRadius: "50%",
+            background: "rgba(13,17,23,0.7)",
+            border: "1px solid rgba(201,168,76,0.3)",
+            color: "#C9A84C",
+            cursor: "pointer",
+            fontSize: "16px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 10,
+          }}
+        >
+          ×
+        </button>
 
-function PropertyCard({ item, index }) {
+        {/* Carousel arrows on image */}
+        <button onClick={onPrev} style={modalArrow("left")}>‹</button>
+        <button onClick={onNext} style={modalArrow("right")}>›</button>
+
+        {/* CONTENT */}
+        <div style={{ padding: "24px 28px 28px", color: "#F5F0E8" }}>
+
+          {/* EYEBROW */}
+          <p style={{
+            fontFamily: "'Cinzel', serif",
+            fontSize: "0.6rem",
+            letterSpacing: "0.25em",
+            color: "#C9A84C",
+            textTransform: "uppercase",
+            margin: "0 0 8px 0",
+          }}>
+            {selected.type} · {selected.category}
+          </p>
+
+          {/* TITLE */}
+          <h2 style={{
+            fontFamily: "'Cinzel', serif",
+            fontSize: "1.35rem",
+            fontWeight: 600,
+            color: "#F5F0E8",
+            margin: "0 0 6px 0",
+            lineHeight: 1.3,
+          }}>
+            {selected.name}
+          </h2>
+
+          {/* LOCATION */}
+          <p style={{
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: "0.75rem",
+            color: "#C9A84C",
+            margin: "0 0 14px 0",
+            letterSpacing: "0.05em",
+          }}>
+            📍 {selected.location}
+          </p>
+
+          {/* DIVIDER */}
+          <div style={{
+            width: "36px",
+            height: "1px",
+            background: "rgba(201,168,76,0.4)",
+            marginBottom: "14px",
+          }} />
+
+          {/* DESCRIPTION */}
+          <p style={{
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: "0.8rem",
+            color: "#8a8580",
+            lineHeight: 1.75,
+            margin: "0 0 16px 0",
+          }}>
+            {selected.description}
+          </p>
+
+          {/* STATS ROW */}
+          <div style={{
+            display: "flex",
+            gap: "20px",
+            marginBottom: "16px",
+            padding: "12px 0",
+            borderTop: "1px solid rgba(255,255,255,0.06)",
+            borderBottom: "1px solid rgba(255,255,255,0.06)",
+          }}>
+            {selected.rooms && (
+              <div>
+                <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.rooms}</p>
+                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rooms</p>
+              </div>
+            )}
+            {selected.units && (
+              <div>
+                <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.units}</p>
+                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Units</p>
+              </div>
+            )}
+            <div>
+              <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#C9A84C", margin: 0 }}>{selected.rating} ★</p>
+              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rating</p>
+            </div>
+          </div>
+
+          {/* AMENITIES */}
+          <div>
+            <p style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: "0.65rem",
+              letterSpacing: "0.18em",
+              color: "#C9A84C",
+              textTransform: "uppercase",
+              marginBottom: "10px",
+            }}>
+              Amenities
+            </p>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              {selected.amenities.map((a, i) => (
+                <span key={i} style={{
+                  fontFamily: "'Outfit', sans-serif",
+                  fontSize: "0.7rem",
+                  color: "#8a8580",
+                  background: "rgba(255,255,255,0.04)",
+                  border: "1px solid rgba(255,255,255,0.08)",
+                  borderRadius: "4px",
+                  padding: "4px 10px",
+                }}>
+                  {a}
+                </span>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function PropertyCard({ item, index, onClick }) {
   const [hovered, setHovered] = useState(false);
 
-  if (!item.img) {
+  // "And many more" placeholder card
+  if (!item.image) {
     return (
       <div
         style={{
@@ -86,6 +247,7 @@ function PropertyCard({ item, index }) {
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={() => onClick && onClick(item)}
       style={{
         background: "#111827",
         border: `1px solid ${hovered ? "rgba(201,168,76,0.35)" : "rgba(255,255,255,0.06)"}`,
@@ -109,9 +271,24 @@ function PropertyCard({ item, index }) {
         {String(index + 1).padStart(2, "0")}
       </div>
 
+      {/* Hover plus icon */}
+      <div style={{
+        position: "absolute", top: "50%", left: "50%",
+        transform: "translate(-50%, -50%)",
+        width: "36px", height: "36px", borderRadius: "50%",
+        border: "1px solid #C9A84C", color: "#C9A84C",
+        display: "flex", alignItems: "center", justifyContent: "center",
+        opacity: hovered ? 1 : 0,
+        transition: "opacity 0.3s ease",
+        background: "rgba(13,17,23,0.3)",
+        backdropFilter: "blur(4px)",
+        zIndex: 3,
+        fontSize: "18px",
+      }}>+</div>
+
       <div style={{ aspectRatio: "3/2", overflow: "hidden" }}>
         <img
-          src={item.img}
+          src={item.image}
           alt={item.name}
           style={{
             width: "100%", height: "100%", objectFit: "cover",
@@ -131,6 +308,28 @@ function PropertyCard({ item, index }) {
 }
 
 export default function Properties() {
+  const [selected, setSelected] = useState(null);
+
+  const mod = (n, m) => ((n % m) + m) % m;
+
+  const openModal = (item) => {
+    setSelected(item);
+  };
+
+  const closeModal = () => setSelected(null);
+
+  const nextModal = () => {
+    if (!selected) return;
+    const idx = ALL_PROPERTIES.findIndex((p) => p.id === selected.id);
+    setSelected(ALL_PROPERTIES[mod(idx + 1, ALL_PROPERTIES.length)]);
+  };
+
+  const prevModal = () => {
+    if (!selected) return;
+    const idx = ALL_PROPERTIES.findIndex((p) => p.id === selected.id);
+    setSelected(ALL_PROPERTIES[mod(idx - 1, ALL_PROPERTIES.length)]);
+  };
+
   return (
     <>
       {/* Hero */}
@@ -157,7 +356,7 @@ export default function Properties() {
         }} />
 
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "60px 2rem 52px", position: "relative", zIndex: 1, width: "100%" }}>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "16px" }}>
+          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.85rem", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "16px" }}>
             OUR PROPERTIES
           </p>
           <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 700, color: "#F5F0E8", lineHeight: 1.15, marginBottom: "20px" }}>
@@ -166,21 +365,57 @@ export default function Properties() {
           <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "15px", color: "#8a8580", lineHeight: 1.7, maxWidth: "500px", marginBottom: "36px" }}>
             A curated portfolio of premium hotels and studio apartments across Jaipur and nearby cities, designed for comfort, convenience, and community living.
           </p>
-
-          {/* Stats inline */}
           <div style={{ display: "flex", gap: "40px", flexWrap: "wrap" }}>
-            {stats.map((s) => (
-              <div key={s.label} style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                <div style={{
-                  width: "36px", height: "36px",
-                  border: "1.5px solid rgba(201,168,76,0.4)",
-                  borderRadius: "8px",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  color: "#C9A84C", fontSize: "14px",
-                }}>🏢</div>
+            {STATS.map((s) => (
+              <div
+                key={s.label}
+                style={{ display: "flex", alignItems: "center", gap: "12px" }}
+              >
+                {/* ICON */}
+                <div
+                  style={{
+                    width: "36px",
+                    height: "36px",
+                    border: "1.5px solid rgba(201,168,76,0.4)",
+                    borderRadius: "8px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    src={s.icon}
+                    alt={s.label}
+                    style={{
+                      width: "18px",
+                      height: "18px",
+                      objectFit: "contain",
+                      filter: "invert(78%) sepia(40%) saturate(500%) hue-rotate(2deg)",
+                    }}
+                  />
+                </div>
+
+                {/* TEXT */}
                 <div>
-                  <p style={{ fontFamily: "'Cinzel', serif", fontSize: "15px", color: "#F5F0E8", fontWeight: 700 }}>{s.value}</p>
-                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "11px", color: "#6b6560" }}>{s.label}</p>
+                  <p
+                    style={{
+                      fontFamily: "'Cinzel', serif",
+                      fontSize: "15px",
+                      color: "#F5F0E8",
+                      fontWeight: 700,
+                    }}
+                  >
+                    {s.value}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: "11px",
+                      color: "#6b6560",
+                    }}
+                  >
+                    {s.label}
+                  </p>
                 </div>
               </div>
             ))}
@@ -197,25 +432,11 @@ export default function Properties() {
               <div style={{ width: "40px", height: "2px", background: "linear-gradient(90deg,#C9A84C,#e8c97a)", margin: "8px 0" }} />
               <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#6b6560" }}>Premium stays for every kind of traveler.</p>
             </div>
-            <button style={{
-              fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#0D1117",
-              background: "transparent", border: "1px solid rgba(0,0,0,0.2)",
-              padding: "8px 18px", borderRadius: "4px", cursor: "pointer",
-              display: "flex", alignItems: "center", gap: "6px",
-              transition: "all 0.2s",
-            }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C9A84C"; e.currentTarget.style.color = "#C9A84C"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(0,0,0,0.2)"; e.currentTarget.style.color = "#0D1117"; }}
-            >
-              View All Hotels →
-            </button>
           </div>
-
-          <div style={{ marginTop: "32px", display: "grid", gridTemplateColumns: "repeat(8, 1fr)", gap: "12px" }} className="hotels-grid">
-            {hotels.slice(0, 8).map((h, i) => <PropertyCard key={h.id} item={h} index={i} />)}
-          </div>
-          <div style={{ marginTop: "12px", display: "grid", gridTemplateColumns: "repeat(7, 1fr)", gap: "12px" }} className="hotels-grid-2">
-            {hotels.slice(8).map((h, i) => <PropertyCard key={h.id} item={h} index={i + 8} />)}
+          <div style={{ marginTop: "12px", display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "12px" }} className="hotels-grid">
+            {HOTELS.map((h, i) => (
+              <PropertyCard key={h.id} item={h} index={i} onClick={openModal} />
+            ))}
           </div>
         </div>
       </section>
@@ -229,55 +450,12 @@ export default function Properties() {
               <div style={{ width: "40px", height: "2px", background: "linear-gradient(90deg,#C9A84C,#e8c97a)", margin: "8px 0" }} />
               <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#6b6560" }}>Modern living spaces for professionals, students & long-term stays.</p>
             </div>
-            <button style={{
-              fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#0D1117",
-              background: "transparent", border: "1px solid rgba(0,0,0,0.2)",
-              padding: "8px 18px", borderRadius: "4px", cursor: "pointer",
-              display: "flex", alignItems: "center", gap: "6px",
-              transition: "all 0.2s",
-            }}
-              onMouseEnter={(e) => { e.currentTarget.style.borderColor = "#C9A84C"; e.currentTarget.style.color = "#C9A84C"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(0,0,0,0.2)"; e.currentTarget.style.color = "#0D1117"; }}
-            >
-              View All Apartments →
-            </button>
           </div>
-          <div style={{ marginTop: "32px", display: "grid", gridTemplateColumns: "repeat(9, 1fr)", gap: "12px" }} className="apts-grid">
-            {apartments.map((a, i) => <PropertyCard key={a.id} item={a} index={i} />)}
-          </div>
-        </div>
-      </section>
-
-      {/* Key Locations */}
-      <section style={{ background: "#111827", padding: "72px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
-          <div style={{ textAlign: "center", marginBottom: "48px" }}>
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "8px" }}>
-              OUR PROPERTIES ACROSS KEY LOCATIONS
-            </p>
-          </div>
-
-          <div style={{ display: "flex", justifyContent: "center", gap: "0", flexWrap: "wrap" }}>
-            {locations.map((loc, i) => (
-              <div
-                key={loc.name}
-                style={{
-                  textAlign: "center",
-                  padding: "24px 32px",
-                  borderRight: i < locations.length - 1 ? "1px solid rgba(201,168,76,0.15)" : "none",
-                  flex: "0 0 auto",
-                }}
-              >
-                <div style={{ fontSize: "32px", marginBottom: "12px" }}>{loc.icon}</div>
-                <p style={{ fontFamily: "'Cinzel', serif", fontSize: "14px", color: "#F5F0E8", fontWeight: 600, marginBottom: "4px" }}>{loc.name}</p>
-                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#C9A84C" }}>{loc.count} Properties</p>
-              </div>
+          <div style={{ marginTop: "32px", display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: "12px" }} className="apts-grid">
+            {APARTMENTS.map((a, i) => (
+              <PropertyCard key={a.id} item={a} index={i} onClick={openModal} />
             ))}
           </div>
-
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#6b6560", textAlign: "center", marginTop: "32px", maxWidth: "700px", margin: "32px auto 0", lineHeight: 1.7 }}>
-            Our properties are spread across key locations in Jaipur and nearby cities, catering to medical tourists, students, corporates, and leisure travelers with well-maintained, fully-equipped accommodations.
-          </p>
         </div>
       </section>
 
@@ -332,6 +510,14 @@ export default function Properties() {
           </div>
         </div>
       </section>
+
+      {/* Property Detail Modal */}
+      <PropertyModal
+        selected={selected}
+        onClose={closeModal}
+        onPrev={prevModal}
+        onNext={nextModal}
+      />
 
       <style>{`
         @media (max-width: 1200px) {

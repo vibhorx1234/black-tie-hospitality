@@ -1,38 +1,11 @@
 import { useState } from "react";
 import React from "react";
-
-const contactInfo = [
-  {
-    icon: "📍",
-    title: "Visit Us",
-    lines: ["23S, Netaji Puram Prasad,", "Banipark, Jaipur,", "Rajasthan 302016"],
-  },
-  {
-    icon: "📞",
-    title: "Call Us",
-    lines: ["+91 01555 58899"],
-  },
-  {
-    icon: "✉️",
-    title: "Email Us",
-    lines: ["info@blacktiehospitality.com"],
-  },
-  {
-    icon: "⏰",
-    title: "Business Hours",
-    lines: ["Mon – Sat: 9:00 AM – 6:00 PM", "Sunday: Closed"],
-  },
-];
-
-const services = [
-  "Lease Management",
-  "Tenant Management",
-  "Rent Collection",
-  "Property Maintenance",
-  "Financial Reporting",
-  "Legal Compliance",
-  "Custom Solution",
-];
+import LinkedInIcon from "../vectors/linkedin.svg";
+import InstagramIcon from "../vectors/instagram.svg";
+import FacebookIcon from "../vectors/facebook.svg";
+import YouTubeIcon from "../vectors/youtube.svg";
+import { contactInfo } from "../data/about";
+import { SERVICES } from "../data/services";
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -79,19 +52,26 @@ export default function Contact() {
     <>
       {/* Hero */}
       <section style={{
-        paddingTop: "120px", paddingBottom: "60px",
-        background: "linear-gradient(135deg, #0D1117, #111827)",
-        position: "relative", overflow: "hidden",
+        paddingTop: "72px", minHeight: "420px",
+        background: "#0D1117", position: "relative", overflow: "hidden",
+        display: "flex", alignItems: "flex-end",
       }}>
-        <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(circle, rgba(201,168,76,0.04) 1px, transparent 1px)", backgroundSize: "28px 28px" }} />
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem", position: "relative", zIndex: 1, textAlign: "center" }}>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "16px" }}>
+        <div style={{
+          position: "absolute", inset: 0,
+          backgroundImage: "url(https://picsum.photos/seed/about-hero/1400/600)",
+          backgroundSize: "cover", backgroundPosition: "center",
+          opacity: 0.18,
+        }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, #0D1117 40%, rgba(13,17,23,0.6) 100%)" }} />
+
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "80px 2rem 60px", position: "relative", zIndex: 1, width: "100%" }}>
+          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.85rem", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "16px" }}>
             GET IN TOUCH
           </p>
-          <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 700, color: "#F5F0E8", lineHeight: 1.2, marginBottom: "16px" }}>
+          <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 700, color: "#F5F0E8", lineHeight: 1.15, marginBottom: "20px" }}>
             Let's Build Something<br />Great Together
           </h1>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "15px", color: "#8a8580", lineHeight: 1.7, maxWidth: "480px", margin: "0 auto" }}>
+          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "15px", color: "#8a8580", lineHeight: 1.7, maxWidth: "560px" }}>
             Reach out to discuss how we can help maximize your property's potential.
           </p>
         </div>
@@ -110,15 +90,30 @@ export default function Contact() {
 
               <div style={{ display: "flex", flexDirection: "column", gap: "28px", marginBottom: "48px" }}>
                 {contactInfo.map((c) => (
-                  <div key={c.title} style={{ display: "flex", gap: "16px" }}>
-                    <div style={{
-                      width: "44px", height: "44px", flexShrink: 0,
-                      borderRadius: "10px",
-                      background: "rgba(201,168,76,0.08)",
-                      border: "1px solid rgba(201,168,76,0.2)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      fontSize: "18px",
-                    }}>{c.icon}</div>
+                  <div key={c.title} style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
+                    <div
+                      style={{
+                        width: "48px",
+                        height: "48px",
+                        borderRadius: "50%",
+                        border: "1px solid rgba(201,168,76,0.35)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                      }}
+                    >
+                      <img
+                        src={c.icon}
+                        alt={c.title}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          objectFit: "contain",
+                          filter: "invert(67%) sepia(40%) saturate(500%) hue-rotate(2deg)",
+                        }}
+                      />
+                    </div>
                     <div>
                       <p style={{ fontFamily: "'Cinzel', serif", fontSize: "12px", color: "#C9A84C", fontWeight: 600, marginBottom: "6px", letterSpacing: "0.06em" }}>{c.title}</p>
                       {c.lines.map((line, i) => (
@@ -130,37 +125,50 @@ export default function Contact() {
               </div>
 
               {/* Social links */}
-              <div>
-                <p style={{ fontFamily: "'Cinzel', serif", fontSize: "12px", color: "#C9A84C", fontWeight: 600, marginBottom: "14px", letterSpacing: "0.06em" }}>FOLLOW US</p>
-                <div style={{ display: "flex", gap: "10px" }}>
-                  {[
-                    { label: "in", href: "https://linkedin.com", title: "LinkedIn" },
-                    { label: "ig", href: "https://instagram.com", title: "Instagram" },
-                    { label: "fb", href: "https://facebook.com", title: "Facebook" },
-                    { label: "yt", href: "https://youtube.com", title: "YouTube" },
-                  ].map((s) => (
-                    <a
-                      key={s.label}
-                      href={s.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      title={s.title}
+              <div style={{ display: "flex", gap: "12px" }}>
+                {[
+                  { icon: LinkedInIcon, href: "https://linkedin.com" },
+                  { icon: InstagramIcon, href: "https://instagram.com" },
+                  { icon: FacebookIcon, href: "https://facebook.com" },
+                  { icon: YouTubeIcon, href: "https://youtube.com" },
+                ].map((social, index) => (
+                  <a
+                    key={index}
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    style={{
+                      width: "34px",
+                      height: "34px",
+                      border: "1px solid rgba(201,168,76,0.3)",
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      textDecoration: "none",
+                      transition: "all 0.25s",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background = "rgba(201,168,76,0.1)";
+                      e.currentTarget.style.borderColor = "#C9A84C";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background = "transparent";
+                      e.currentTarget.style.borderColor = "rgba(201,168,76,0.3)";
+                    }}
+                  >
+                    <img
+                      src={social.icon}
+                      alt=""
                       style={{
-                        width: "38px", height: "38px",
-                        border: "1px solid rgba(201,168,76,0.3)",
-                        borderRadius: "50%",
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        fontFamily: "'Outfit', sans-serif", fontSize: "11px",
-                        fontWeight: 700, color: "#C9A84C", textDecoration: "none",
-                        transition: "all 0.2s",
+                        width: "26px",
+                        height: "26px",
+                        filter:
+                          "brightness(0) saturate(100%) invert(72%) sepia(47%) saturate(500%) hue-rotate(5deg) brightness(95%)",
                       }}
-                      onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(201,168,76,0.1)"; e.currentTarget.style.borderColor = "#C9A84C"; }}
-                      onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.borderColor = "rgba(201,168,76,0.3)"; }}
-                    >
-                      {s.label}
-                    </a>
-                  ))}
-                </div>
+                    />
+                  </a>
+                ))}
               </div>
             </div>
 
@@ -252,8 +260,8 @@ export default function Contact() {
                           onBlur={(e) => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
                         >
                           <option value="" style={{ background: "#111827" }}>Select a service</option>
-                          {services.map((s) => (
-                            <option key={s} value={s} style={{ background: "#111827" }}>{s}</option>
+                          {SERVICES.map((s) => (
+                            <option key={s.id} value={s.title} style={{ background: "#111827" }}>{s.title}</option>
                           ))}
                         </select>
                       </div>

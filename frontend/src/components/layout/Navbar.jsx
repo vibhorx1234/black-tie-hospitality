@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import React from "react";
+import logo from "../../vectors/logo.svg";
 
 const navLinks = [
   { label: "Home", path: "/" },
   { label: "Services", path: "/services" },
-//   { label: "Models", path: "/models" },
   { label: "Properties", path: "/properties" },
+  { label: "Gallery", path: "/gallery" },
   { label: "About Us", path: "/about" },
   { label: "Contact Us", path: "/contact" },
 ];
@@ -55,50 +56,15 @@ export default function Navbar() {
       >
         {/* Logo */}
         <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "10px" }}>
-          <div
+          <img
+            src={logo}
+            alt="Black Tie Hospitality"
             style={{
-              width: "40px",
-              height: "40px",
-              background: "linear-gradient(135deg, #C9A84C, #e8c97a)",
-              borderRadius: "6px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontFamily: "'Cinzel', serif",
-              fontWeight: "700",
-              fontSize: "18px",
-              color: "#0D1117",
-              flexShrink: 0,
+              height: "56px",
+              width: "auto",
+              filter: "brightness(0) invert(1)",
             }}
-          >
-            B
-          </div>
-          <div>
-            <div
-              style={{
-                fontFamily: "'Cinzel', serif",
-                fontWeight: "700",
-                fontSize: "15px",
-                color: "#F5F0E8",
-                letterSpacing: "0.05em",
-                lineHeight: 1.1,
-              }}
-            >
-              BLACK TIE
-            </div>
-            <div
-              style={{
-                fontFamily: "'Outfit', sans-serif",
-                fontSize: "9px",
-                color: "#C9A84C",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                lineHeight: 1,
-              }}
-            >
-              HOSPITALITY
-            </div>
-          </div>
+          />
         </Link>
 
         {/* Desktop Nav Links */}
@@ -160,7 +126,9 @@ export default function Navbar() {
               fontWeight: "600",
               color: "#0D1117",
               background: "linear-gradient(135deg, #C9A84C, #e8c97a)",
-              padding: "9px 20px",
+              marginRight: "-70px",
+              marginLeft: "30px",
+              padding: "9px 16px",
               borderRadius: "4px",
               textDecoration: "none",
               letterSpacing: "0.04em",

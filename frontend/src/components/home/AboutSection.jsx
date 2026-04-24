@@ -8,7 +8,7 @@ export default function AboutSection() {
     <section
       style={{
         padding: "6rem 2rem",
-        background: "#fff",
+        background: "#f7f5f2",
         overflow: "hidden",
       }}
     >

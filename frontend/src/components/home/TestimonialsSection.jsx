@@ -1,54 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import React from "react";
-
-const testimonials = [
-  {
-    id: 1,
-    stars: 5,
-    text: "Black Tie Hospitality has transformed the way we manage our properties. Their professionalism and ROI focus is unmatched.",
-    name: "Vikram Mehta",
-    role: "Property Investor",
-    img: "https://picsum.photos/seed/test1/80/80",
-  },
-  {
-    id: 2,
-    stars: 5,
-    text: "Transparent, reliable and result-driven team. Our property income has significantly increased since we partnered with them.",
-    name: "Neha Kapoor",
-    role: "NRI Investor",
-    img: "https://picsum.photos/seed/test2/80/80",
-  },
-  {
-    id: 3,
-    stars: 5,
-    text: "From tenant management to maintenance, everything is handled seamlessly. Highly recommended to every property owner!",
-    name: "Arjun Malhotra",
-    role: "Real Estate Developer",
-    img: "https://picsum.photos/seed/test3/80/80",
-  },
-  {
-    id: 4,
-    stars: 5,
-    text: "Exceptional service! They found quality tenants within days and have maintained a zero-vacancy record for our portfolio.",
-    name: "Priya Sharma",
-    role: "Portfolio Owner",
-    img: "https://picsum.photos/seed/test4/80/80",
-  },
-  {
-    id: 5,
-    stars: 5,
-    text: "Best decision we made was partnering with Black Tie. The revenue share model has given us 30% higher returns.",
-    name: "Rajesh Gupta",
-    role: "Hotel Owner",
-    img: "https://picsum.photos/seed/test5/80/80",
-  },
-];
+import { TESTIMONIALS } from "../../data/testimonials";
 
 export default function TestimonialsSection() {
   const [current, setCurrent] = useState(0);
   const visible = 3;
-  const max = testimonials.length - visible;
+  const max = TESTIMONIALS.length - visible;
 
   const prev = () => setCurrent((c) => Math.max(0, c - 1));
   const next = () => setCurrent((c) => Math.min(max, c + 1));
@@ -58,17 +16,9 @@ export default function TestimonialsSection() {
       <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
         {/* Header */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "36px" }}>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.72rem", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C" }}>
+          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.85rem", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C" }}>
             WHAT OUR CLIENTS SAY
           </p>
-          <Link
-            to="/about"
-            style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#C9A84C", textDecoration: "none", display: "flex", alignItems: "center", gap: "6px" }}
-            onMouseEnter={(e) => e.currentTarget.style.gap = "12px"}
-            onMouseLeave={(e) => e.currentTarget.style.gap = "6px"}
-          >
-            View All Testimonials <span>→</span>
-          </Link>
         </div>
 
         {/* Carousel */}
@@ -95,7 +45,7 @@ export default function TestimonialsSection() {
               transform: `translateX(calc(-${current * (100 / visible)}% - ${current * 20 / visible}px))`,
               transition: "transform 0.4s cubic-bezier(0.4,0,0.2,1)",
             }}>
-              {testimonials.map((t) => (
+              {TESTIMONIALS.map((t) => (
                 <div
                   key={t.id}
                   style={{
@@ -123,11 +73,39 @@ export default function TestimonialsSection() {
 
                   {/* Author */}
                   <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-                    <img
-                      src={t.img}
-                      alt={t.name}
-                      style={{ width: "40px", height: "40px", borderRadius: "50%", objectFit: "cover", border: "1px solid rgba(201,168,76,0.2)" }}
-                    />
+                    {t.img ? (
+                      <img
+                        src={t.img}
+                        alt={t.name}
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          borderRadius: "50%",
+                          objectFit: "cover",
+                          border: "1px solid rgba(201,168,76,0.2)"
+                        }}
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          width: "40px",
+                          height: "40px",
+                          borderRadius: "50%",
+                          background: "rgba(201,168,76,0.15)",
+                          border: "1px solid rgba(201,168,76,0.3)",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontFamily: "'Outfit', sans-serif",
+                          fontSize: "13px",
+                          fontWeight: "600",
+                          color: "#C9A84C",
+                          textTransform: "uppercase"
+                        }}
+                      >
+                        {t.avatar}
+                      </div>
+                    )}
                     <div>
                       <p style={{ fontFamily: "'Cinzel', serif", fontSize: "13px", color: "#F5F0E8", fontWeight: 600, marginBottom: "2px" }}>{t.name}</p>
                       <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "11px", color: "#C9A84C" }}>{t.role}</p>

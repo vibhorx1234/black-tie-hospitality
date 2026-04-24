@@ -1,5 +1,4 @@
 import HeroSection from "../components/home/HeroSection";
-// import StatsBar from "../components/home/StatsBar";
 import AboutSection from "../components/home/AboutSection";
 import ServicesSection from "../components/home/ServicesSection";
 import ModelsSection from "../components/home/ModelsSection";
@@ -15,7 +14,6 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      {/* <StatsBar /> */}
       <AboutSection />
       <ServicesSection />
       <ModelsSection />

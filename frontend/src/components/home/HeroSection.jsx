@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Button from "../ui/Button";
 import React from "react";
+import { STATS } from "../../data/clients";
 
 export default function HeroSection() {
   const [loaded, setLoaded] = useState(false);
@@ -88,7 +89,7 @@ export default function HeroSection() {
             <span
               style={{
                 fontFamily: "'Outfit', sans-serif",
-                fontSize: "11px",
+                fontSize: "13px",
                 fontWeight: "600",
                 letterSpacing: "0.22em",
                 textTransform: "uppercase",
@@ -196,12 +197,7 @@ export default function HeroSection() {
           }}
           className="stats-bar"
         >
-          {[
-            { icon: "🏠", value: "500+", label: "Rooms Managed" },
-            { icon: "⭐", value: "10+", label: "Years Experience" },
-            { icon: "🏢", value: "50+", label: "Properties" },
-            { icon: "🤝", value: "Trusted by", label: "Top Brands" },
-          ].map((stat, i) => (
+          {STATS.map((stat, i) => (
             <div
               key={i}
               style={{
@@ -210,9 +206,13 @@ export default function HeroSection() {
                 alignItems: "center",
                 gap: "12px",
                 padding: "1.25rem 1.5rem",
-                borderRight: i < 3 ? "1px solid rgba(255,255,255,0.07)" : "none",
+                borderRight:
+                  i < STATS.length - 1
+                    ? "1px solid rgba(255,255,255,0.07)"
+                    : "none",
               }}
             >
+              {/* ICON FIXED */}
               <div
                 style={{
                   width: "40px",
@@ -222,12 +222,23 @@ export default function HeroSection() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontSize: "16px",
                   flexShrink: 0,
                 }}
               >
-                {stat.icon}
+                <img
+                  src={stat.icon}
+                  alt={stat.label}
+                  style={{
+                    width: "18px",
+                    height: "18px",
+                    objectFit: "contain",
+                    filter:
+                      "invert(78%) sepia(40%) saturate(500%) hue-rotate(2deg)",
+                  }}
+                />
               </div>
+
+              {/* TEXT */}
               <div>
                 <div
                   style={{
@@ -240,6 +251,7 @@ export default function HeroSection() {
                 >
                   {stat.value}
                 </div>
+
                 <div
                   style={{
                     fontFamily: "'Outfit', sans-serif",

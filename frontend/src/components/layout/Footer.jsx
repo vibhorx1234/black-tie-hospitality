@@ -1,12 +1,18 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import React from "react";
+import logo from "../../vectors/logo.svg";
+import LinkedInIcon from "../../vectors/linkedin.svg";
+import InstagramIcon from "../../vectors/instagram.svg";
+import FacebookIcon from "../../vectors/facebook.svg";
+import YouTubeIcon from "../../vectors/youtube.svg";
+import { contactInfo } from "../../data/about";
 
 const quickLinks = [
   { label: "Home", path: "/" },
   { label: "Services", path: "/services" },
-  { label: "Models", path: "/models" },
   { label: "Properties", path: "/properties" },
+  { label: "Gallery", path: "/gallery" },
   { label: "About Us", path: "/about" },
   { label: "Contact Us", path: "/contact" },
 ];
@@ -41,7 +47,7 @@ export default function Footer() {
           margin: "0 auto",
           padding: "4rem 2rem 2rem",
           display: "grid",
-          gridTemplateColumns: "1.5fr 1fr 1fr 1fr 1.2fr",
+          gridTemplateColumns: "repeat(3, 1fr)",
           gap: "3rem",
         }}
         className="footer-grid"
@@ -49,31 +55,15 @@ export default function Footer() {
         {/* Brand Column */}
         <div>
           <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "10px", marginBottom: "1.2rem" }}>
-            <div
+            <img
+              src={logo}
+              alt="Black Tie Hospitality"
               style={{
-                width: "38px",
-                height: "38px",
-                background: "linear-gradient(135deg, #C9A84C, #e8c97a)",
-                borderRadius: "6px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontFamily: "'Cinzel', serif",
-                fontWeight: "700",
-                fontSize: "17px",
-                color: "#0D1117",
+                height: "64px",
+                width: "auto",
+                filter: "brightness(0) invert(1)",
               }}
-            >
-              B
-            </div>
-            <div>
-              <div style={{ fontFamily: "'Cinzel', serif", fontWeight: "700", fontSize: "14px", color: "#F5F0E8", letterSpacing: "0.05em" }}>
-                BLACK TIE
-              </div>
-              <div style={{ fontFamily: "'Outfit', sans-serif", fontSize: "8px", color: "#C9A84C", letterSpacing: "0.2em" }}>
-                HOSPITALITY
-              </div>
-            </div>
+            />
           </Link>
           <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#8a8580", lineHeight: 1.7, marginBottom: "1.5rem" }}>
             Premium Property Management Solutions Across India
@@ -81,13 +71,13 @@ export default function Footer() {
           {/* Social Icons */}
           <div style={{ display: "flex", gap: "12px" }}>
             {[
-              { icon: "in", href: "https://linkedin.com" },
-              { icon: "ig", href: "https://instagram.com" },
-              { icon: "fb", href: "https://facebook.com" },
-              { icon: "yt", href: "https://youtube.com" },
-            ].map((social) => (
+              { icon: LinkedInIcon, href: "https://linkedin.com" },
+              { icon: InstagramIcon, href: "https://instagram.com" },
+              { icon: FacebookIcon, href: "https://facebook.com" },
+              { icon: YouTubeIcon, href: "https://youtube.com" },
+            ].map((social, index) => (
               <a
-                key={social.icon}
+                key={index}
                 href={social.href}
                 target="_blank"
                 rel="noreferrer"
@@ -99,10 +89,6 @@ export default function Footer() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  fontFamily: "'Outfit', sans-serif",
-                  fontSize: "11px",
-                  fontWeight: "600",
-                  color: "#C9A84C",
                   textDecoration: "none",
                   transition: "all 0.25s",
                 }}
@@ -115,7 +101,16 @@ export default function Footer() {
                   e.currentTarget.style.borderColor = "rgba(201,168,76,0.3)";
                 }}
               >
-                {social.icon}
+                <img
+                  src={social.icon}
+                  alt=""
+                  style={{
+                    width: "26px",
+                    height: "26px",
+                    filter:
+                      "brightness(0) saturate(100%) invert(72%) sepia(47%) saturate(500%) hue-rotate(5deg) brightness(95%)",
+                  }}
+                />
               </a>
             ))}
           </div>
@@ -148,102 +143,29 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Services */}
-        <div>
-          <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "13px", color: "#F5F0E8", letterSpacing: "0.08em", marginBottom: "1.2rem", fontWeight: "600" }}>
-            Services
-          </h4>
-          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
-            {serviceLinks.map((s) => (
-              <li key={s}>
-                <Link
-                  to="/services"
-                  style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#8a8580", textDecoration: "none", transition: "color 0.2s" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A84C")}
-                  onMouseLeave={(e) => (e.currentTarget.style.color = "#8a8580")}
-                >
-                  {s}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-
         {/* Contact */}
         <div>
           <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "13px", color: "#F5F0E8", letterSpacing: "0.08em", marginBottom: "1.2rem", fontWeight: "600" }}>
             Contact Us
           </h4>
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-            <div style={{ display: "flex", gap: "10px" }}>
-              <span style={{ color: "#C9A84C", fontSize: "14px", marginTop: "2px" }}>📍</span>
-              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#8a8580", lineHeight: 1.6, margin: 0 }}>
-                23S, Netaji Puram Prasad, Banipark, Jaipur, Rajasthan 302016
-              </p>
-            </div>
-            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-              <span style={{ color: "#C9A84C", fontSize: "14px" }}>📞</span>
-              <a href="tel:+910155558899" style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#8a8580", textDecoration: "none" }}>
-                +91 01555 58899
-              </a>
-            </div>
-            <div style={{ display: "flex", gap: "10px", alignItems: "center" }}>
-              <span style={{ color: "#C9A84C", fontSize: "14px" }}>✉️</span>
-              <a href="mailto:info@blacktiehospitality.com" style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#8a8580", textDecoration: "none" }}>
-                info@blacktiehospitality.com
-              </a>
-            </div>
+            {contactInfo.map((c) => (
+              <div key={c.title} style={{ display: "flex", gap: "10px", alignItems: c.href ? "center" : "flex-start" }}>
+                <div style={{ width: "32px", height: "32px", borderRadius: "50%", border: "1px solid rgba(201,168,76,0.35)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <img src={c.icon} alt={c.title} style={{ width: "14px", height: "14px", objectFit: "contain", filter: "invert(67%) sepia(40%) saturate(500%) hue-rotate(2deg)" }} />
+                </div>
+                {c.href ? (
+                  <a href={c.href} style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#8a8580", textDecoration: "none" }}>
+                    {c.lines[0]}
+                  </a>
+                ) : (
+                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#8a8580", lineHeight: 1.6, margin: 0, paddingTop: "6px" }}>
+                    {c.lines[0]}
+                  </p>
+                )}
+              </div>
+            ))}
           </div>
-        </div>
-
-        {/* Newsletter */}
-        <div>
-          <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "13px", color: "#F5F0E8", letterSpacing: "0.08em", marginBottom: "0.5rem", fontWeight: "600" }}>
-            Newsletter
-          </h4>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#8a8580", marginBottom: "1rem", lineHeight: 1.5 }}>
-            Subscribe to our newsletter for latest updates.
-          </p>
-          {subscribed ? (
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#C9A84C" }}>
-              ✓ Thank you for subscribing!
-            </p>
-          ) : (
-            <form onSubmit={handleSubscribe} style={{ display: "flex", gap: "0" }}>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
-                required
-                style={{
-                  flex: 1,
-                  background: "rgba(255,255,255,0.05)",
-                  border: "1px solid rgba(201,168,76,0.25)",
-                  borderRight: "none",
-                  borderRadius: "4px 0 0 4px",
-                  padding: "9px 12px",
-                  fontFamily: "'Outfit', sans-serif",
-                  fontSize: "12px",
-                  color: "#F5F0E8",
-                  outline: "none",
-                }}
-              />
-              <button
-                type="submit"
-                style={{
-                  background: "linear-gradient(135deg, #C9A84C, #e8c97a)",
-                  border: "none",
-                  borderRadius: "0 4px 4px 0",
-                  padding: "9px 14px",
-                  cursor: "pointer",
-                  fontSize: "16px",
-                }}
-              >
-                →
-              </button>
-            </form>
-          )}
         </div>
       </div>
 
@@ -262,7 +184,7 @@ export default function Footer() {
         }}
       >
         <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#5a5550", margin: 0 }}>
-          © 2024 Black Tie Hospitality LLP. All Rights Reserved.
+          © 2026 Black Tie Hospitality. All Rights Reserved.
         </p>
         <div style={{ display: "flex", gap: "1.5rem" }}>
           <a href="#" style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#5a5550", textDecoration: "none" }}>Privacy Policy</a>
