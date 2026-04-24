@@ -1,10 +1,6 @@
 import { useState } from "react";
 import React from "react";
-import LinkedInIcon from "../vectors/linkedin.svg";
-import InstagramIcon from "../vectors/instagram.svg";
-import FacebookIcon from "../vectors/facebook.svg";
-import YouTubeIcon from "../vectors/youtube.svg";
-import { contactInfo } from "../data/about";
+import { contactInfo, SOCIAL_LINKS } from "../data/about";
 import { SERVICES } from "../data/services";
 
 export default function Contact() {
@@ -126,12 +122,7 @@ export default function Contact() {
 
               {/* Social links */}
               <div style={{ display: "flex", gap: "12px" }}>
-                {[
-                  { icon: LinkedInIcon, href: "https://linkedin.com" },
-                  { icon: InstagramIcon, href: "https://instagram.com" },
-                  { icon: FacebookIcon, href: "https://facebook.com" },
-                  { icon: YouTubeIcon, href: "https://youtube.com" },
-                ].map((social, index) => (
+                {SOCIAL_LINKS.map((social, index) => (
                   <a
                     key={index}
                     href={social.href}
