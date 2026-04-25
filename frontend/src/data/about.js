@@ -10,7 +10,7 @@ import LinkedInIcon from "../vectors/linkedin.svg";
 import InstagramIcon from "../vectors/instagram.svg";
 import FacebookIcon from "../vectors/facebook.svg";
 import YouTubeIcon from "../vectors/youtube.svg";
-import WhastAppIcon from "../vectors/whatsapp.svg";
+import WhatsAppIcon from "../vectors/whatsapp.svg";
 
 export const values = [
     {
