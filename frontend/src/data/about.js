@@ -10,6 +10,7 @@ import LinkedInIcon from "../vectors/linkedin.svg";
 import InstagramIcon from "../vectors/instagram.svg";
 import FacebookIcon from "../vectors/facebook.svg";
 import YouTubeIcon from "../vectors/youtube.svg";
+import WhastAppIcon from "../vectors/whastapp.svg";
 
 export const values = [
     {
@@ -80,4 +81,5 @@ export const SOCIAL_LINKS = [
     { icon: InstagramIcon, href: "https://instagram.com/blacktiehospitality/" },
     { icon: FacebookIcon, href: "https://facebook.com" },
     { icon: YouTubeIcon, href: "https://youtube.com" },
+    { icon: WhatsAppIcon, href: "https://wa.me/9198982931469" },
 ];
