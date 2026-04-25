@@ -56,28 +56,28 @@ export const contactInfo = [
     {
         icon: map_pin,
         title: "Visit Us",
-        lines: ["23S, Netaji Puram Prasad,", "Banipark, Jaipur,", "Rajasthan 302016"],
+        lines: ["N-266, 2nd Floor, New Aatish Market, Mansarovar, Jaipur, Rajasthan 302020"],
     },
     {
         icon: phone,
         title: "Call Us",
-        lines: ["+91 01555 58899"],
+        lines: ["+91 99829 31469"],
     },
     {
         icon: mail,
         title: "Email Us",
-        lines: ["info@blacktiehospitality.com"],
+        lines: ["hi.blacktie@gmail.com"],
     },
     {
         icon: clock,
         title: "Business Hours",
-        lines: ["Mon – Sat: 9:00 AM – 6:00 PM", "Sunday: Closed"],
+        lines: ["Mon – Sat: 10:00 AM – 8:00 PM", "Sunday: Closed"],
     },
 ];
 
 export const SOCIAL_LINKS = [
     { icon: LinkedInIcon, href: "https://linkedin.com" },
-    { icon: InstagramIcon, href: "https://instagram.com" },
+    { icon: InstagramIcon, href: "https://instagram.com/blacktiehospitality/" },
     { icon: FacebookIcon, href: "https://facebook.com" },
     { icon: YouTubeIcon, href: "https://youtube.com" },
 ];
