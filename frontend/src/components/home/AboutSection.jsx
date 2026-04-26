@@ -58,6 +58,11 @@ export default function AboutSection() {
               Read More →
             </Button>
           </Link>
+          <Link to="/contact">
+            <Button variant="light" size="md">
+              Book A Property →
+            </Button>
+          </Link>
         </div>
 
         {/* Right - Images */}

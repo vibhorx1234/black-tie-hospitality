@@ -348,25 +348,54 @@ export default function Contact() {
             justifyContent: "center",
             position: "relative",
           }}>
-            <img
-              src="https://picsum.photos/seed/map/1280/300"
-              alt="Office location"
-              style={{ width: "100%", height: "100%", objectFit: "cover", opacity: 0.4 }}
+            <iframe
+              title="Office Location"
+              src="https://www.google.com/maps?q=26.877931811514728,75.76191436748&z=16&output=embed"
+              width="100%"
+              height="100%"
+              style={{ border: "none", display: "block", opacity: 0.85 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
             />
             <div style={{
               position: "absolute",
+              bottom: "16px",
+              left: "50%",
+              transform: "translateX(-50%)",
               background: "rgba(13,17,23,0.9)",
               border: "1px solid rgba(201,168,76,0.3)",
               borderRadius: "10px",
               padding: "16px 24px",
               textAlign: "center",
+              whiteSpace: "nowrap",
             }}>
               <p style={{ fontFamily: "'Cinzel', serif", fontSize: "14px", color: "#C9A84C", fontWeight: 600, marginBottom: "4px" }}>📍 Our Office</p>
-              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#8a8580" }}>23S, Netaji Puram Prasad, Banipark, Jaipur</p>
+              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#8a8580" }}>N-266, 2nd Floor, New Aatish Market, Mansarovar, Jaipur, Rajasthan 302020</p>
+              <a
+                href="https://www.google.com/maps?q=26.877931811514728,75.76191436748"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  fontFamily: "'Outfit', sans-serif",
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  color: "#C9A84C",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  textDecoration: "none",
+                  marginTop: "8px",
+                  display: "inline-block",
+                  borderBottom: "1px solid rgba(201,168,76,0.4)",
+                  paddingBottom: "1px",
+                }}
+              >
+                Open in Google Maps →
+              </a>
             </div>
           </div>
         </div>
-      </section>
+      </section >
 
       <style>{`
         @media (max-width: 900px) {
