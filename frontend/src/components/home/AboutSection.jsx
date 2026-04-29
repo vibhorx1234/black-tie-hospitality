@@ -7,7 +7,7 @@ export default function AboutSection() {
   return (
     <section
       style={{
-        padding: "6rem 2rem",
+        padding: "clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 2rem)",
         background: "#f7f5f2",
         overflow: "hidden",
       }}
@@ -18,12 +18,12 @@ export default function AboutSection() {
           margin: "0 auto",
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
-          gap: "5rem",
+          gap: "clamp(2rem, 5vw, 5rem)",
           alignItems: "center",
         }}
         className="about-grid"
       >
-        {/* Left - Text */}
+        {/* Left — Text */}
         <div>
           <SectionHeader
             label="About Us"
@@ -31,116 +31,191 @@ export default function AboutSection() {
             align="left"
             style={{ marginBottom: "1.5rem" }}
           />
+
           <p
             style={{
               fontFamily: "'Outfit', sans-serif",
-              fontSize: "15px",
+              fontSize: "clamp(14px, 2vw, 15px)",
+              color: "#5a5550",
+              lineHeight: 1.8,
+              marginBottom: "1.25rem",
+            }}
+          >
+            With a strong base in Jaipur, expanding to metros and high-growth
+            cities, we specialize in maximizing property ROI through seamless
+            management. Our team of experts ensures every property under our
+            care delivers consistent returns while maintaining the highest
+            standards of hospitality.
+          </p>
+
+          <p
+            style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: "clamp(14px, 2vw, 15px)",
               color: "#5a5550",
               lineHeight: 1.8,
               marginBottom: "2rem",
             }}
           >
-            With a strong base in Jaipur, expanding to metros and high-growth cities, we specialize in maximizing property ROI through seamless management. Our team of experts ensures every property under our care delivers consistent returns while maintaining the highest standards of hospitality.
+            From tenant screening to financial reporting, we handle every aspect
+            of property management so you can enjoy passive income without the
+            hassle.
           </p>
-          <p
+
+          {/* CTA Buttons — flex row with wrap + gap */}
+          <div
+            className="about-cta-group"
             style={{
-              fontFamily: "'Outfit', sans-serif",
-              fontSize: "15px",
-              color: "#5a5550",
-              lineHeight: 1.8,
-              marginBottom: "2.5rem",
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "0.75rem",
+              alignItems: "center",
             }}
           >
-            From tenant screening to financial reporting, we handle every aspect of property management so you can enjoy passive income without the hassle.
-          </p>
-          <Link to="/about">
-            <Button variant="dark" size="md">
-              Read More →
-            </Button>
-          </Link>
-          <Link to="/contact">
-            <Button variant="light" size="md">
-              Book A Property →
-            </Button>
-          </Link>
+            <Link to="/about" style={{ textDecoration: "none" }}>
+              <Button variant="dark" size="md">
+                Read More →
+              </Button>
+            </Link>
+            <Link to="/contact" style={{ textDecoration: "none" }}>
+              <Button variant="light" size="md">
+                Book A Property →
+              </Button>
+            </Link>
+          </div>
         </div>
 
-        {/* Right - Images */}
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gridTemplateRows: "240px 160px",
-            gap: "12px",
-            position: "relative",
-          }}
-          className="about-images"
-        >
-          <img
-            src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=500&q=80"
-            alt="Property"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              borderRadius: "8px",
-              gridColumn: "1",
-              gridRow: "1 / 3",
-            }}
-          />
-          <img
-            src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500&q=80"
-            alt="Property"
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              borderRadius: "8px",
-            }}
-          />
+        {/* Right — Images */}
+        <div className="about-images-wrapper">
           <div
+            className="about-images"
             style={{
-              background: "linear-gradient(135deg, #C9A84C, #e8c97a)",
-              borderRadius: "8px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "1rem",
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gridTemplateRows: "auto auto",
+              gap: "12px",
+              position: "relative",
             }}
           >
+            {/* Tall left image — spans 2 rows */}
             <div
               style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "2.5rem",
-                fontWeight: "700",
-                color: "#0D1117",
-                lineHeight: 1,
+                gridColumn: "1",
+                gridRow: "1 / 3",
+                minHeight: "clamp(260px, 35vw, 400px)",
               }}
             >
-              10+
+              <img
+                src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=500&q=80"
+                alt="Luxury property interior"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                  display: "block",
+                }}
+              />
             </div>
+
+            {/* Top-right image */}
+            <div style={{ minHeight: "clamp(120px, 18vw, 190px)" }}>
+              <img
+                src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500&q=80"
+                alt="Hotel property exterior"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  borderRadius: "8px",
+                  display: "block",
+                }}
+              />
+            </div>
+
+            {/* Bottom-right — Years badge */}
             <div
               style={{
-                fontFamily: "'Outfit', sans-serif",
-                fontSize: "12px",
-                fontWeight: "600",
-                color: "rgba(13,17,23,0.7)",
-                textAlign: "center",
-                letterSpacing: "0.05em",
-                marginTop: "4px",
+                background: "linear-gradient(135deg, #C9A84C, #e8c97a)",
+                borderRadius: "8px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "1rem",
+                minHeight: "clamp(100px, 14vw, 160px)",
               }}
             >
-              Years of Excellence
+              <div
+                style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "clamp(1.8rem, 4vw, 2.5rem)",
+                  fontWeight: "700",
+                  color: "#0D1117",
+                  lineHeight: 1,
+                }}
+              >
+                10+
+              </div>
+              <div
+                style={{
+                  fontFamily: "'Outfit', sans-serif",
+                  fontSize: "clamp(10px, 1.5vw, 12px)",
+                  fontWeight: "600",
+                  color: "rgba(13,17,23,0.7)",
+                  textAlign: "center",
+                  letterSpacing: "0.05em",
+                  marginTop: "4px",
+                }}
+              >
+                Years of Excellence
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <style>{`
+
+        /* ── Tablet: single column, images shrink gracefully ── */
         @media (max-width: 900px) {
-          .about-grid { grid-template-columns: 1fr !important; gap: 3rem !important; }
-          .about-images { grid-template-rows: 200px 140px !important; }
+          .about-grid {
+            grid-template-columns: 1fr !important;
+            gap: 2.5rem !important;
+          }
+
+          /* Images come second on mobile — natural DOM order is text first */
+          .about-images-wrapper {
+            order: 2;
+          }
+        }
+
+        /* ── Small tablet / large mobile ── */
+        @media (max-width: 600px) {
+          .about-images {
+            grid-template-columns: 1fr 1fr !important;
+          }
+        }
+
+        /* ── Mobile: stack images vertically ── */
+        @media (max-width: 420px) {
+          .about-images {
+            grid-template-columns: 1fr !important;
+            grid-template-rows: auto !important;
+          }
+
+          /* Reset the tall left image row-span */
+          .about-images > div:first-child {
+            grid-column: 1 !important;
+            grid-row: auto !important;
+            min-height: 200px !important;
+          }
+
+          /* Stack CTAs full-width on very small screens */
+          .about-cta-group {
+            flex-direction: column;
+            align-items: flex-start;
+          }
         }
       `}</style>
     </section>

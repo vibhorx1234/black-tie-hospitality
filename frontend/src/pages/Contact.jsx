@@ -33,12 +33,13 @@ export default function Contact() {
 
   const inputStyle = (hasError) => ({
     width: "100%",
+    boxSizing: "border-box",
     background: "rgba(255,255,255,0.04)",
     border: `1px solid ${hasError ? "#e05a5a" : "rgba(255,255,255,0.1)"}`,
     borderRadius: "6px",
-    padding: "13px 16px",
+    padding: "clamp(10px, 1.5vw, 13px) clamp(12px, 2vw, 16px)",
     fontFamily: "'Outfit', sans-serif",
-    fontSize: "14px",
+    fontSize: "clamp(13px, 1.3vw, 14px)",
     color: "#F5F0E8",
     outline: "none",
     transition: "border-color 0.2s",
@@ -46,11 +47,15 @@ export default function Contact() {
 
   return (
     <>
-      {/* Hero */}
+      {/* ── HERO ── */}
       <section style={{
-        paddingTop: "72px", minHeight: "420px",
-        background: "#0D1117", position: "relative", overflow: "hidden",
-        display: "flex", alignItems: "flex-end",
+        paddingTop: "clamp(56px, 8vw, 72px)",
+        minHeight: "clamp(300px, 42vw, 420px)",
+        background: "#0D1117",
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        alignItems: "flex-end",
       }}>
         <div style={{
           position: "absolute", inset: 0,
@@ -58,62 +63,137 @@ export default function Contact() {
           backgroundSize: "cover", backgroundPosition: "center",
           opacity: 0.18,
         }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, #0D1117 40%, rgba(13,17,23,0.6) 100%)" }} />
+        <div style={{
+          position: "absolute", inset: 0,
+          background: "linear-gradient(to top, #0D1117 40%, rgba(13,17,23,0.6) 100%)",
+        }} />
 
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "80px 2rem 60px", position: "relative", zIndex: 1, width: "100%" }}>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.85rem", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "16px" }}>
+        <div style={{
+          maxWidth: "1440px",
+          margin: "0 auto",
+          padding: "clamp(40px, 7vw, 80px) clamp(16px, 4vw, 2rem) clamp(36px, 5vw, 60px)",
+          position: "relative",
+          zIndex: 1,
+          width: "100%",
+          boxSizing: "border-box",
+        }}>
+          <p style={{
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)",
+            fontWeight: 600,
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "#C9A84C",
+            marginBottom: "clamp(10px, 2vw, 16px)",
+          }}>
             GET IN TOUCH
           </p>
-          <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(2rem, 5vw, 3.2rem)", fontWeight: 700, color: "#F5F0E8", lineHeight: 1.15, marginBottom: "20px" }}>
+          <h1 style={{
+            fontFamily: "'Cinzel', serif",
+            fontSize: "clamp(1.6rem, 5vw, 3.2rem)",
+            fontWeight: 700,
+            color: "#F5F0E8",
+            lineHeight: 1.15,
+            marginBottom: "clamp(12px, 2vw, 20px)",
+          }}>
             Let's Build Something<br />Great Together
           </h1>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "15px", color: "#8a8580", lineHeight: 1.7, maxWidth: "560px" }}>
+          <p style={{
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: "clamp(13px, 1.5vw, 15px)",
+            color: "#8a8580",
+            lineHeight: 1.7,
+            maxWidth: "min(560px, 90%)",
+            margin: 0,
+          }}>
             Reach out to discuss how we can help maximize your property's potential.
           </p>
         </div>
       </section>
 
-      {/* Main content */}
-      <section style={{ background: "#0D1117", padding: "80px 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: "60px" }} className="contact-grid">
+      {/* ── MAIN CONTENT ── */}
+      <section style={{
+        background: "#0D1117",
+        padding: "clamp(40px, 7vw, 80px) 0",
+      }}>
+        <div style={{
+          maxWidth: "1440px",
+          margin: "0 auto",
+          padding: "0 clamp(16px, 4vw, 2rem)",
+          boxSizing: "border-box",
+        }}>
+          <div
+            className="contact-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1fr 1.4fr",
+              gap: "clamp(32px, 5vw, 60px)",
+              alignItems: "start",
+            }}
+          >
 
-            {/* Left: info */}
+            {/* ── LEFT: Contact Info ── */}
             <div>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(1.4rem, 2.5vw, 2rem)", color: "#F5F0E8", fontWeight: 600, marginBottom: "32px" }}>
+              <h2 style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: "clamp(1.3rem, 2.5vw, 2rem)",
+                color: "#F5F0E8",
+                fontWeight: 600,
+                marginBottom: "clamp(20px, 3vw, 32px)",
+              }}>
                 Contact Information
               </h2>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: "28px", marginBottom: "48px" }}>
+              <div style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "clamp(18px, 3vw, 28px)",
+                marginBottom: "clamp(28px, 4vw, 48px)",
+              }}>
                 {contactInfo.map((c) => (
-                  <div key={c.title} style={{ display: "flex", gap: "16px", alignItems: "flex-start" }}>
-                    <div
-                      style={{
-                        width: "48px",
-                        height: "48px",
-                        borderRadius: "50%",
-                        border: "1px solid rgba(201,168,76,0.35)",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        flexShrink: 0,
-                      }}
-                    >
+                  <div key={c.title} style={{ display: "flex", gap: "clamp(12px, 2vw, 16px)", alignItems: "flex-start" }}>
+                    <div style={{
+                      width: "clamp(38px, 5vw, 48px)",
+                      height: "clamp(38px, 5vw, 48px)",
+                      borderRadius: "50%",
+                      border: "1px solid rgba(201,168,76,0.35)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexShrink: 0,
+                    }}>
                       <img
                         src={c.icon}
                         alt={c.title}
                         style={{
-                          width: "20px",
-                          height: "20px",
+                          width: "clamp(16px, 2vw, 20px)",
+                          height: "clamp(16px, 2vw, 20px)",
                           objectFit: "contain",
                           filter: "invert(67%) sepia(40%) saturate(500%) hue-rotate(2deg)",
                         }}
                       />
                     </div>
                     <div>
-                      <p style={{ fontFamily: "'Cinzel', serif", fontSize: "12px", color: "#C9A84C", fontWeight: 600, marginBottom: "6px", letterSpacing: "0.06em" }}>{c.title}</p>
+                      <p style={{
+                        fontFamily: "'Cinzel', serif",
+                        fontSize: "clamp(10px, 1.2vw, 12px)",
+                        color: "#C9A84C",
+                        fontWeight: 600,
+                        marginBottom: "6px",
+                        letterSpacing: "0.06em",
+                      }}>
+                        {c.title}
+                      </p>
                       {c.lines.map((line, i) => (
-                        <p key={i} style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#8a8580", lineHeight: 1.6 }}>{line}</p>
+                        <p key={i} style={{
+                          fontFamily: "'Outfit', sans-serif",
+                          fontSize: "clamp(12px, 1.3vw, 13px)",
+                          color: "#8a8580",
+                          lineHeight: 1.6,
+                          margin: 0,
+                        }}>
+                          {line}
+                        </p>
                       ))}
                     </div>
                   </div>
@@ -121,7 +201,7 @@ export default function Contact() {
               </div>
 
               {/* Social links */}
-              <div style={{ display: "flex", gap: "12px" }}>
+              <div style={{ display: "flex", gap: "clamp(8px, 1.5vw, 12px)", flexWrap: "wrap" }}>
                 {SOCIAL_LINKS.map((social, index) => (
                   <a
                     key={index}
@@ -129,8 +209,8 @@ export default function Contact() {
                     target="_blank"
                     rel="noreferrer"
                     style={{
-                      width: "34px",
-                      height: "34px",
+                      width: "clamp(30px, 4vw, 34px)",
+                      height: "clamp(30px, 4vw, 34px)",
                       border: "1px solid rgba(201,168,76,0.3)",
                       borderRadius: "50%",
                       display: "flex",
@@ -152,10 +232,9 @@ export default function Contact() {
                       src={social.icon}
                       alt=""
                       style={{
-                        width: "26px",
-                        height: "26px",
-                        filter:
-                          "brightness(0) saturate(100%) invert(72%) sepia(47%) saturate(500%) hue-rotate(5deg) brightness(95%)",
+                        width: "clamp(18px, 2.5vw, 26px)",
+                        height: "clamp(18px, 2.5vw, 26px)",
+                        filter: "brightness(0) saturate(100%) invert(72%) sepia(47%) saturate(500%) hue-rotate(5deg) brightness(95%)",
                       }}
                     />
                   </a>
@@ -163,32 +242,54 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Right: form */}
+            {/* ── RIGHT: Form ── */}
             <div style={{
               background: "rgba(255,255,255,0.02)",
               border: "1px solid rgba(255,255,255,0.07)",
               borderRadius: "16px",
-              padding: "40px",
+              padding: "clamp(20px, 4vw, 40px)",
+              boxSizing: "border-box",
             }}>
               {submitted ? (
-                <div style={{ textAlign: "center", padding: "40px 0" }}>
-                  <div style={{ fontSize: "48px", marginBottom: "16px" }}>✅</div>
-                  <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "20px", color: "#F5F0E8", marginBottom: "12px" }}>Thank You!</h3>
-                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "14px", color: "#8a8580", lineHeight: 1.7, maxWidth: "320px", margin: "0 auto" }}>
+                <div style={{ textAlign: "center", padding: "clamp(24px, 5vw, 40px) 0" }}>
+                  <div style={{ fontSize: "clamp(36px, 6vw, 48px)", marginBottom: "16px" }}>✅</div>
+                  <h3 style={{
+                    fontFamily: "'Cinzel', serif",
+                    fontSize: "clamp(16px, 2.5vw, 20px)",
+                    color: "#F5F0E8",
+                    marginBottom: "12px",
+                  }}>
+                    Thank You!
+                  </h3>
+                  <p style={{
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: "clamp(13px, 1.3vw, 14px)",
+                    color: "#8a8580",
+                    lineHeight: 1.7,
+                    maxWidth: "320px",
+                    margin: "0 auto",
+                  }}>
                     We've received your message and will get back to you within 24 hours.
                   </p>
                 </div>
               ) : (
                 <>
-                  <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "1.6rem", color: "#F5F0E8", fontWeight: 600, marginBottom: "28px" }}>
+                  <h2 style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontSize: "clamp(1.3rem, 2.5vw, 1.6rem)",
+                    color: "#F5F0E8",
+                    fontWeight: 600,
+                    marginBottom: "clamp(18px, 3vw, 28px)",
+                  }}>
                     Get a Free Proposal
                   </h2>
 
-                  <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+                  <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "clamp(14px, 2.5vw, 20px)" }}>
+
                     {/* Name + Email */}
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }} className="form-row">
+                    <div className="form-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(10px, 2vw, 16px)" }}>
                       <div>
-                        <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#8a8580", display: "block", marginBottom: "6px", letterSpacing: "0.05em" }}>
+                        <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.1vw, 12px)", color: "#8a8580", display: "block", marginBottom: "6px", letterSpacing: "0.05em" }}>
                           Full Name *
                         </label>
                         <input
@@ -204,7 +305,7 @@ export default function Contact() {
                         {errors.name && <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "11px", color: "#e05a5a", marginTop: "4px" }}>{errors.name}</p>}
                       </div>
                       <div>
-                        <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#8a8580", display: "block", marginBottom: "6px", letterSpacing: "0.05em" }}>
+                        <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.1vw, 12px)", color: "#8a8580", display: "block", marginBottom: "6px", letterSpacing: "0.05em" }}>
                           Email Address *
                         </label>
                         <input
@@ -222,9 +323,9 @@ export default function Contact() {
                     </div>
 
                     {/* Phone + Service */}
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px" }} className="form-row">
+                    <div className="form-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(10px, 2vw, 16px)" }}>
                       <div>
-                        <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#8a8580", display: "block", marginBottom: "6px" }}>
+                        <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.1vw, 12px)", color: "#8a8580", display: "block", marginBottom: "6px" }}>
                           Phone Number
                         </label>
                         <input
@@ -239,7 +340,7 @@ export default function Contact() {
                         />
                       </div>
                       <div>
-                        <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#8a8580", display: "block", marginBottom: "6px" }}>
+                        <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.1vw, 12px)", color: "#8a8580", display: "block", marginBottom: "6px" }}>
                           Service Interested In
                         </label>
                         <select
@@ -260,10 +361,10 @@ export default function Contact() {
 
                     {/* Property type */}
                     <div>
-                      <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#8a8580", display: "block", marginBottom: "8px" }}>
+                      <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.1vw, 12px)", color: "#8a8580", display: "block", marginBottom: "8px" }}>
                         Property Type
                       </label>
-                      <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                      <div style={{ display: "flex", gap: "clamp(6px, 1vw, 10px)", flexWrap: "wrap" }}>
                         {["Hotel", "Studio Apartment", "Villa", "Commercial", "Other"].map((type) => (
                           <button
                             key={type}
@@ -271,14 +372,15 @@ export default function Contact() {
                             onClick={() => setForm((f) => ({ ...f, propertyType: type }))}
                             style={{
                               fontFamily: "'Outfit', sans-serif",
-                              fontSize: "12px",
-                              padding: "7px 16px",
+                              fontSize: "clamp(11px, 1.1vw, 12px)",
+                              padding: "clamp(5px, 1vw, 7px) clamp(12px, 1.5vw, 16px)",
                               borderRadius: "100px",
                               border: `1px solid ${form.propertyType === type ? "#C9A84C" : "rgba(255,255,255,0.1)"}`,
                               background: form.propertyType === type ? "rgba(201,168,76,0.12)" : "transparent",
                               color: form.propertyType === type ? "#C9A84C" : "#8a8580",
                               cursor: "pointer",
                               transition: "all 0.2s",
+                              whiteSpace: "nowrap",
                             }}
                           >
                             {type}
@@ -289,7 +391,7 @@ export default function Contact() {
 
                     {/* Message */}
                     <div>
-                      <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#8a8580", display: "block", marginBottom: "6px" }}>
+                      <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.1vw, 12px)", color: "#8a8580", display: "block", marginBottom: "6px" }}>
                         Message *
                       </label>
                       <textarea
@@ -312,14 +414,15 @@ export default function Contact() {
                         color: "#0D1117",
                         border: "none",
                         borderRadius: "6px",
-                        padding: "15px",
+                        padding: "clamp(12px, 2vw, 15px)",
                         fontFamily: "'Outfit', sans-serif",
-                        fontSize: "14px",
+                        fontSize: "clamp(12px, 1.3vw, 14px)",
                         fontWeight: 700,
                         letterSpacing: "0.1em",
                         textTransform: "uppercase",
                         cursor: "pointer",
                         transition: "opacity 0.2s, transform 0.2s",
+                        width: "100%",
                       }}
                       onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; e.currentTarget.style.transform = "translateY(-1px)"; }}
                       onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
@@ -334,18 +437,23 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Map placeholder */}
-      <section style={{ background: "#0D1117", padding: "0 0 80px" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
+      {/* ── MAP ── */}
+      <section style={{
+        background: "#0D1117",
+        padding: "0 0 clamp(40px, 7vw, 80px)",
+      }}>
+        <div style={{
+          maxWidth: "1440px",
+          margin: "0 auto",
+          padding: "0 clamp(16px, 4vw, 2rem)",
+          boxSizing: "border-box",
+        }}>
           <div style={{
-            height: "300px",
-            borderRadius: "12px",
+            height: "clamp(220px, 35vw, 340px)",
+            borderRadius: "clamp(8px, 1.5vw, 12px)",
             overflow: "hidden",
             border: "1px solid rgba(255,255,255,0.07)",
             background: "#111827",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
             position: "relative",
           }}>
             <iframe
@@ -358,33 +466,57 @@ export default function Contact() {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             />
-            <div style={{
-              position: "absolute",
-              bottom: "16px",
-              left: "50%",
-              transform: "translateX(-50%)",
-              background: "rgba(13,17,23,0.9)",
-              border: "1px solid rgba(201,168,76,0.3)",
-              borderRadius: "10px",
-              padding: "16px 24px",
-              textAlign: "center",
-              whiteSpace: "nowrap",
-            }}>
-              <p style={{ fontFamily: "'Cinzel', serif", fontSize: "14px", color: "#C9A84C", fontWeight: 600, marginBottom: "4px" }}>📍 Our Office</p>
-              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#8a8580" }}>N-266, 2nd Floor, New Aatish Market, Mansarovar, Jaipur, Rajasthan 302020</p>
+
+            {/* Map overlay card — responsive positioning */}
+            <div
+              className="map-card"
+              style={{
+                position: "absolute",
+                bottom: "clamp(10px, 2vw, 16px)",
+                left: "50%",
+                transform: "translateX(-50%)",
+                background: "rgba(13,17,23,0.92)",
+                border: "1px solid rgba(201,168,76,0.3)",
+                borderRadius: "10px",
+                padding: "clamp(10px, 2vw, 16px) clamp(14px, 3vw, 24px)",
+                textAlign: "center",
+                width: "max-content",
+                maxWidth: "calc(100% - clamp(24px, 4vw, 48px))",
+                boxSizing: "border-box",
+              }}
+            >
+              <p style={{
+                fontFamily: "'Cinzel', serif",
+                fontSize: "clamp(11px, 1.3vw, 14px)",
+                color: "#C9A84C",
+                fontWeight: 600,
+                marginBottom: "4px",
+              }}>
+                📍 Our Office
+              </p>
+              <p style={{
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: "clamp(10px, 1.2vw, 12px)",
+                color: "#8a8580",
+                lineHeight: 1.5,
+                margin: "0 0 6px",
+                whiteSpace: "normal",
+                maxWidth: "320px",
+              }}>
+                N-266, 2nd Floor, New Aatish Market, Mansarovar, Jaipur, Rajasthan 302020
+              </p>
               <a
                 href="https://www.google.com/maps?q=26.877931811514728,75.76191436748"
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
                   fontFamily: "'Outfit', sans-serif",
-                  fontSize: "11px",
+                  fontSize: "clamp(9px, 1.1vw, 11px)",
                   fontWeight: 600,
                   color: "#C9A84C",
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
                   textDecoration: "none",
-                  marginTop: "8px",
                   display: "inline-block",
                   borderBottom: "1px solid rgba(201,168,76,0.4)",
                   paddingBottom: "1px",
@@ -395,14 +527,64 @@ export default function Contact() {
             </div>
           </div>
         </div>
-      </section >
+      </section>
 
       <style>{`
+        /* ── Contact grid: side-by-side → stacked ── */
         @media (max-width: 900px) {
-          .contact-grid { grid-template-columns: 1fr !important; }
+          .contact-grid {
+            grid-template-columns: 1fr !important;
+          }
         }
-        @media (max-width: 600px) {
-          .form-row { grid-template-columns: 1fr !important; }
+
+        /* ── Form rows: 2-col → 1-col ── */
+        @media (max-width: 560px) {
+          .form-row {
+            grid-template-columns: 1fr !important;
+          }
+        }
+
+        /* ── Map card: remove fixed width on very small phones ── */
+        @media (max-width: 400px) {
+          .map-card {
+            width: calc(100% - 24px) !important;
+            left: 12px !important;
+            transform: none !important;
+            bottom: 10px !important;
+          }
+        }
+
+        /* ── Inputs: ensure full width, no overflow ── */
+        input, select, textarea {
+          max-width: 100%;
+          box-sizing: border-box;
+        }
+
+        /* ── Select: fix iOS default appearance ── */
+        select {
+          -webkit-appearance: none;
+          appearance: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8580' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+          background-repeat: no-repeat;
+          background-position: right 14px center;
+          padding-right: 36px !important;
+        }
+
+        /* ── Wide screen: cap form card width ── */
+        @media (min-width: 1440px) {
+          .contact-grid {
+            grid-template-columns: 360px 1fr !important;
+          }
+        }
+
+        /* ── Touch: disable hover lifts on buttons ── */
+        @media (hover: none) {
+          button:hover { transform: none !important; opacity: 1 !important; }
+        }
+
+        /* ── Textarea: min-height for usability on mobile ── */
+        textarea {
+          min-height: 100px;
         }
       `}</style>
     </>

@@ -72,7 +72,7 @@ export default function Navbar() {
           style={{
             display: "flex",
             alignItems: "center",
-            gap: "2rem",
+            gap: "clamp(0.8rem, 1.5vw, 2rem)",
           }}
           className="desktop-nav"
         >
@@ -126,9 +126,11 @@ export default function Navbar() {
               fontWeight: "600",
               color: "#0D1117",
               background: "linear-gradient(135deg, #C9A84C, #e8c97a)",
-              marginRight: "-70px",
-              marginLeft: "30px",
-              padding: "9px 16px",
+              marginRight: "0px",
+              marginLeft: "clamp(8px, 1.5vw, 30px)",
+              padding: "9px clamp(10px, 1.5vw, 16px)",
+              whiteSpace: "nowrap",
+              flexShrink: 0,
               borderRadius: "4px",
               textDecoration: "none",
               letterSpacing: "0.04em",
@@ -198,7 +200,7 @@ export default function Navbar() {
               display: "inline-block",
               marginTop: "1rem",
               fontFamily: "'Outfit', sans-serif",
-              fontSize: "14px",
+              fontSize: "clamp(12px, 1.1vw, 14px)",
               fontWeight: "600",
               color: "#0D1117",
               background: "linear-gradient(135deg, #C9A84C, #e8c97a)",
@@ -213,10 +215,16 @@ export default function Navbar() {
       )}
 
       <style>{`
-        @media (max-width: 900px) {
-          .desktop-nav { display: none !important; }
-          .mobile-menu-btn { display: flex !important; }
-        }
+      @media (max-width: 1100px) {
+        .desktop-nav { gap: 0.75rem !important; }
+      }
+      @media (max-width: 960px) {
+        .desktop-nav { gap: 0.5rem !important; }
+      }
+      @media (max-width: 768px) {
+        .desktop-nav { display: none !important; }
+        .mobile-menu-btn { display: flex !important; }
+      }
       `}</style>
     </nav>
   );

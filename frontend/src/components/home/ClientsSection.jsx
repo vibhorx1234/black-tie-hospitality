@@ -1,18 +1,49 @@
 import React, { useState, useRef, useEffect } from "react";
 import { CLIENTS } from "../../data/clients";
 
-const VISIBLE = 5; // logos visible at once
-const ITEM_WIDTH = 100 / VISIBLE;
+// ── Responsive hook ────────────────────────────────────────────────────────────
+function useWindowWidth() {
+  const [width, setWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  );
+  useEffect(() => {
+    const handler = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return width;
+}
+
+// ── Visible logos by breakpoint ───────────────────────────────────────────────
+function getVisible(width) {
+  if (width < 480) return 2;   // small mobile: 2 logos
+  if (width < 768) return 3;   // large mobile: 3 logos
+  if (width < 1024) return 4;  // tablet: 4 logos
+  return 5;                     // desktop: 5 logos (original)
+}
+
+// ── Logo height by breakpoint ─────────────────────────────────────────────────
+function getLogoHeight(width) {
+  if (width < 480) return 44;
+  if (width < 768) return 54;
+  if (width < 1024) return 62;
+  return 72;
+}
 
 export default function ClientsSection() {
+  const width = useWindowWidth();
+  const isMobile = width < 768;
+
+  const VISIBLE = getVisible(width);
+  const ITEM_WIDTH = 100 / VISIBLE;
+  const LOGO_HEIGHT = getLogoHeight(width);
+
   const total = CLIENTS.length;
-  // Clone: [...CLIENTS, ...CLIENTS, ...CLIENTS] — start in the middle clone
   const items = [...CLIENTS, ...CLIENTS, ...CLIENTS];
-  const [index, setIndex] = useState(total); // start at middle set
+  const [index, setIndex] = useState(total); // start at middle clone
   const [animated, setAnimated] = useState(true);
   const dragging = useRef(false);
   const startX = useRef(0);
-  const trackRef = useRef(null);
 
   const prev = () => {
     setAnimated(true);
@@ -24,10 +55,9 @@ export default function ClientsSection() {
     setIndex((i) => i + 1);
   };
 
-  // When we reach the edges of the middle clone, silently jump back to center
+  // Silently reset when reaching clone edges
   useEffect(() => {
     if (index <= 0) {
-      // jumped past left edge — silently reset to equivalent position in middle
       const timer = setTimeout(() => {
         setAnimated(false);
         setIndex(total);
@@ -35,7 +65,6 @@ export default function ClientsSection() {
       return () => clearTimeout(timer);
     }
     if (index >= total * 2) {
-      // jumped past right edge — silently reset
       const timer = setTimeout(() => {
         setAnimated(false);
         setIndex(total);
@@ -58,7 +87,7 @@ export default function ClientsSection() {
     else if (diff < -40) prev();
   };
 
-  const arrowStyle = (side) => ({
+  const arrowBtnStyle = (side) => ({
     position: "absolute",
     top: "50%",
     transform: "translateY(-50%)",
@@ -79,37 +108,59 @@ export default function ClientsSection() {
     transition: "background 0.2s",
   });
 
+  // Current dot index (normalize to 0..total-1)
+  const activeDot = ((index - total) % total + total) % total;
+
   return (
-    <section style={{ background: "#0D1117", padding: "72px 0" }}>
-      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 2rem" }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "36px" }}>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.85rem", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C" }}>
-            OUR CLIENTS
+    <section style={{ background: "#000000", padding: "clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 2rem)" }}>
+      <div style={{ maxWidth: "1280px", margin: "0 auto", padding: isMobile ? "0 1rem" : "0 2rem" }}>
+
+        {/* Header */}
+        <div style={{ marginBottom: isMobile ? "24px" : "36px" }}>
+          <p style={{
+            fontFamily: "'Cinzel', serif",
+            fontSize: isMobile ? "0.7rem" : "0.85rem",
+            fontWeight: 600,
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: "#C9A84C",
+            margin: 0,
+          }}>
+            Our Clients
           </p>
+          <div style={{
+            width: 36,
+            height: 1.5,
+            background: "linear-gradient(90deg, #C9A84C, transparent)",
+            marginTop: 6,
+          }} />
         </div>
 
+        {/* Carousel container */}
         <div
           style={{
             position: "relative",
             overflow: "hidden",
-            padding: "32px 40px",
-            background: "rgba(0,0,0)",
+            padding: isMobile ? "24px 12px" : "32px 40px",
+            background: "rgba(0,0,0,0)",
             border: "1px solid rgba(201,168,76,0.3)",
             borderRadius: "10px",
           }}
         >
-          <button
-            onClick={prev}
-            style={arrowStyle("left")}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(201,168,76,0.3)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(201,168,76,0.15)")}
-          >
-            ←
-          </button>
+          {/* Arrows — desktop/tablet only */}
+          {!isMobile && (
+            <button
+              onClick={prev}
+              style={arrowBtnStyle("left")}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(201,168,76,0.3)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(201,168,76,0.15)")}
+            >
+              ‹
+            </button>
+          )}
 
           {/* Track */}
           <div
-            ref={trackRef}
             onMouseDown={onStart}
             onMouseUp={onEnd}
             onMouseLeave={() => (dragging.current = false)}
@@ -121,6 +172,7 @@ export default function ClientsSection() {
               transition: animated ? "transform 0.6s cubic-bezier(0.22, 1, 0.36, 1)" : "none",
               transform: `translateX(-${index * ITEM_WIDTH}%)`,
               userSelect: "none",
+              touchAction: "pan-y",
             }}
           >
             {items.map((client, i) => (
@@ -131,7 +183,7 @@ export default function ClientsSection() {
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
-                  padding: "0 16px",
+                  padding: isMobile ? "0 10px" : "0 16px",
                 }}
               >
                 <img
@@ -139,30 +191,71 @@ export default function ClientsSection() {
                   alt={client.id}
                   draggable={false}
                   style={{
-                    height: "72px",
+                    height: `${LOGO_HEIGHT}px`,
                     width: "auto",
+                    maxWidth: "100%",
                     objectFit: "contain",
                     opacity: 0.6,
                     transition: "opacity 0.2s",
                     cursor: "default",
-                    pointerEvents: "none",
+                    pointerEvents: isMobile ? "none" : "auto",
                   }}
-                  onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
-                  onMouseLeave={(e) => (e.currentTarget.style.opacity = "0.6")}
+                  onMouseEnter={(e) => !isMobile && (e.currentTarget.style.opacity = "1")}
+                  onMouseLeave={(e) => !isMobile && (e.currentTarget.style.opacity = "0.6")}
                 />
               </div>
             ))}
           </div>
 
-          <button
-            onClick={next}
-            style={arrowStyle("right")}
-            onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(201,168,76,0.3)")}
-            onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(201,168,76,0.15)")}
-          >
-            →
-          </button>
+          {/* Arrows — desktop/tablet only */}
+          {!isMobile && (
+            <button
+              onClick={next}
+              style={arrowBtnStyle("right")}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "rgba(201,168,76,0.3)")}
+              onMouseLeave={(e) => (e.currentTarget.style.background = "rgba(201,168,76,0.15)")}
+            >
+              ›
+            </button>
+          )}
         </div>
+
+        {/* Mobile: dot indicators + swipe hint */}
+        {isMobile && (
+          <div style={{ marginTop: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
+            <div style={{ display: "flex", gap: 6 }}>
+              {CLIENTS.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setAnimated(true);
+                    setIndex(total + i);
+                  }}
+                  style={{
+                    width: i === activeDot ? 20 : 6,
+                    height: 6,
+                    borderRadius: 3,
+                    background: i === activeDot ? "#C9A84C" : "rgba(201,168,76,0.25)",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                    transition: "all 0.3s ease",
+                  }}
+                />
+              ))}
+            </div>
+            <p style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: "10px",
+              color: "rgba(201,168,76,0.35)",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              margin: 0,
+            }}>
+              Swipe to explore
+            </p>
+          </div>
+        )}
       </div>
     </section>
   );

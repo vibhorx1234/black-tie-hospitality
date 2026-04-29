@@ -1,8 +1,21 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import React from "react";
 import logo from "../../vectors/logo.svg";
 import { contactInfo, SOCIAL_LINKS } from "../../data/about";
+
+// ── Responsive hook ────────────────────────────────────────────────────────────
+function useWindowWidth() {
+  const [width, setWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  );
+  useEffect(() => {
+    const handler = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return width;
+}
 
 const quickLinks = [
   { label: "Home", path: "/" },
@@ -13,59 +26,70 @@ const quickLinks = [
   { label: "Contact Us", path: "/contact" },
 ];
 
-const serviceLinks = [
-  "Lease Management",
-  "Tenant Management",
-  "Rent Collection",
-  "Property Maintenance",
-  "Financial Reporting",
-  "Legal Compliance",
-];
-
 export default function Footer() {
-  const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
+  const width = useWindowWidth();
+  const isMobile = width < 640;
+  const isTablet = width >= 640 && width < 1024;
 
-  const handleSubscribe = (e) => {
-    e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      setEmail("");
-    }
-  };
+  // On mobile: 1 column, tablet: 2 columns, desktop: 3 columns
+  const gridCols = isMobile ? "1fr" : isTablet ? "1fr 1fr" : "repeat(3, 1fr)";
 
   return (
-    <footer style={{ background: "#0A0D12", borderTop: "1px solid rgba(201,168,76,0.15)" }}>
-      {/* Main Footer */}
-      <div
-        style={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          padding: "4rem 2rem 2rem",
-          display: "grid",
-          gridTemplateColumns: "repeat(3, 1fr)",
-          gap: "3rem",
-        }}
-        className="footer-grid"
-      >
-        {/* Brand Column */}
-        <div>
-          <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: "10px", marginBottom: "1.2rem" }}>
+    <footer style={{
+      background: "#0A0D12",
+      borderTop: "1px solid rgba(201,168,76,0.15)",
+    }}>
+
+      {/* ── Main Footer Grid ── */}
+      <div style={{
+        maxWidth: "1280px",
+        margin: "0 auto",
+        padding: isMobile ? "2.5rem 1rem 1.5rem" : "4rem 2rem 2rem",
+        display: "grid",
+        gridTemplateColumns: gridCols,
+        gap: isMobile ? "2rem" : isTablet ? "2rem" : "3rem",
+      }}>
+
+        {/* ── Brand Column ── */}
+        <div style={{
+          // On tablet, span full width so brand sits above the two link cols
+          gridColumn: isTablet ? "1 / -1" : "auto",
+        }}>
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              marginBottom: "1rem",
+            }}
+          >
             <img
               src={logo}
               alt="Black Tie Hospitality"
               style={{
-                height: "64px",
+                height: isMobile ? "48px" : "64px",
                 width: "auto",
                 filter: "brightness(0) invert(1)",
               }}
             />
           </Link>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#8a8580", lineHeight: 1.7, marginBottom: "1.5rem" }}>
+
+          <p style={{
+            fontFamily: "'Outfit', sans-serif",
+            fontSize: isMobile ? "12px" : "13px",
+            color: "#8a8580",
+            lineHeight: 1.7,
+            marginBottom: "1.2rem",
+            marginTop: 0,
+            maxWidth: isTablet ? "420px" : "100%",
+          }}>
             Premium Property Management Solutions Across India
           </p>
+
           {/* Social Icons */}
-          <div style={{ display: "flex", gap: "12px" }}>
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
             {SOCIAL_LINKS.map((social, index) => (
               <a
                 key={index}
@@ -98,8 +122,7 @@ export default function Footer() {
                   style={{
                     width: "26px",
                     height: "26px",
-                    filter:
-                      "brightness(0) saturate(100%) invert(72%) sepia(47%) saturate(500%) hue-rotate(5deg) brightness(95%)",
+                    filter: "brightness(0) saturate(100%) invert(72%) sepia(47%) saturate(500%) hue-rotate(5deg) brightness(95%)",
                   }}
                 />
               </a>
@@ -107,19 +130,42 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Quick Links */}
+        {/* ── Quick Links ── */}
         <div>
-          <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "13px", color: "#F5F0E8", letterSpacing: "0.08em", marginBottom: "1.2rem", fontWeight: "600" }}>
+          <h4 style={{
+            fontFamily: "'Cinzel', serif",
+            fontSize: isMobile ? "12px" : "13px",
+            color: "#F5F0E8",
+            letterSpacing: "0.08em",
+            marginBottom: "1rem",
+            marginTop: 0,
+            fontWeight: 600,
+          }}>
             Quick Links
           </h4>
-          <ul style={{ listStyle: "none", padding: 0, margin: 0, display: "flex", flexDirection: "column", gap: "8px" }}>
+          {/* Gold underline accent */}
+          <div style={{
+            width: 28,
+            height: 1.5,
+            background: "linear-gradient(90deg, #C9A84C, transparent)",
+            marginBottom: "1rem",
+          }} />
+          <ul style={{
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
+            display: "flex",
+            flexDirection: isMobile ? "row" : "column",
+            flexWrap: isMobile ? "wrap" : "nowrap",
+            gap: isMobile ? "8px 20px" : "8px",
+          }}>
             {quickLinks.map((link) => (
               <li key={link.path}>
                 <Link
                   to={link.path}
                   style={{
                     fontFamily: "'Outfit', sans-serif",
-                    fontSize: "13px",
+                    fontSize: isMobile ? "12px" : "13px",
                     color: "#8a8580",
                     textDecoration: "none",
                     transition: "color 0.2s",
@@ -134,23 +180,81 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* Contact */}
+        {/* ── Contact ── */}
         <div>
-          <h4 style={{ fontFamily: "'Cinzel', serif", fontSize: "13px", color: "#F5F0E8", letterSpacing: "0.08em", marginBottom: "1.2rem", fontWeight: "600" }}>
+          <h4 style={{
+            fontFamily: "'Cinzel', serif",
+            fontSize: isMobile ? "12px" : "13px",
+            color: "#F5F0E8",
+            letterSpacing: "0.08em",
+            marginBottom: "1rem",
+            marginTop: 0,
+            fontWeight: 600,
+          }}>
             Contact Us
           </h4>
+          {/* Gold underline accent */}
+          <div style={{
+            width: 28,
+            height: 1.5,
+            background: "linear-gradient(90deg, #C9A84C, transparent)",
+            marginBottom: "1rem",
+          }} />
           <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
             {contactInfo.map((c) => (
-              <div key={c.title} style={{ display: "flex", gap: "10px", alignItems: c.href ? "center" : "flex-start" }}>
-                <div style={{ width: "32px", height: "32px", borderRadius: "50%", border: "1px solid rgba(201,168,76,0.35)", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <img src={c.icon} alt={c.title} style={{ width: "14px", height: "14px", objectFit: "contain", filter: "invert(67%) sepia(40%) saturate(500%) hue-rotate(2deg)" }} />
+              <div
+                key={c.title}
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: c.href ? "center" : "flex-start",
+                }}
+              >
+                <div style={{
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "50%",
+                  border: "1px solid rgba(201,168,76,0.35)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  flexShrink: 0,
+                }}>
+                  <img
+                    src={c.icon}
+                    alt={c.title}
+                    style={{
+                      width: "13px",
+                      height: "13px",
+                      objectFit: "contain",
+                      filter: "invert(67%) sepia(40%) saturate(500%) hue-rotate(2deg)",
+                    }}
+                  />
                 </div>
                 {c.href ? (
-                  <a href={c.href} style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#8a8580", textDecoration: "none" }}>
+                  <a
+                    href={c.href}
+                    style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: isMobile ? "12px" : "13px",
+                      color: "#8a8580",
+                      textDecoration: "none",
+                      transition: "color 0.2s",
+                    }}
+                    onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A84C")}
+                    onMouseLeave={(e) => (e.currentTarget.style.color = "#8a8580")}
+                  >
                     {c.lines[0]}
                   </a>
                 ) : (
-                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "13px", color: "#8a8580", lineHeight: 1.6, margin: 0, paddingTop: "6px" }}>
+                  <p style={{
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: isMobile ? "12px" : "13px",
+                    color: "#8a8580",
+                    lineHeight: 1.6,
+                    margin: 0,
+                    paddingTop: "5px",
+                  }}>
                     {c.lines[0]}
                   </p>
                 )}
@@ -160,38 +264,58 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.06)",
-          padding: "1.2rem 2rem",
-          maxWidth: "1280px",
-          margin: "0 auto",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          flexWrap: "wrap",
-          gap: "1rem",
-        }}
-      >
-        <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#5a5550", margin: 0 }}>
+      {/* ── Bottom Bar ── */}
+      <div style={{
+        borderTop: "1px solid rgba(255,255,255,0.06)",
+        padding: isMobile ? "1rem 1rem" : "1.2rem 2rem",
+        maxWidth: "1280px",
+        margin: "0 auto",
+        display: "flex",
+        flexDirection: isMobile ? "column" : "row",
+        justifyContent: "space-between",
+        alignItems: isMobile ? "flex-start" : "center",
+        gap: isMobile ? "10px" : "1rem",
+      }}>
+        <p style={{
+          fontFamily: "'Outfit', sans-serif",
+          fontSize: "11px",
+          color: "#5a5550",
+          margin: 0,
+        }}>
           © 2026 Black Tie Hospitality. All Rights Reserved.
         </p>
-        <div style={{ display: "flex", gap: "1.5rem" }}>
-          <a href="#" style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#5a5550", textDecoration: "none" }}>Privacy Policy</a>
-          <span style={{ color: "#5a5550" }}>|</span>
-          <a href="#" style={{ fontFamily: "'Outfit', sans-serif", fontSize: "12px", color: "#5a5550", textDecoration: "none" }}>Terms & Conditions</a>
+        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          <a
+            href="#"
+            style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: "11px",
+              color: "#5a5550",
+              textDecoration: "none",
+              transition: "color 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A84C")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#5a5550")}
+          >
+            Privacy Policy
+          </a>
+          <span style={{ color: "#5a5550", fontSize: "11px" }}>|</span>
+          <a
+            href="#"
+            style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: "11px",
+              color: "#5a5550",
+              textDecoration: "none",
+              transition: "color 0.2s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.color = "#C9A84C")}
+            onMouseLeave={(e) => (e.currentTarget.style.color = "#5a5550")}
+          >
+            Terms & Conditions
+          </a>
         </div>
       </div>
-
-      <style>{`
-        @media (max-width: 1024px) {
-          .footer-grid { grid-template-columns: 1fr 1fr 1fr !important; }
-        }
-        @media (max-width: 640px) {
-          .footer-grid { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </footer>
   );
 }

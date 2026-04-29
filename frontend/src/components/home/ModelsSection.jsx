@@ -1,7 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import React from "react";
 import { models, wheelSegments, compareData } from "../../data/models.js";
+
+// ── Responsive hook ────────────────────────────────────────────────────────────
+function useWindowWidth() {
+  const [width, setWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1200
+  );
+  useEffect(() => {
+    const handler = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+  return width;
+}
 
 // ── Icons ──────────────────────────────────────────────────────────────────────
 const Icons = {
@@ -46,7 +59,7 @@ const Icons = {
   ),
 };
 
-// ── Wheel SVG icons — one function per icon type ──────────────────────────────
+// ── Wheel SVG icons ────────────────────────────────────────────────────────────
 const WheelIcons = {
   clipboard: (cx, cy) => (
     <g transform={`translate(${cx - 10.5},${cy - 10.5}) scale(1.25)`}>
@@ -104,7 +117,9 @@ const WheelIcons = {
 };
 
 // ── Wheel360 ──────────────────────────────────────────────────────────────────
-function Wheel360({ hovered, setHovered }) {
+function Wheel360({ hovered, setHovered, size = 320 }) {
+  // Scale the wheel to whatever size is passed in
+  const viewSize = 320;
   const cx = 160, cy = 160, R = 150, r = 72, gap = 0.03;
   const n = wheelSegments.length;
   const sliceAngle = (2 * Math.PI) / n;
@@ -144,19 +159,24 @@ function Wheel360({ hovered, setHovered }) {
   }
 
   return (
-    <svg width="360" height="360" viewBox="0 0 320 320">
-      {/* Outer decorative ring */}
+    <svg
+      width={size}
+      height={size}
+      viewBox={`0 0 ${viewSize} ${viewSize}`}
+      style={{ maxWidth: "100%", display: "block" }}
+    >
       <circle cx={cx} cy={cy} r={R + 10} fill="none" stroke="rgba(201,168,76,0.15)" />
 
       {wheelSegments.map((seg, i) => {
         const [lx, ly] = labelPos(i);
         const isActive = hovered === i;
-
         return (
           <g
             key={seg.id}
             onMouseEnter={() => setHovered(i)}
             onMouseLeave={() => setHovered(null)}
+            onTouchStart={() => setHovered(i)}
+            onTouchEnd={() => setHovered(null)}
             style={{
               cursor: "pointer",
               transform: isActive ? "scale(1.06)" : "scale(1)",
@@ -170,13 +190,11 @@ function Wheel360({ hovered, setHovered }) {
               stroke={isActive ? "#C9A84C" : "rgba(0,0,0,0.35)"}
               strokeWidth={isActive ? 2.5 : 1}
             />
-            {/* Render the correct icon for this segment */}
             {WheelIcons[seg.icon] ? WheelIcons[seg.icon](lx, ly) : null}
           </g>
         );
       })}
 
-      {/* Centre circle */}
       <circle cx={cx} cy={cy} r={68} fill="#0D1117" />
       <text x={cx} y={cy - 6} textAnchor="middle" fill="#C9A84C" fontSize="22" fontWeight="700">
         360°
@@ -190,8 +208,18 @@ function Wheel360({ hovered, setHovered }) {
 
 // ── Compare Modal ─────────────────────────────────────────────────────────────
 function CompareModal({ onClose }) {
+  const width = useWindowWidth();
+  const isMobile = width < 640;
+
   const cols = ["fixed", "revenue", "management", "custom"];
-  const colLabels = { fixed: "Fixed Lease", revenue: "Revenue Share", management: "Mgmt Fee", custom: "Custom" };
+
+  // Shorter labels on mobile so columns fit without overflow
+  const colLabels = {
+    fixed: isMobile ? "Fixed" : "Fixed Lease",
+    revenue: isMobile ? "Revenue" : "Revenue Share",
+    management: isMobile ? "Mgmt" : "Mgmt Fee",
+    custom: isMobile ? "Custom" : "Custom",
+  };
 
   function renderCell(val) {
     if (val === true) {
@@ -208,9 +236,11 @@ function CompareModal({ onClose }) {
         </span>
       );
     }
-    // "partial"
     return (
-      <span style={{ ...cellStyle("rgba(201,168,76,0.06)", "1px dashed rgba(201,168,76,0.3)", "rgba(201,168,76,0.5)"), fontSize: 10, fontFamily: "'Outfit', sans-serif" }}>
+      <span style={{
+        ...cellStyle("rgba(201,168,76,0.06)", "1px dashed rgba(201,168,76,0.3)", "rgba(201,168,76,0.5)"),
+        fontSize: 10, fontFamily: "'Outfit', sans-serif",
+      }}>
         ~
       </span>
     );
@@ -219,7 +249,9 @@ function CompareModal({ onClose }) {
   function cellStyle(bg, border, color) {
     return {
       display: "inline-flex", alignItems: "center", justifyContent: "center",
-      width: 22, height: 22, borderRadius: "50%", background: bg, border, color,
+      width: isMobile ? 20 : 22,
+      height: isMobile ? 20 : 22,
+      borderRadius: "50%", background: bg, border, color,
     };
   }
 
@@ -231,7 +263,8 @@ function CompareModal({ onClose }) {
         background: "rgba(8,10,14,0.82)",
         backdropFilter: "blur(8px)",
         display: "flex", alignItems: "center", justifyContent: "center",
-        padding: "24px",
+        padding: isMobile ? "12px" : "24px",
+        overflowY: "auto",
       }}
     >
       <div
@@ -242,8 +275,10 @@ function CompareModal({ onClose }) {
           borderRadius: "16px",
           width: "100%",
           maxWidth: "760px",
-          padding: "40px 40px 36px",
+          padding: isMobile ? "20px 14px" : "40px 40px 36px",
           position: "relative",
+          margin: "auto",
+          boxSizing: "border-box",
         }}
       >
         {/* Decorative corner glow */}
@@ -254,18 +289,42 @@ function CompareModal({ onClose }) {
         }} />
 
         {/* Header */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 32 }}>
-          <div>
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.22em", color: "#C9A84C", marginBottom: 6, textTransform: "uppercase" }}>
+        <div style={{
+          display: "flex", justifyContent: "space-between",
+          alignItems: "flex-start",
+          marginBottom: isMobile ? 18 : 32,
+          gap: "12px",
+        }}>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <p style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: isMobile ? "0.7rem" : "0.75rem",
+              fontWeight: 700, letterSpacing: "0.22em",
+              color: "#C9A84C", marginBottom: 6, textTransform: "uppercase",
+            }}>
               Model Comparison
             </p>
-            <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(1.4rem, 3vw, 2rem)", fontWeight: 600, color: "#F0EAD6", lineHeight: 1.2, margin: 0 }}>
+            <h3 style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: isMobile ? "1.2rem" : "clamp(1.4rem, 3vw, 2rem)",
+              fontWeight: 600, color: "#F0EAD6",
+              lineHeight: 1.2, margin: 0,
+            }}>
               Choose Your Partnership Model
             </h3>
           </div>
           <button
             onClick={onClose}
-            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)", borderRadius: 8, color: "#8a8580", cursor: "pointer", padding: "8px 10px", display: "flex", alignItems: "center", justifyContent: "center", transition: "all 0.2s" }}
+            style={{
+              background: "rgba(255,255,255,0.05)",
+              border: "1px solid rgba(255,255,255,0.1)",
+              borderRadius: 8, color: "#8a8580", cursor: "pointer",
+              padding: "8px 10px",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              transition: "all 0.2s",
+              flexShrink: 0,  // never gets squished
+              marginLeft: 12,
+            }}
             onMouseEnter={e => { e.currentTarget.style.background = "rgba(201,168,76,0.1)"; e.currentTarget.style.color = "#C9A84C"; }}
             onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,255,255,0.05)"; e.currentTarget.style.color = "#8a8580"; }}
           >
@@ -273,16 +332,43 @@ function CompareModal({ onClose }) {
           </button>
         </div>
 
-        {/* Table */}
-        <div style={{ overflowX: "auto" }}>
-          <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        {/* Table — tableLayout fixed + colgroup = no horizontal scroll ever */}
+        <div style={{ width: "100%", overflow: "hidden" }}>
+          <table style={{
+            width: "100%",
+            borderCollapse: "collapse",
+            tableLayout: "fixed",  // key: columns share width proportionally
+          }}>
+            <colgroup>
+              <col style={{ width: isMobile ? "36%" : "38%" }} />
+              <col /><col /><col /><col />
+            </colgroup>
             <thead>
               <tr>
-                <th style={{ textAlign: "left", paddingBottom: 16, paddingRight: 20, fontFamily: "'Outfit', sans-serif", fontSize: "11px", color: "rgba(255,255,255,0.25)", fontWeight: 500, letterSpacing: "0.1em", textTransform: "uppercase", width: "36%" }}>
+                <th style={{
+                  textAlign: "left",
+                  paddingBottom: isMobile ? 10 : 16,
+                  paddingRight: isMobile ? 6 : 20,
+                  fontFamily: "'Outfit', sans-serif",
+                  fontSize: isMobile ? "9px" : "10px",
+                  color: "rgba(255,255,255,0.25)", fontWeight: 500,
+                  letterSpacing: "0.08em", textTransform: "uppercase",
+                }}>
                   Feature
                 </th>
                 {cols.map(col => (
-                  <th key={col} style={{ textAlign: "center", paddingBottom: 16, paddingLeft: 8, paddingRight: 8, fontFamily: "'Cinzel', serif", fontSize: "11px", color: "#C9A84C", fontWeight: 600, letterSpacing: "0.06em" }}>
+                  <th key={col} style={{
+                    textAlign: "center",
+                    paddingBottom: isMobile ? 10 : 16,
+                    paddingLeft: isMobile ? 2 : 8,
+                    paddingRight: isMobile ? 2 : 8,
+                    fontFamily: "'Cinzel', serif",
+                    fontSize: isMobile ? "8px" : "11px",
+                    color: "#C9A84C", fontWeight: 600,
+                    letterSpacing: "0.02em",
+                    lineHeight: 1.3,
+                    wordBreak: "break-word",  // wraps if needed, never overflows
+                  }}>
                     {colLabels[col]}
                   </th>
                 ))}
@@ -296,11 +382,22 @@ function CompareModal({ onClose }) {
             <tbody>
               {compareData.features.map((row, i) => (
                 <tr key={row.label} style={{ background: i % 2 === 0 ? "rgba(255,255,255,0.012)" : "transparent" }}>
-                  <td style={{ padding: "12px 20px 12px 0", fontFamily: "'Outfit', sans-serif", fontSize: "12.5px", color: "rgba(240,234,214,0.75)", letterSpacing: "0.01em" }}>
+                  <td style={{
+                    padding: isMobile ? "9px 6px 9px 0" : "12px 20px 12px 0",
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: isMobile ? "10.5px" : "12.5px",
+                    color: "rgba(240,234,214,0.75)",
+                    letterSpacing: "0.01em",
+                    lineHeight: 1.35,
+                    wordBreak: "break-word",  // long labels wrap, never push width
+                  }}>
                     {row.label}
                   </td>
                   {cols.map(col => (
-                    <td key={col} style={{ textAlign: "center", padding: "12px 8px" }}>
+                    <td key={col} style={{
+                      textAlign: "center",
+                      padding: isMobile ? "9px 2px" : "12px 8px",
+                    }}>
                       {renderCell(row[col])}
                     </td>
                   ))}
@@ -311,36 +408,46 @@ function CompareModal({ onClose }) {
         </div>
 
         {/* Legend */}
-        <div style={{ display: "flex", gap: 20, marginTop: 24, paddingTop: 20, borderTop: "1px solid rgba(201,168,76,0.1)" }}>
+        <div style={{
+          display: "flex", flexWrap: "wrap",
+          gap: isMobile ? "8px 14px" : "12px 20px",
+          marginTop: 20, paddingTop: 18,
+          borderTop: "1px solid rgba(201,168,76,0.1)",
+        }}>
           {[
             { symbol: "✓", label: "Included", color: "rgba(201,168,76,0.8)" },
             { symbol: "—", label: "Not included", color: "rgba(255,255,255,0.2)" },
-            { symbol: "~", label: "Partially / On request", color: "rgba(201,168,76,0.45)" },
+            { symbol: "~", label: "Partial / On request", color: "rgba(201,168,76,0.45)" },
           ].map(({ symbol, label, color }) => (
-            <div key={label} style={{ display: "flex", alignItems: "center", gap: 7 }}>
-              <span style={{ fontFamily: "monospace", color, fontSize: 13 }}>{symbol}</span>
-              <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11.25, color: "rgba(255,255,255,0.3)", letterSpacing: "0.03em" }}>{label}</span>
+            <div key={label} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span style={{ fontFamily: "monospace", color, fontSize: isMobile ? 11 : 13 }}>{symbol}</span>
+              <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: isMobile ? 10 : 11, color: "rgba(255,255,255,0.3)", letterSpacing: "0.03em" }}>
+                {label}
+              </span>
             </div>
           ))}
         </div>
 
         {/* CTA */}
-        <div style={{ marginTop: 28, textAlign: "center" }}>
+        <div style={{ marginTop: isMobile ? 20 : 28, textAlign: "center" }}>
           <Link
             to="/contact"
+            onClick={onClose}
             style={{
               display: "inline-block",
-              padding: "12px 32px",
+              padding: isMobile ? "11px 20px" : "12px 32px",
               background: "linear-gradient(135deg, #C9A84C, #e0be78)",
               color: "#0D1117",
               fontFamily: "'Outfit', sans-serif",
               fontWeight: 700,
-              fontSize: "12.5px",
+              fontSize: isMobile ? "11px" : "12.5px",
               letterSpacing: "0.12em",
               textDecoration: "none",
               borderRadius: "8px",
               textTransform: "uppercase",
               transition: "opacity 0.2s",
+              width: width < 380 ? "100%" : "auto",
+              boxSizing: "border-box",
             }}
             onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
             onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
@@ -358,27 +465,61 @@ export default function ModelsSection() {
   const [active, setActive] = useState(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [hovered, setHovered] = useState(null);
+  const width = useWindowWidth();
+
+  // Breakpoints
+  const isMobile = width < 640;       // phones
+  const isTablet = width < 1024;      // tablets / small laptops
+
+  // Wheel size: scales with viewport
+  const wheelSize = isMobile
+    ? Math.min(width - 48, 280)
+    : isTablet
+      ? 260
+      : 320;
 
   return (
-    <section style={{ background: "#f7f5f2", padding: "80px 0" }}>
-      <div style={{ maxWidth: "1240px", margin: "auto", padding: "0 2rem" }}>
+    <section style={{ background: "#f7f5f2", padding: isMobile ? "56px 0" : "80px 0" }}>
+      <div style={{ maxWidth: "1240px", margin: "auto", padding: "0 1.25rem" }}>
 
+        {/* ── Two-column on desktop, stacked on mobile/tablet ── */}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "1fr 1px 1fr",
-          gap: "0",
+          gridTemplateColumns: isTablet ? "1fr" : "1fr 1px 1fr",
+          gap: 0,
         }}>
 
-          {/* ── LEFT ── */}
-          <div style={{ paddingRight: "48px" }}>
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.85rem", fontWeight: 700, letterSpacing: "0.22em", color: "#C9A84C", marginBottom: 8, textTransform: "uppercase" }}>
+          {/* ── LEFT: Partnership models ── */}
+          <div style={{ paddingRight: isTablet ? 0 : "48px", paddingBottom: isTablet ? "48px" : 0 }}>
+            <p style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: "0.8rem",
+              fontWeight: 700,
+              letterSpacing: "0.22em",
+              color: "#C9A84C",
+              marginBottom: 8,
+              textTransform: "uppercase",
+            }}>
               Partnership Models
             </p>
-            <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(1.8rem, 3vw, 2.6rem)", fontWeight: 600, color: "#1a1714", marginBottom: 24, lineHeight: 1.2 }}>
+            <h2 style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: isMobile ? "1.8rem" : "clamp(1.8rem, 3vw, 2.6rem)",
+              fontWeight: 600,
+              color: "#1a1714",
+              marginBottom: 24,
+              lineHeight: 1.2,
+            }}>
               Choose How We Work Together
             </h2>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 24 }}>
+            {/* Model cards: 2-col on tablet+, 1-col on small mobile */}
+            <div style={{
+              display: "grid",
+              gridTemplateColumns: width < 400 ? "1fr" : "1fr 1fr",
+              gap: 12,
+              marginBottom: 24,
+            }}>
               {models.map((m) => {
                 const isActive = active === m.id;
                 return (
@@ -386,22 +527,36 @@ export default function ModelsSection() {
                     key={m.id}
                     onMouseEnter={() => setActive(m.id)}
                     onMouseLeave={() => setActive(null)}
+                    onTouchStart={() => setActive(m.id)}
+                    onTouchEnd={() => setActive(null)}
                     style={{
-                      padding: 18,
+                      padding: isMobile ? 14 : 18,
                       borderRadius: 12,
                       background: "#fff",
                       border: isActive ? "2px solid #C9A84C" : "1px solid #ddd",
-                      transform: isActive ? "translateY(-6px) scale(1.02)" : "none",
+                      transform: isActive ? "translateY(-4px) scale(1.02)" : "none",
                       boxShadow: isActive ? "0 8px 24px rgba(201,168,76,0.12)" : "none",
                       transition: "all 0.3s",
                       cursor: "default",
                     }}
                   >
                     <div style={{ color: "#C9A84C", marginBottom: 10 }}>{Icons[m.icon]}</div>
-                    <p style={{ fontFamily: "'Outfit', sans-serif", fontWeight: 700, fontSize: 14, color: "#1a1714", marginBottom: 4 }}>
+                    <p style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      fontWeight: 700,
+                      fontSize: isMobile ? 13 : 14,
+                      color: "#1a1714",
+                      marginBottom: 4,
+                    }}>
                       {m.label}
                     </p>
-                    <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 12, color: "#777", lineHeight: 1.25 }}>
+                    <p style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: isMobile ? 11.5 : 12,
+                      color: "#777",
+                      lineHeight: 1.4,
+                      margin: 0,
+                    }}>
                       {m.desc}
                     </p>
                   </div>
@@ -424,6 +579,7 @@ export default function ModelsSection() {
                 borderRadius: "8px",
                 cursor: "pointer",
                 transition: "opacity 0.2s",
+                width: isMobile ? "100%" : "auto",
               }}
               onMouseEnter={e => (e.currentTarget.style.opacity = "0.85")}
               onMouseLeave={e => (e.currentTarget.style.opacity = "1")}
@@ -432,29 +588,49 @@ export default function ModelsSection() {
             </button>
           </div>
 
-          {/* ── VERTICAL SEPARATOR ── */}
-          <div style={{ background: "rgba(201,168,76,0.45)", width: "1.25px", alignSelf: "stretch" }} />
+          {/* ── VERTICAL SEPARATOR (desktop only) ── */}
+          {!isTablet && (
+            <div style={{ background: "rgba(201,168,76,0.45)", width: "1.25px", alignSelf: "stretch" }} />
+          )}
 
-          {/* ── RIGHT ── */}
-          <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", paddingLeft: "48px" }}>
+          {/* ── HORIZONTAL SEPARATOR (tablet/mobile only) ── */}
+          {isTablet && (
+            <div style={{ height: "1.25px", background: "rgba(201,168,76,0.45)", margin: "0 0 48px 0" }} />
+          )}
 
-            {/* Wheel heading */}
-            <div style={{ textAlign: "center", marginBottom: 28 }}>
-              <h2 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: "clamp(1.4rem, 2.5vw, 2rem)", fontWeight: 600, color: "#1a1714", lineHeight: 1.25, margin: 0 }}>
+          {/* ── RIGHT: Wheel ── */}
+          <div style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            paddingLeft: isTablet ? 0 : "48px",
+          }}>
+            <div style={{ textAlign: "center", marginBottom: 24 }}>
+              <h2 style={{
+                fontFamily: "'Cormorant Garamond', Georgia, serif",
+                fontSize: isMobile ? "1.5rem" : "clamp(1.4rem, 2.5vw, 2rem)",
+                fontWeight: 600,
+                color: "#1a1714",
+                lineHeight: 1.25,
+                margin: 0,
+              }}>
                 Our 360° Approach for<br />Maximum Returns
               </h2>
             </div>
-            <Wheel360 hovered={hovered} setHovered={setHovered} />
+
+            <Wheel360 hovered={hovered} setHovered={setHovered} size={wheelSize} />
 
             <div style={{
-              marginTop: 18,
-              fontSize: 16,
+              marginTop: 16,
+              fontSize: isMobile ? 13 : 15,
               fontWeight: 700,
               color: "#1a1714",
               letterSpacing: "0.05em",
               fontFamily: "'Outfit', sans-serif",
-              minHeight: 28,
+              minHeight: 26,
               transition: "all 0.2s",
+              textAlign: "center",
             }}>
               {hovered !== null && wheelSegments[hovered]
                 ? wheelSegments[hovered].label.toUpperCase()
@@ -464,7 +640,6 @@ export default function ModelsSection() {
         </div>
       </div>
 
-      {/* Modal */}
       {modalOpen && <CompareModal onClose={() => setModalOpen(false)} />}
     </section>
   );
