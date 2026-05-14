@@ -17,34 +17,26 @@ function useWindowWidth() {
   return width;
 }
 
-// ── Modal arrow style helper ───────────────────────────────────────────────────
-function modalArrow(side) {
-  return {
-    position: "absolute",
-    top: "50%",
-    transform: "translateY(-50%)",
-    [side]: "10px",
-    width: "38px",
-    height: "38px",
-    borderRadius: "50%",
-    background: "rgba(13,17,23,0.6)",
-    border: "1px solid rgba(201,168,76,0.3)",
-    color: "#C9A84C",
-    cursor: "pointer",
-    fontSize: "22px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 10,
-  };
-}
+// ─────────────────────────────────────────────────────────────
+//  PropertyModal — full detail overlay with image gallery,
+//  video player, Google Maps link, and amenities
+// ─────────────────────────────────────────────────────────────
 
-// ── Property Modal ─────────────────────────────────────────────────────────────
 function PropertyModal({ selected, onClose, onPrev, onNext }) {
   const width = useWindowWidth();
   const isMobile = width < 768;
 
-  // Lock body scroll when open
+  // Gallery state
+  const [activeTab, setActiveTab] = useState("photos"); // "photos" | "video"
+  const [activeImg, setActiveImg] = useState(0);
+
+  // Reset gallery when a new property is opened
+  useEffect(() => {
+    setActiveImg(0);
+    setActiveTab("photos");
+  }, [selected?.id]);
+
+  // Lock body scroll
   useEffect(() => {
     if (selected) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "";
@@ -53,13 +45,32 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
 
   if (!selected) return null;
 
+  const hasImages = selected.images && selected.images.length > 0;
+  const hasVideo  = !!selected.video;
+  const hasMedia  = hasImages || hasVideo;
+
+  // The image shown in the hero area
+  const heroSrc = hasImages
+    ? selected.images[activeImg]
+    : "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80";
+
+  // Prev / next within the gallery
+  const galleryPrev = (e) => {
+    e.stopPropagation();
+    setActiveImg((i) => (i - 1 + selected.images.length) % selected.images.length);
+  };
+  const galleryNext = (e) => {
+    e.stopPropagation();
+    setActiveImg((i) => (i + 1) % selected.images.length);
+  };
+
   return (
     <div
       onClick={onClose}
       style={{
         position: "fixed",
         inset: 0,
-        background: "rgba(0,0,0,0.8)",
+        background: "rgba(0,0,0,0.85)",
         backdropFilter: "blur(6px)",
         display: "flex",
         justifyContent: "center",
@@ -74,14 +85,14 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
         style={{
           position: "relative",
           background: "#111827",
-          maxWidth: isMobile ? "100%" : "650px",
+          maxWidth: isMobile ? "100%" : "680px",
           width: "100%",
-          borderRadius: isMobile ? "16px 16px 0 0" : "12px",
+          borderRadius: isMobile ? "16px 16px 0 0" : "14px",
           overflow: "hidden",
           maxHeight: isMobile ? "92vh" : "90vh",
           display: "flex",
           flexDirection: "column",
-          border: "1px solid rgba(201,168,76,0.15)",
+          border: "1px solid rgba(201,168,76,0.18)",
         }}
       >
         {/* Drag handle — mobile only */}
@@ -93,29 +104,42 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
             width: 36, height: 4,
             borderRadius: 2,
             background: "rgba(255,255,255,0.15)",
-            zIndex: 2,
+            zIndex: 10,
           }} />
         )}
 
-        {/* IMAGE */}
+        {/* ── MEDIA AREA ───────────────────────────────────────── */}
         <div style={{ position: "relative", flexShrink: 0 }}>
-          <img
-            src={selected.image}
-            alt={selected.name}
-            style={{
-              width: "100%",
-              aspectRatio: isMobile ? "4/3" : "16/9",
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
-          {/* Image gradient */}
-          <div style={{
-            position: "absolute", bottom: 0, left: 0, right: 0,
-            height: "40%",
-            background: "linear-gradient(transparent, rgba(17,24,39,0.9))",
-            pointerEvents: "none",
-          }} />
+
+          {/* Tab switcher — only shown when both images and video exist */}
+          {hasImages && hasVideo && (
+            <div style={{
+              position: "absolute", top: 14, left: 14,
+              display: "flex", gap: 6, zIndex: 10,
+            }}>
+              {["photos", "video"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  style={{
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: "0.65rem",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    padding: "4px 10px",
+                    borderRadius: "4px",
+                    border: `1px solid ${activeTab === tab ? "#C9A84C" : "rgba(255,255,255,0.18)"}`,
+                    background: activeTab === tab ? "#C9A84C" : "rgba(13,17,23,0.7)",
+                    color: activeTab === tab ? "#0D1117" : "#F5F0E8",
+                    cursor: "pointer",
+                    backdropFilter: "blur(4px)",
+                  }}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          )}
 
           {/* Close button */}
           <button
@@ -133,14 +157,130 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
             ×
           </button>
 
-          {/* Nav arrows */}
-          <button onClick={onPrev} style={modalArrow("left")}>‹</button>
-          <button onClick={onNext} style={modalArrow("right")}>›</button>
+          {/* ── PHOTO VIEW ── */}
+          {(activeTab === "photos" || !hasVideo) && (
+            <>
+              <img
+                src={heroSrc}
+                alt={selected.name}
+                style={{
+                  width: "100%",
+                  aspectRatio: isMobile ? "4/3" : "16/9",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
+
+              {/* Gradient overlay */}
+              <div style={{
+                position: "absolute", bottom: 0, left: 0, right: 0,
+                height: "40%",
+                background: "linear-gradient(transparent, rgba(17,24,39,0.95))",
+                pointerEvents: "none",
+              }} />
+
+              {/* Gallery arrows — only when multiple images */}
+              {hasImages && selected.images.length > 1 && (
+                <>
+                  <button onClick={galleryPrev} style={modalArrow("left")}>‹</button>
+                  <button onClick={galleryNext} style={modalArrow("right")}>›</button>
+
+                  {/* Image counter */}
+                  <div style={{
+                    position: "absolute", bottom: 12, left: "50%",
+                    transform: "translateX(-50%)",
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: "0.65rem",
+                    color: "rgba(255,255,255,0.6)",
+                    background: "rgba(0,0,0,0.45)",
+                    padding: "3px 10px", borderRadius: "20px",
+                    pointerEvents: "none",
+                    zIndex: 4,
+                  }}>
+                    {activeImg + 1} / {selected.images.length}
+                  </div>
+                </>
+              )}
+
+              {/* Thumbnail strip — desktop, when 2+ images */}
+              {!isMobile && hasImages && selected.images.length > 1 && (
+                <div style={{
+                  position: "absolute", bottom: 0, left: 0, right: 0,
+                  display: "flex", gap: 4, padding: "8px 12px 8px",
+                  overflowX: "auto", zIndex: 5,
+                  scrollbarWidth: "none",
+                }}>
+                  {selected.images.map((src, i) => (
+                    <img
+                      key={i}
+                      src={src}
+                      alt=""
+                      onClick={() => setActiveImg(i)}
+                      style={{
+                        width: 48, height: 34,
+                        objectFit: "cover",
+                        borderRadius: 4,
+                        flexShrink: 0,
+                        cursor: "pointer",
+                        border: `2px solid ${i === activeImg ? "#C9A84C" : "transparent"}`,
+                        opacity: i === activeImg ? 1 : 0.6,
+                        transition: "all 0.2s ease",
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+
+          {/* ── VIDEO VIEW ── */}
+          {activeTab === "video" && hasVideo && (
+            <video
+              src={selected.video}
+              controls
+              autoPlay
+              style={{
+                width: "100%",
+                aspectRatio: isMobile ? "4/3" : "16/9",
+                objectFit: "cover",
+                display: "block",
+                background: "#000",
+              }}
+            />
+          )}
+
+          {/* When only a video exists (no photos), show video directly */}
+          {!hasImages && hasVideo && activeTab === "photos" && (
+            <video
+              src={selected.video}
+              controls
+              autoPlay
+              style={{
+                width: "100%",
+                aspectRatio: isMobile ? "4/3" : "16/9",
+                objectFit: "cover",
+                display: "block",
+                background: "#000",
+              }}
+            />
+          )}
+
+          {/* No media placeholder */}
+          {!hasMedia && (
+            <div style={{
+              width: "100%",
+              aspectRatio: isMobile ? "4/3" : "16/9",
+              background: "#0D1117",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <span style={{ fontSize: 48, opacity: 0.25 }}>🏨</span>
+            </div>
+          )}
         </div>
 
-        {/* SCROLLABLE CONTENT */}
+        {/* ── SCROLLABLE CONTENT ────────────────────────────────── */}
         <div style={{ overflowY: "auto", flexGrow: 1, WebkitOverflowScrolling: "touch" }}>
-          <div style={{ padding: isMobile ? "20px 18px 32px" : "24px 28px 28px", color: "#F5F0E8" }}>
+          <div style={{ padding: isMobile ? "20px 18px 36px" : "24px 28px 32px", color: "#F5F0E8" }}>
 
             {/* Eyebrow */}
             <p style={{
@@ -156,18 +296,45 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
               fontFamily: "'Cinzel', serif",
               fontSize: isMobile ? "1.1rem" : "1.35rem",
               fontWeight: 600, color: "#F5F0E8",
-              margin: "0 0 6px 0", lineHeight: 1.3,
+              margin: "0 0 8px 0", lineHeight: 1.3,
             }}>
               {selected.name}
             </h2>
 
-            {/* Location */}
-            <p style={{
-              fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem",
-              color: "#C9A84C", margin: "0 0 14px 0", letterSpacing: "0.05em",
-            }}>
-              📍 {selected.location}
-            </p>
+            {/* Location + Maps link */}
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
+              <p style={{
+                fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem",
+                color: "#C9A84C", margin: 0, letterSpacing: "0.05em",
+              }}>
+                📍 {selected.location}
+              </p>
+              {selected.mapsLink && (
+                <a
+                  href={selected.mapsLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: "0.65rem",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: "#0D1117",
+                    background: "#C9A84C",
+                    padding: "3px 10px",
+                    borderRadius: "4px",
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 4,
+                    flexShrink: 0,
+                    fontWeight: 600,
+                  }}
+                >
+                  View on Maps ↗
+                </a>
+              )}
+            </div>
 
             {/* Divider */}
             <div style={{ width: 36, height: 1, background: "rgba(201,168,76,0.4)", marginBottom: 14 }} />
@@ -176,15 +343,15 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
             <p style={{
               fontFamily: "'Outfit', sans-serif",
               fontSize: isMobile ? "0.78rem" : "0.8rem",
-              color: "#8a8580", lineHeight: 1.75, margin: "0 0 16px 0",
+              color: "#8a8580", lineHeight: 1.8, margin: "0 0 18px 0",
             }}>
               {selected.description}
             </p>
 
             {/* Stats row */}
             <div style={{
-              display: "flex", gap: isMobile ? 16 : 20,
-              marginBottom: 16, padding: "12px 0",
+              display: "flex", gap: isMobile ? 16 : 24,
+              marginBottom: 18, padding: "12px 0",
               borderTop: "1px solid rgba(255,255,255,0.06)",
               borderBottom: "1px solid rgba(255,255,255,0.06)",
               flexWrap: "wrap",
@@ -193,12 +360,6 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
                 <div>
                   <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.rooms}</p>
                   <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rooms</p>
-                </div>
-              )}
-              {selected.units && (
-                <div>
-                  <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.units}</p>
-                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Units</p>
                 </div>
               )}
               <div>
@@ -231,6 +392,29 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
                 ))}
               </div>
             </div>
+
+            {/* Video section — shown at the bottom when in photos tab and video exists */}
+            {hasVideo && activeTab === "photos" && hasImages && (
+              <div style={{ marginTop: 20 }}>
+                <p style={{
+                  fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem",
+                  letterSpacing: "0.18em", color: "#C9A84C",
+                  textTransform: "uppercase", marginBottom: 10, marginTop: 0,
+                }}>
+                  Property Video
+                </p>
+                <video
+                  src={selected.video}
+                  controls
+                  style={{
+                    width: "100%",
+                    borderRadius: 8,
+                    border: "1px solid rgba(201,168,76,0.15)",
+                    background: "#000",
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -238,27 +422,56 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
   );
 }
 
-// ── Property Card ──────────────────────────────────────────────────────────────
+// Helper: arrow button style (unchanged from original)
+function modalArrow(side) {
+  return {
+    position: "absolute",
+    top: "50%",
+    [side]: 12,
+    transform: "translateY(-50%)",
+    width: 36, height: 36,
+    borderRadius: "50%",
+    background: "rgba(13,17,23,0.65)",
+    border: "1px solid rgba(255,255,255,0.12)",
+    color: "#fff", fontSize: 22,
+    cursor: "pointer",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    backdropFilter: "blur(4px)",
+    zIndex: 6,
+    lineHeight: 1,
+  };
+}
+
+
+// ─────────────────────────────────────────────────────────────
+//  PropertyCard — grid card with hover effect
+// ─────────────────────────────────────────────────────────────
 function PropertyCard({ item, index, onClick, isMobile }) {
   const [hovered, setHovered] = useState(false);
 
-  // "And many more" placeholder card
-  if (!item.image) {
+  // Determine the thumbnail: first image, or null
+  const thumb = item.images && item.images.length > 0 ? item.images[0] : null;
+  const hasVideo = !!item.video;
+
+  // "And many more" placeholder card (no image AND no video)
+  if (!thumb && !hasVideo) {
     return (
       <div style={{
         background: "#111827",
         border: "1px solid rgba(201,168,76,0.2)",
         borderRadius: "8px",
         overflow: "hidden",
-        cursor: "default",
-      }}>
+        cursor: "pointer",
+      }}
+        onClick={() => onClick && onClick(item)}
+      >
         <div style={{
           background: "#0D1117", aspectRatio: "3/2",
           display: "flex", flexDirection: "column",
           alignItems: "center", justifyContent: "center", gap: "8px",
         }}>
           <span style={{ fontSize: isMobile ? "24px" : "32px" }}>🏨</span>
-          <span style={{ fontFamily: "'Cinzel', serif", fontSize: "11px", color: "#C9A84C" }}>+More</span>
+          <span style={{ fontFamily: "'Cinzel', serif", fontSize: "11px", color: "#C9A84C", letterSpacing: "0.1em" }}>View Details</span>
         </div>
         <div style={{ padding: isMobile ? "10px" : "12px" }}>
           <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: isMobile ? "11px" : "12px", color: "#F5F0E8", fontWeight: 600, margin: "0 0 2px" }}>{item.name}</p>
@@ -267,6 +480,9 @@ function PropertyCard({ item, index, onClick, isMobile }) {
       </div>
     );
   }
+
+  // If no image but has video, show video as the thumbnail/hero
+  const showVideoThumbnail = !thumb && hasVideo;
 
   return (
     <div
@@ -300,6 +516,23 @@ function PropertyCard({ item, index, onClick, isMobile }) {
         {String(index + 1).padStart(2, "0")}
       </div>
 
+      {/* Video badge */}
+      {hasVideo && (
+        <div style={{
+          position: "absolute", top: "10px", right: "10px", zIndex: 2,
+          background: "rgba(0,0,0,0.6)",
+          border: "1px solid rgba(201,168,76,0.3)",
+          borderRadius: "4px",
+          padding: "2px 7px",
+          fontFamily: "'Outfit', sans-serif",
+          fontSize: "9px",
+          color: "#C9A84C",
+          letterSpacing: "0.08em",
+        }}>
+          ▶ VIDEO
+        </div>
+      )}
+
       {/* Hover plus — desktop only */}
       {!isMobile && (
         <div style={{
@@ -315,16 +548,28 @@ function PropertyCard({ item, index, onClick, isMobile }) {
         }}>+</div>
       )}
 
-      <div style={{ aspectRatio: "3/2", overflow: "hidden" }}>
-        <img
-          src={item.image}
-          alt={item.name}
-          style={{
-            width: "100%", height: "100%", objectFit: "cover",
-            transform: hovered ? "scale(1.06)" : "scale(1)",
-            transition: "transform 0.5s ease",
-          }}
-        />
+      {/* Media area */}
+      <div style={{ aspectRatio: "3/2", overflow: "hidden", position: "relative" }}>
+        {showVideoThumbnail ? (
+          <video
+            src={item.video}
+            muted
+            style={{
+              width: "100%", height: "100%", objectFit: "cover",
+              display: "block",
+            }}
+          />
+        ) : (
+          <img
+            src={thumb}
+            alt={item.name}
+            style={{
+              width: "100%", height: "100%", objectFit: "cover",
+              transform: hovered ? "scale(1.06)" : "scale(1)",
+              transition: "transform 0.5s ease",
+            }}
+          />
+        )}
       </div>
 
       <div style={{ padding: isMobile ? "10px 10px" : "12px 14px" }}>
@@ -334,7 +579,6 @@ function PropertyCard({ item, index, onClick, isMobile }) {
           color: "#F5F0E8", fontWeight: 600,
           marginBottom: "4px", marginTop: 0,
           lineHeight: 1.3,
-          // Prevent very long names from overflowing
           overflow: "hidden",
           textOverflow: "ellipsis",
           whiteSpace: "nowrap",
@@ -355,7 +599,10 @@ function PropertyCard({ item, index, onClick, isMobile }) {
   );
 }
 
-// ── Section Header ─────────────────────────────────────────────────────────────
+
+// ─────────────────────────────────────────────────────────────
+//  SectionHeader — unchanged
+// ─────────────────────────────────────────────────────────────
 function SectionHeader({ title, subtitle, isMobile }) {
   return (
     <div style={{ marginBottom: isMobile ? "16px" : "8px" }}>
@@ -655,4 +902,3 @@ export default function Properties() {
     </>
   );
 }
-

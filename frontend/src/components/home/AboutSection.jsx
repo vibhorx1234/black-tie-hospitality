@@ -3,6 +3,9 @@ import SectionHeader from "../ui/SectionHeader";
 import Button from "../ui/Button";
 import React from "react";
 
+import team1 from "./../../assets/team/team1.jpeg";
+import team3 from "./../../assets/team/team3.jpeg";
+
 export default function AboutSection() {
   return (
     <section
@@ -106,7 +109,7 @@ export default function AboutSection() {
               }}
             >
               <img
-                src="https://images.unsplash.com/photo-1564501049412-61c2a3083791?w=500&q=80"
+                src={team1}
                 alt="Luxury property interior"
                 style={{
                   width: "100%",
@@ -121,7 +124,7 @@ export default function AboutSection() {
             {/* Top-right image */}
             <div style={{ minHeight: "clamp(120px, 18vw, 190px)" }}>
               <img
-                src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500&q=80"
+                src={team3}
                 alt="Hotel property exterior"
                 style={{
                   width: "100%",

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FOUNDERS, MISSION_QUOTE } from "../../data/founders";
-import LinkedInIcon from "../../vectors/linkedin.svg";
+import InstagramIcon from "../../vectors/instagram.svg";
 
 // ── Responsive hook ────────────────────────────────────────────────────────────
 function useWindowWidth() {
@@ -15,8 +15,8 @@ function useWindowWidth() {
   return width;
 }
 
-// ── LinkedIn Button ────────────────────────────────────────────────────────────
-const LinkedInBtn = ({ href }) => (
+// ── Instagram Button ────────────────────────────────────────────────────────────
+const InstagramBtn = ({ href }) => (
   <a
     href={href}
     target="_blank"
@@ -28,8 +28,8 @@ const LinkedInBtn = ({ href }) => (
     }}
   >
     <img
-      src={LinkedInIcon}
-      alt="LinkedIn"
+      src={InstagramIcon}
+      alt="Instagram"
       style={{
         width: "24px",
         height: "24px",
@@ -180,7 +180,7 @@ const FounderCard = ({ founder, isMobile }) => {
         >
           {founder.bio}
         </p>
-        <LinkedInBtn href={founder.linkedin} />
+        <InstagramBtn href={founder.instagram} />
       </div>
     </div>
   );

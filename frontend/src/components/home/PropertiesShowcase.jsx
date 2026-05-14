@@ -18,16 +18,470 @@ function useWindowWidth() {
 
 // ── Visible cards by breakpoint ────────────────────────────────────────────────
 function getVisible(width) {
-  if (width < 480) return 1.2;   // mobile: peek effect
-  if (width < 768) return 2.1;   // large phone / small tablet
-  if (width < 1024) return 3.1;  // tablet
-  return 4;                       // desktop
+  if (width < 480) return 1.2;
+  if (width < 768) return 2.1;
+  if (width < 1024) return 3.1;
+  return 4;
 }
 
+// ─────────────────────────────────────────────────────────────
+//  PropertyModal — full detail overlay (ported from properties.jsx)
+// ─────────────────────────────────────────────────────────────
+function PropertyModal({ selected, onClose, onPrev, onNext }) {
+  const width = useWindowWidth();
+  const isMobile = width < 768;
+
+  const [activeTab, setActiveTab] = useState("photos");
+  const [activeImg, setActiveImg] = useState(0);
+
+  // Reset gallery when a new property is opened
+  useEffect(() => {
+    setActiveImg(0);
+    setActiveTab("photos");
+  }, [selected?.id]);
+
+  // Lock body scroll
+  useEffect(() => {
+    if (selected) document.body.style.overflow = "hidden";
+    else document.body.style.overflow = "";
+    return () => { document.body.style.overflow = ""; };
+  }, [selected]);
+
+  if (!selected) return null;
+
+  const hasImages = selected.images && selected.images.length > 0;
+  const hasVideo = !!selected.video;
+  const hasMedia = hasImages || hasVideo;
+
+  const heroSrc = hasImages
+    ? selected.images[activeImg]
+    : selected.image || "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80";
+
+  const galleryPrev = (e) => {
+    e.stopPropagation();
+    setActiveImg((i) => (i - 1 + selected.images.length) % selected.images.length);
+  };
+  const galleryNext = (e) => {
+    e.stopPropagation();
+    setActiveImg((i) => (i + 1) % selected.images.length);
+  };
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,0.85)",
+        backdropFilter: "blur(6px)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: isMobile ? "flex-end" : "center",
+        zIndex: 1000,
+        padding: isMobile ? 0 : "20px",
+        overflowY: "auto",
+      }}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          position: "relative",
+          background: "#111827",
+          maxWidth: isMobile ? "100%" : "680px",
+          width: "100%",
+          borderRadius: isMobile ? "16px 16px 0 0" : "14px",
+          overflow: "hidden",
+          maxHeight: isMobile ? "92vh" : "90vh",
+          display: "flex",
+          flexDirection: "column",
+          border: "1px solid rgba(201,168,76,0.18)",
+        }}
+      >
+        {/* Drag handle — mobile only */}
+        {isMobile && (
+          <div style={{
+            position: "absolute",
+            top: 10, left: "50%",
+            transform: "translateX(-50%)",
+            width: 36, height: 4,
+            borderRadius: 2,
+            background: "rgba(255,255,255,0.15)",
+            zIndex: 10,
+          }} />
+        )}
+
+        {/* ── MEDIA AREA ── */}
+        <div style={{ position: "relative", flexShrink: 0 }}>
+
+          {/* Tab switcher — only when both images and video exist */}
+          {hasImages && hasVideo && (
+            <div style={{
+              position: "absolute", top: 14, left: 14,
+              display: "flex", gap: 6, zIndex: 10,
+            }}>
+              {["photos", "video"].map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  style={{
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: "0.65rem",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    padding: "4px 10px",
+                    borderRadius: "4px",
+                    border: `1px solid ${activeTab === tab ? "#C9A84C" : "rgba(255,255,255,0.18)"}`,
+                    background: activeTab === tab ? "#C9A84C" : "rgba(13,17,23,0.7)",
+                    color: activeTab === tab ? "#0D1117" : "#F5F0E8",
+                    cursor: "pointer",
+                    backdropFilter: "blur(4px)",
+                  }}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Close button */}
+          <button
+            onClick={onClose}
+            style={{
+              position: "absolute", top: 14, right: 14,
+              width: 32, height: 32, borderRadius: "50%",
+              background: "rgba(13,17,23,0.7)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              color: "#fff", fontSize: 18, cursor: "pointer",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              backdropFilter: "blur(4px)", lineHeight: 1, zIndex: 10,
+            }}
+          >
+            ×
+          </button>
+
+          {/* Modal prev/next property nav arrows */}
+          <button onClick={(e) => { e.stopPropagation(); onPrev(); }} style={modalNavArrow("left")}>‹</button>
+          <button onClick={(e) => { e.stopPropagation(); onNext(); }} style={modalNavArrow("right")}>›</button>
+
+          {/* ── PHOTO VIEW ── */}
+          {(activeTab === "photos" || !hasVideo) && (
+            <>
+              <img
+                src={heroSrc}
+                alt={selected.name}
+                style={{
+                  width: "100%",
+                  aspectRatio: isMobile ? "4/3" : "16/9",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
+
+              {/* Gradient overlay */}
+              <div style={{
+                position: "absolute", bottom: 0, left: 0, right: 0,
+                height: "40%",
+                background: "linear-gradient(transparent, rgba(17,24,39,0.95))",
+                pointerEvents: "none",
+              }} />
+
+              {/* Gallery arrows — only when multiple images */}
+              {hasImages && selected.images.length > 1 && (
+                <>
+                  <button onClick={galleryPrev} style={galleryArrow("left")}>‹</button>
+                  <button onClick={galleryNext} style={galleryArrow("right")}>›</button>
+
+                  {/* Image counter */}
+                  <div style={{
+                    position: "absolute", bottom: 12, left: "50%",
+                    transform: "translateX(-50%)",
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: "0.65rem",
+                    color: "rgba(255,255,255,0.6)",
+                    background: "rgba(0,0,0,0.45)",
+                    padding: "3px 10px", borderRadius: "20px",
+                    pointerEvents: "none",
+                    zIndex: 4,
+                  }}>
+                    {activeImg + 1} / {selected.images.length}
+                  </div>
+                </>
+              )}
+
+              {/* Thumbnail strip — desktop, when 2+ images */}
+              {!isMobile && hasImages && selected.images.length > 1 && (
+                <div style={{
+                  position: "absolute", bottom: 0, left: 0, right: 0,
+                  display: "flex", gap: 4, padding: "8px 12px 8px",
+                  overflowX: "auto", zIndex: 5,
+                  scrollbarWidth: "none",
+                }}>
+                  {selected.images.map((src, i) => (
+                    <img
+                      key={i}
+                      src={src}
+                      alt=""
+                      onClick={() => setActiveImg(i)}
+                      style={{
+                        width: 48, height: 34,
+                        objectFit: "cover",
+                        borderRadius: 4,
+                        flexShrink: 0,
+                        cursor: "pointer",
+                        border: `2px solid ${i === activeImg ? "#C9A84C" : "transparent"}`,
+                        opacity: i === activeImg ? 1 : 0.6,
+                        transition: "all 0.2s ease",
+                      }}
+                    />
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+
+          {/* ── VIDEO VIEW ── */}
+          {activeTab === "video" && hasVideo && (
+            <video
+              src={selected.video}
+              controls
+              autoPlay
+              style={{
+                width: "100%",
+                aspectRatio: isMobile ? "4/3" : "16/9",
+                objectFit: "cover",
+                display: "block",
+                background: "#000",
+              }}
+            />
+          )}
+
+          {/* Only video, no photos */}
+          {!hasImages && hasVideo && activeTab === "photos" && (
+            <video
+              src={selected.video}
+              controls
+              autoPlay
+              style={{
+                width: "100%",
+                aspectRatio: isMobile ? "4/3" : "16/9",
+                objectFit: "cover",
+                display: "block",
+                background: "#000",
+              }}
+            />
+          )}
+
+          {/* No media placeholder */}
+          {!hasMedia && !selected.image && (
+            <div style={{
+              width: "100%",
+              aspectRatio: isMobile ? "4/3" : "16/9",
+              background: "#0D1117",
+              display: "flex", alignItems: "center", justifyContent: "center",
+            }}>
+              <span style={{ fontSize: 48, opacity: 0.25 }}>🏨</span>
+            </div>
+          )}
+        </div>
+
+        {/* ── SCROLLABLE CONTENT ── */}
+        <div style={{ overflowY: "auto", flexGrow: 1, WebkitOverflowScrolling: "touch" }}>
+          <div style={{ padding: isMobile ? "20px 18px 36px" : "24px 28px 32px", color: "#F5F0E8" }}>
+
+            {/* Eyebrow */}
+            <p style={{
+              fontFamily: "'Cinzel', serif", fontSize: "0.6rem",
+              letterSpacing: "0.25em", color: "#C9A84C",
+              textTransform: "uppercase", margin: "0 0 8px 0",
+            }}>
+              {selected.type} · {selected.category}
+            </p>
+
+            {/* Title */}
+            <h2 style={{
+              fontFamily: "'Cinzel', serif",
+              fontSize: isMobile ? "1.1rem" : "1.35rem",
+              fontWeight: 600, color: "#F5F0E8",
+              margin: "0 0 8px 0", lineHeight: 1.3,
+            }}>
+              {selected.name}
+            </h2>
+
+            {/* Location + Maps link */}
+            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14, flexWrap: "wrap" }}>
+              <p style={{
+                fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem",
+                color: "#C9A84C", margin: 0, letterSpacing: "0.05em",
+              }}>
+                📍 {selected.location}
+              </p>
+              {selected.mapsLink && (
+                <a
+                  href={selected.mapsLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: "0.65rem",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: "#0D1117",
+                    background: "#C9A84C",
+                    padding: "3px 10px",
+                    borderRadius: "4px",
+                    textDecoration: "none",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 4,
+                    flexShrink: 0,
+                    fontWeight: 600,
+                  }}
+                >
+                  View on Maps ↗
+                </a>
+              )}
+            </div>
+
+            {/* Divider */}
+            <div style={{ width: 36, height: 1, background: "rgba(201,168,76,0.4)", marginBottom: 14 }} />
+
+            {/* Description */}
+            <p style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: isMobile ? "0.78rem" : "0.8rem",
+              color: "#8a8580", lineHeight: 1.8, margin: "0 0 18px 0",
+            }}>
+              {selected.description}
+            </p>
+
+            {/* Stats row */}
+            <div style={{
+              display: "flex", gap: isMobile ? 16 : 24,
+              marginBottom: 18, padding: "12px 0",
+              borderTop: "1px solid rgba(255,255,255,0.06)",
+              borderBottom: "1px solid rgba(255,255,255,0.06)",
+              flexWrap: "wrap",
+            }}>
+              {selected.rooms && (
+                <div>
+                  <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.rooms}</p>
+                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rooms</p>
+                </div>
+              )}
+              {selected.units && (
+                <div>
+                  <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.units}</p>
+                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Units</p>
+                </div>
+              )}
+              <div>
+                <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#C9A84C", margin: 0 }}>{selected.rating} ★</p>
+                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rating</p>
+              </div>
+            </div>
+
+            {/* Amenities */}
+            {selected.amenities && selected.amenities.length > 0 && (
+              <div>
+                <p style={{
+                  fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem",
+                  letterSpacing: "0.18em", color: "#C9A84C",
+                  textTransform: "uppercase", marginBottom: 10, marginTop: 0,
+                }}>
+                  Amenities
+                </p>
+                <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+                  {selected.amenities.map((a, i) => (
+                    <span key={i} style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: isMobile ? "0.68rem" : "0.7rem",
+                      color: "#8a8580",
+                      background: "rgba(255,255,255,0.04)",
+                      border: "1px solid rgba(255,255,255,0.08)",
+                      borderRadius: "4px", padding: "4px 10px",
+                    }}>
+                      {a}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Video section — bottom of content when in photos tab */}
+            {hasVideo && activeTab === "photos" && hasImages && (
+              <div style={{ marginTop: 20 }}>
+                <p style={{
+                  fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem",
+                  letterSpacing: "0.18em", color: "#C9A84C",
+                  textTransform: "uppercase", marginBottom: 10, marginTop: 0,
+                }}>
+                  Property Video
+                </p>
+                <video
+                  src={selected.video}
+                  controls
+                  style={{
+                    width: "100%",
+                    borderRadius: 8,
+                    border: "1px solid rgba(201,168,76,0.15)",
+                    background: "#000",
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Gallery arrow (within the image, for multi-image cycling) ─────────────────
+function galleryArrow(side) {
+  return {
+    position: "absolute",
+    top: "50%",
+    [side]: 12,
+    transform: "translateY(-50%)",
+    width: 36, height: 36,
+    borderRadius: "50%",
+    background: "rgba(13,17,23,0.65)",
+    border: "1px solid rgba(255,255,255,0.12)",
+    color: "#fff", fontSize: 22,
+    cursor: "pointer",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    backdropFilter: "blur(4px)",
+    zIndex: 6,
+    lineHeight: 1,
+  };
+}
+
+// ── Property nav arrow (prev/next property inside modal) ──────────────────────
+function modalNavArrow(side) {
+  return {
+    position: "absolute",
+    bottom: 12,
+    [side]: 12,
+    width: 34, height: 34,
+    borderRadius: "50%",
+    background: "rgba(13,17,23,0.65)",
+    border: "1px solid rgba(201,168,76,0.3)",
+    color: "#C9A84C",
+    cursor: "pointer",
+    fontSize: 20,
+    display: "flex", alignItems: "center", justifyContent: "center",
+    backdropFilter: "blur(4px)",
+    lineHeight: 1,
+    zIndex: 10,
+  };
+}
+
+// ─────────────────────────────────────────────────────────────
+//  PropertiesShowcase — main export
+// ─────────────────────────────────────────────────────────────
 export default function PropertiesShowcase() {
   const width = useWindowWidth();
   const isMobile = width < 768;
-  const isDesktop = width >= 1024;
 
   const VISIBLE = getVisible(width);
   const ITEM_WIDTH = 100 / VISIBLE;
@@ -35,7 +489,6 @@ export default function PropertiesShowcase() {
   const [index, setIndex] = useState(0);
   const [selected, setSelected] = useState(null);
 
-  // Fix: use refs for drag state so they persist across renders
   const startX = useRef(0);
   const isDragging = useRef(false);
 
@@ -60,7 +513,7 @@ export default function PropertiesShowcase() {
     setIndex(prevIdx);
   };
 
-  // ── Swipe handlers (fixed with refs) ─────────────────────────────────────
+  // ── Swipe handlers ────────────────────────────────────────────────────────
   const onStart = (e) => {
     isDragging.current = true;
     startX.current = e.touches ? e.touches[0].clientX : e.clientX;
@@ -74,21 +527,16 @@ export default function PropertiesShowcase() {
     isDragging.current = false;
   };
 
-  // Lock body scroll when modal is open
-  useEffect(() => {
-    if (selected) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => { document.body.style.overflow = ""; };
-  }, [selected]);
+  // Helper: get the thumbnail to show on the carousel card
+  // Prefers images[0], falls back to legacy `image` field
+  const getThumb = (p) =>
+    (p.images && p.images.length > 0) ? p.images[0] : (p.image || "");
 
   return (
     <section style={{ background: "#0D1117", padding: "clamp(2.5rem, 6vw, 5rem) clamp(1rem, 5vw, 2rem)" }}>
       <div style={{ maxWidth: "1280px", margin: "0 auto", padding: isMobile ? "0 1rem" : "0 2rem" }}>
 
-        {/* ── HEADER: desktop shows label + link inline; mobile shows label only ── */}
+        {/* ── HEADER ── */}
         <div style={{
           display: "flex",
           justifyContent: "space-between",
@@ -106,7 +554,6 @@ export default function PropertiesShowcase() {
             }}>
               Properties Showcase
             </p>
-            {/* Subtle gold underline accent */}
             <div style={{
               width: 36,
               height: 1.5,
@@ -115,16 +562,12 @@ export default function PropertiesShowcase() {
             }} />
           </div>
 
-          {/* View All — only on desktop in header */}
-          {!isMobile && (
-            <ViewAllLink />
-          )}
+          {!isMobile && <ViewAllLink />}
         </div>
 
         {/* ── CAROUSEL ── */}
         <div style={{ position: "relative", overflow: "hidden" }}>
 
-          {/* Left arrow — hidden on mobile (swipe instead) */}
           {!isMobile && (
             <button onClick={prev} style={arrowStyle("left")}>‹</button>
           )}
@@ -140,11 +583,9 @@ export default function PropertiesShowcase() {
               display: "flex",
               transition: "transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)",
               transform: `translateX(-${index * ITEM_WIDTH}%)`,
-              // On mobile, allow touch-pan
               touchAction: "pan-y",
             }}
           >
-            {/* Duplicate for infinite feel */}
             {ALL_PROPERTIES.concat(ALL_PROPERTIES).map((p, i) => (
               <div
                 key={i}
@@ -163,13 +604,20 @@ export default function PropertiesShowcase() {
                     overflow: "hidden",
                     cursor: "pointer",
                     aspectRatio: "3/2",
+                    width: "100%",
+                    height: 0,
+                    paddingBottom: "66.66%",   // 3:2 ratio enforced via padding trick
                   }}
                 >
+                  // AFTER
                   <img
-                    src={p.image}
+                    src={getThumb(p)}
                     alt={p.name}
                     className="prop-img"
                     style={{
+                      position: "absolute",
+                      top: 0,
+                      left: 0,
                       width: "100%",
                       height: "100%",
                       objectFit: "cover",
@@ -232,7 +680,6 @@ export default function PropertiesShowcase() {
             ))}
           </div>
 
-          {/* Right arrow — hidden on mobile */}
           {!isMobile && (
             <button onClick={next} style={arrowStyle("right")}>›</button>
           )}
@@ -241,7 +688,6 @@ export default function PropertiesShowcase() {
         {/* ── Mobile: dot indicators + swipe hint ── */}
         {isMobile && (
           <div style={{ marginTop: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
-            {/* Dot indicators */}
             <div style={{ display: "flex", gap: 6 }}>
               {ALL_PROPERTIES.map((_, i) => (
                 <button
@@ -260,8 +706,6 @@ export default function PropertiesShowcase() {
                 />
               ))}
             </div>
-
-            {/* Swipe hint — shown briefly */}
             <p style={{
               fontFamily: "'Outfit', sans-serif",
               fontSize: "10px",
@@ -284,222 +728,12 @@ export default function PropertiesShowcase() {
       </div>
 
       {/* ── MODAL ── */}
-      {selected && (
-        <div
-          onClick={() => setSelected(null)}
-          style={{
-            position: "fixed",
-            inset: 0,
-            background: "rgba(0,0,0,0.8)",
-            backdropFilter: "blur(6px)",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: isMobile ? "flex-end" : "center",
-            zIndex: 1000,
-            padding: isMobile ? 0 : "20px",
-            overflowY: "auto",
-          }}
-        >
-          <div
-            onClick={(e) => e.stopPropagation()}
-            style={{
-              position: "relative",
-              background: "#111827",
-              maxWidth: isMobile ? "100%" : "650px",
-              width: "100%",
-              borderRadius: isMobile ? "16px 16px 0 0" : "14px",
-              overflow: "hidden",
-              maxHeight: isMobile ? "92vh" : "90vh",
-              display: "flex",
-              flexDirection: "column",
-              // Subtle gold border
-              border: "1px solid rgba(201,168,76,0.15)",
-            }}
-          >
-            {/* Drag handle on mobile */}
-            {isMobile && (
-              <div style={{
-                position: "absolute",
-                top: 10,
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: 36,
-                height: 4,
-                borderRadius: 2,
-                background: "rgba(255,255,255,0.15)",
-                zIndex: 2,
-              }} />
-            )}
-
-            {/* IMAGE */}
-            <div style={{ position: "relative", flexShrink: 0 }}>
-              <img
-                src={selected.image}
-                alt={selected.name}
-                style={{
-                  width: "100%",
-                  aspectRatio: isMobile ? "4/3" : "16/9",
-                  objectFit: "cover",
-                  display: "block",
-                }}
-              />
-
-              {/* Image gradient overlay */}
-              <div style={{
-                position: "absolute",
-                bottom: 0,
-                left: 0,
-                right: 0,
-                height: "40%",
-                background: "linear-gradient(transparent, rgba(17,24,39,0.9))",
-                pointerEvents: "none",
-              }} />
-
-              {/* Close button */}
-              <button
-                onClick={() => setSelected(null)}
-                style={{
-                  position: "absolute",
-                  top: 14,
-                  right: 14,
-                  width: 32,
-                  height: 32,
-                  borderRadius: "50%",
-                  background: "rgba(13,17,23,0.7)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  color: "#fff",
-                  fontSize: 18,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  backdropFilter: "blur(4px)",
-                  lineHeight: 1,
-                }}
-              >
-                ×
-              </button>
-
-              {/* Modal nav arrows */}
-              <button onClick={prevModal} style={modalArrowStyle("left")}>‹</button>
-              <button onClick={nextModal} style={modalArrowStyle("right")}>›</button>
-            </div>
-
-            {/* SCROLLABLE CONTENT */}
-            <div style={{ overflowY: "auto", flexGrow: 1, WebkitOverflowScrolling: "touch" }}>
-              <div style={{ padding: isMobile ? "20px 18px 28px" : "24px 28px 28px", color: "#F5F0E8" }}>
-
-                {/* Eyebrow */}
-                <p style={{
-                  fontFamily: "'Cinzel', serif",
-                  fontSize: "0.6rem",
-                  letterSpacing: "0.25em",
-                  color: "#C9A84C",
-                  textTransform: "uppercase",
-                  margin: "0 0 8px 0",
-                }}>
-                  {selected.type} · {selected.category}
-                </p>
-
-                {/* Title */}
-                <h2 style={{
-                  fontFamily: "'Cinzel', serif",
-                  fontSize: isMobile ? "1.1rem" : "1.35rem",
-                  fontWeight: 600,
-                  color: "#F5F0E8",
-                  margin: "0 0 6px 0",
-                  lineHeight: 1.3,
-                }}>
-                  {selected.name}
-                </h2>
-
-                {/* Location */}
-                <p style={{
-                  fontFamily: "'Outfit', sans-serif",
-                  fontSize: "0.75rem",
-                  color: "#C9A84C",
-                  margin: "0 0 14px 0",
-                  letterSpacing: "0.05em",
-                }}>
-                  📍 {selected.location}
-                </p>
-
-                {/* Divider */}
-                <div style={{ width: 36, height: 1, background: "rgba(201,168,76,0.4)", marginBottom: 14 }} />
-
-                {/* Description */}
-                <p style={{
-                  fontFamily: "'Outfit', sans-serif",
-                  fontSize: isMobile ? "0.78rem" : "0.8rem",
-                  color: "#8a8580",
-                  lineHeight: 1.75,
-                  margin: "0 0 16px 0",
-                }}>
-                  {selected.description}
-                </p>
-
-                {/* Stats row */}
-                <div style={{
-                  display: "flex",
-                  gap: isMobile ? 16 : 20,
-                  marginBottom: 16,
-                  padding: "12px 0",
-                  borderTop: "1px solid rgba(255,255,255,0.06)",
-                  borderBottom: "1px solid rgba(255,255,255,0.06)",
-                  flexWrap: "wrap",
-                }}>
-                  {selected.rooms && (
-                    <div>
-                      <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.rooms}</p>
-                      <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rooms</p>
-                    </div>
-                  )}
-                  {selected.units && (
-                    <div>
-                      <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.units}</p>
-                      <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Units</p>
-                    </div>
-                  )}
-                  <div>
-                    <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#C9A84C", margin: 0 }}>{selected.rating} ★</p>
-                    <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rating</p>
-                  </div>
-                </div>
-
-                {/* Amenities */}
-                <div>
-                  <p style={{
-                    fontFamily: "'Outfit', sans-serif",
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.18em",
-                    color: "#C9A84C",
-                    textTransform: "uppercase",
-                    marginBottom: 10,
-                    marginTop: 0,
-                  }}>
-                    Amenities
-                  </p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-                    {selected.amenities.map((a, i) => (
-                      <span key={i} style={{
-                        fontFamily: "'Outfit', sans-serif",
-                        fontSize: "0.68rem",
-                        color: "#8a8580",
-                        background: "rgba(255,255,255,0.04)",
-                        border: "1px solid rgba(255,255,255,0.08)",
-                        borderRadius: "4px",
-                        padding: "4px 10px",
-                      }}>
-                        {a}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      <PropertyModal
+        selected={selected}
+        onClose={() => setSelected(null)}
+        onPrev={prevModal}
+        onNext={nextModal}
+      />
 
       {/* ── GLOBAL STYLES ── */}
       <style>{`
@@ -550,7 +784,7 @@ export default function PropertiesShowcase() {
   );
 }
 
-// ── View All Link — reusable, supports full-width mobile variant ──────────────
+// ── View All Link ─────────────────────────────────────────────────────────────
 function ViewAllLink({ fullWidth = false }) {
   const [hovered, setHovered] = useState(false);
 
@@ -572,7 +806,6 @@ function ViewAllLink({ fullWidth = false }) {
         justifyContent: "center",
         gap: hovered ? "12px" : "7px",
         transition: "all 0.25s ease",
-        // Mobile full-width button style
         ...(fullWidth ? {
           width: "100%",
           maxWidth: 320,
@@ -581,7 +814,6 @@ function ViewAllLink({ fullWidth = false }) {
           borderRadius: "8px",
           background: hovered ? "#C9A84C" : "transparent",
         } : {
-          // Desktop inline link style
           padding: "8px 0",
           borderBottom: "1px solid",
           borderColor: hovered ? "#C9A84C" : "transparent",
@@ -593,7 +825,7 @@ function ViewAllLink({ fullWidth = false }) {
   );
 }
 
-// ── Arrow button styles ────────────────────────────────────────────────────────
+// ── Carousel arrow button styles ──────────────────────────────────────────────
 function arrowStyle(side) {
   return {
     position: "absolute",
@@ -615,28 +847,5 @@ function arrowStyle(side) {
     backdropFilter: "blur(4px)",
     transition: "background 0.2s",
     lineHeight: 1,
-  };
-}
-
-function modalArrowStyle(side) {
-  return {
-    position: "absolute",
-    top: "50%",
-    transform: "translateY(-50%)",
-    [side]: "10px",
-    width: "34px",
-    height: "34px",
-    borderRadius: "50%",
-    background: "rgba(13,17,23,0.65)",
-    border: "1px solid rgba(201,168,76,0.3)",
-    color: "#C9A84C",
-    cursor: "pointer",
-    fontSize: "20px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backdropFilter: "blur(4px)",
-    lineHeight: 1,
-    zIndex: 2,
   };
 }

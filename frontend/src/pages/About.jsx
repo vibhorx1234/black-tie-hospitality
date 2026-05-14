@@ -6,6 +6,9 @@ import React from "react";
 import { STATS } from "../data/clients";
 import { values, milestones, teamMembers } from "../data/about";
 
+import team1 from "./../assets/team/team1.jpeg";
+import team3 from "./../assets/team/team3.jpeg";
+
 export default function About() {
   return (
     <>
@@ -234,12 +237,12 @@ export default function About() {
               gap: "clamp(8px, 1.5vw, 12px)",
             }}>
               <img
-                src="https://picsum.photos/seed/about1/400/300"
+                src={team1}
                 alt="Our story"
                 style={{ borderRadius: "8px", width: "100%", objectFit: "cover" }}
               />
               <img
-                src="https://picsum.photos/seed/about2/400/300"
+                src={team3}
                 alt="Our team"
                 style={{
                   borderRadius: "8px",
