@@ -96,7 +96,7 @@ export default function Contact() {
             lineHeight: 1.15,
             marginBottom: "clamp(12px, 2vw, 20px)",
           }}>
-            Let's Build Something<br />Great Together
+            Let's Build Something<br />Exceptional
           </h1>
           <p style={{
             fontFamily: "'Outfit', sans-serif",
@@ -106,7 +106,7 @@ export default function Contact() {
             maxWidth: "min(560px, 90%)",
             margin: 0,
           }}>
-            Reach out to discuss how we can help maximize your property's potential.
+            Connect with Black Tie to discuss your property goals.
           </p>
         </div>
       </section>
@@ -281,7 +281,7 @@ export default function Contact() {
                     fontWeight: 600,
                     marginBottom: "clamp(18px, 3vw, 28px)",
                   }}>
-                    Get a Free Proposal
+                    Reach Out to Us
                   </h2>
 
                   <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "clamp(14px, 2.5vw, 20px)" }}>
@@ -306,7 +306,7 @@ export default function Contact() {
                       </div>
                       <div>
                         <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.1vw, 12px)", color: "#8a8580", display: "block", marginBottom: "6px", letterSpacing: "0.05em" }}>
-                          Email Address *
+                          Email Address
                         </label>
                         <input
                           type="email"
@@ -326,14 +326,14 @@ export default function Contact() {
                     <div className="form-row" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "clamp(10px, 2vw, 16px)" }}>
                       <div>
                         <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.1vw, 12px)", color: "#8a8580", display: "block", marginBottom: "6px" }}>
-                          Phone Number
+                          Phone Number *
                         </label>
                         <input
                           type="tel"
                           name="phone"
                           value={form.phone}
                           onChange={handleChange}
-                          placeholder="+91 XXXXX XXXXX"
+                          placeholder="+91 XXXXX XXXXX (WhatsApp preferred)"
                           style={inputStyle(false)}
                           onFocus={(e) => e.target.style.borderColor = "#C9A84C"}
                           onBlur={(e) => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
@@ -341,7 +341,7 @@ export default function Contact() {
                       </div>
                       <div>
                         <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.1vw, 12px)", color: "#8a8580", display: "block", marginBottom: "6px" }}>
-                          Service Interested In
+                          Service Interested In *
                         </label>
                         <select
                           name="service"
@@ -362,7 +362,7 @@ export default function Contact() {
                     {/* Property type */}
                     <div>
                       <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.1vw, 12px)", color: "#8a8580", display: "block", marginBottom: "8px" }}>
-                        Property Type
+                        Property Type *
                       </label>
                       <div style={{ display: "flex", gap: "clamp(6px, 1vw, 10px)", flexWrap: "wrap" }}>
                         {["Hotel", "Studio Apartment", "Villa", "Commercial", "Other"].map((type) => (
@@ -392,7 +392,7 @@ export default function Contact() {
                     {/* Message */}
                     <div>
                       <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.1vw, 12px)", color: "#8a8580", display: "block", marginBottom: "6px" }}>
-                        Message *
+                        Message / Property Name
                       </label>
                       <textarea
                         name="message"
@@ -427,7 +427,7 @@ export default function Contact() {
                       onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.9"; e.currentTarget.style.transform = "translateY(-1px)"; }}
                       onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = "translateY(0)"; }}
                     >
-                      Send Message & Get Free Proposal
+                      Send Message & Get a Quote
                     </button>
                   </form>
                 </>

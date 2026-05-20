@@ -104,7 +104,7 @@ export default function CTABanner() {
               ...(isMobile && { width: "100%", boxSizing: "border-box" }),
             }}
           >
-            Get Free Consultation
+            Contact Us
           </Link>
         </div>
       </div>

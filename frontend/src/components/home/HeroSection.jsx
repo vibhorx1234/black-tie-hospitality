@@ -99,7 +99,7 @@ export default function HeroSection() {
                 color: "#C9A84C",
               }}
             >
-              Premium Property Management
+              Managed Spaces. Elevated Experiences.
             </span>
           </div>
 
@@ -116,7 +116,7 @@ export default function HeroSection() {
               transition: "all 0.9s ease 0.35s",
             }}
           >
-            Where Comfort
+            Welcome To
             <br />
             <span
               style={{
@@ -125,7 +125,7 @@ export default function HeroSection() {
                 WebkitTextFillColor: "transparent",
               }}
             >
-              Meets Luxury
+              Black Tie Hospitality
             </span>
           </h1>
 
@@ -141,7 +141,7 @@ export default function HeroSection() {
               transition: "all 0.9s ease 0.5s",
             }}
           >
-            Premium Property Management Solutions Across India
+            Hotels, Villas, BNBs & Managed Properties across Jaipur, designed for seamless stays and smarter property management. From hospitality properties to premium living spaces, Black Tie transforms properties into experiences while maximizing value for owners.
           </p>
 
           {/* CTAs — inline, compact, not full-width */}
@@ -158,7 +158,7 @@ export default function HeroSection() {
           >
             <Link to="/contact" style={{ textDecoration: "none" }}>
               <Button variant="primary" size="md">
-                Get Free Proposal
+                Contact Now
               </Button>
             </Link>
             <Link to="/properties" style={{ textDecoration: "none" }}>

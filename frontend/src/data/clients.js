@@ -25,8 +25,8 @@ export const CLIENTS = [
 ];
 
 export const STATS = [
-  { value: '500+', label: 'Rooms Managed', icon: double_bed },
-  { value: '10+', label: 'Years Experience', icon: clock },
-  { value: '50+', label: 'Properties', icon: building },
-  { value: '25+', label: 'Top Brand Clients', icon: award },
+  { value: '500+ Rooms', label: 'Managed Across Properties', icon: double_bed },
+  { value: '10+ Years', label: 'Industry Experience', icon: clock },
+  { value: '20+ Properties', label: 'Across Jaipur & Growing', icon: building },
+  { value: '1000+ Guests', label: 'Served & Managed', icon: award },
 ]

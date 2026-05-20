@@ -11,6 +11,7 @@ import InstagramIcon from "../vectors/instagram.svg";
 import FacebookIcon from "../vectors/facebook.svg";
 import YouTubeIcon from "../vectors/youtube.svg";
 import WhatsAppIcon from "../vectors/whatsapp.svg";
+import ceo from "./../assets/team/ceo.jpeg";
 
 export const values = [
     {
@@ -45,7 +46,7 @@ export const milestones = [
 ];
 
 export const teamMembers = [
-    { name: "Ankit Jain", role: "Co-Founder & CEO", img: "https://picsum.photos/seed/team1/200/200", color: "#C9A84C" },
+    { name: "Aditya Sharma", role: "Co-Founder & CEO", img: ceo, color: "#C9A84C" },
     { name: "Rahul Sharma", role: "Co-Founder & COO", img: "https://picsum.photos/seed/team2/200/200", color: "#4caf82" },
     { name: "Priya Verma", role: "Head of Operations", img: "https://picsum.photos/seed/team3/200/200", color: "#4a90d9" },
     { name: "Amit Singh", role: "Head of Technology", img: "https://picsum.photos/seed/team4/200/200", color: "#b57bee" },

@@ -5,6 +5,7 @@ import React from "react";
 
 import team1 from "./../../assets/team/team1.jpeg";
 import team3 from "./../../assets/team/team3.jpeg";
+import ceo from "./../../assets/team/ceo.jpeg";
 
 export default function AboutSection() {
   return (
@@ -29,8 +30,8 @@ export default function AboutSection() {
         {/* Left — Text */}
         <div>
           <SectionHeader
-            label="About Us"
-            title="Leading Property Management Company in India"
+            label="About BLACK TIE"
+            title="Leading Property Management & Rental Services in Jaipur"
             align="left"
             style={{ marginBottom: "1.5rem" }}
           />
@@ -44,11 +45,7 @@ export default function AboutSection() {
               marginBottom: "1.25rem",
             }}
           >
-            With a strong base in Jaipur, expanding to metros and high-growth
-            cities, we specialize in maximizing property ROI through seamless
-            management. Our team of experts ensures every property under our
-            care delivers consistent returns while maintaining the highest
-            standards of hospitality.
+            As a leading property management and rental service provider in Jaipur, Black Tie Hospitality manages and operates a diverse portfolio of hotels, studio apartments, villas, BNBs, and residential properties with a focus on operational excellence, guest satisfaction, and long-term value creation. 
           </p>
 
           <p
@@ -57,7 +54,7 @@ export default function AboutSection() {
               fontSize: "clamp(14px, 2vw, 15px)",
               color: "#5a5550",
               lineHeight: 1.8,
-              marginBottom: "2rem",
+              marginBottom: "8rem",
             }}
           >
             From tenant screening to financial reporting, we handle every aspect
@@ -109,8 +106,8 @@ export default function AboutSection() {
               }}
             >
               <img
-                src={team1}
-                alt="Luxury property interior"
+                src={ceo}
+                alt="Founder"
                 style={{
                   width: "100%",
                   height: "100%",

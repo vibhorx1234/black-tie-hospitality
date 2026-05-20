@@ -3,11 +3,11 @@ import AboutSection from "../components/home/AboutSection";
 import ServicesSection from "../components/home/ServicesSection";
 import ModelsSection from "../components/home/ModelsSection";
 import PropertiesShowcase from "../components/home/PropertiesShowcase";
-import GallerySection from "../components/home/GallerySection";
 import FoundersSection from "../components/home/FoundersSection";
 import ClientsSection from "../components/home/ClientsSection";
 import TestimonialsSection from "../components/home/TestimonialsSection";
 import CTABanner from "../components/home/CTABanner";
+import VideoShowcaseSection from "../components/home/VideoShowcaseSection";
 import React from "react";
 
 export default function Home() {
@@ -15,10 +15,10 @@ export default function Home() {
     <>
       <HeroSection />
       <AboutSection />
+      <PropertiesShowcase />
+      <VideoShowcaseSection />
       <ServicesSection />
       <ModelsSection />
-      <PropertiesShowcase />
-      <GallerySection />
       <FoundersSection />
       <ClientsSection />
       <TestimonialsSection />

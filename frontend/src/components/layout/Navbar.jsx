@@ -140,7 +140,7 @@ export default function Navbar() {
             onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
             onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
           >
-            Get Free Proposal
+            Connect with Us
           </Link>
         </div>
 
@@ -209,7 +209,7 @@ export default function Navbar() {
               textDecoration: "none",
             }}
           >
-            Get Free Proposal
+            Connect with Us
           </Link>
         </div>
       )}

@@ -51,7 +51,7 @@ export default function About() {
             color: "#C9A84C",
             marginBottom: "clamp(10px, 2vw, 16px)",
           }}>
-            ABOUT US
+            ABOUT BLACK TIE
           </p>
           <h1 style={{
             fontFamily: "'Cinzel', serif",
@@ -61,7 +61,7 @@ export default function About() {
             lineHeight: 1.15,
             marginBottom: "clamp(12px, 2vw, 20px)",
           }}>
-            Leading Property Management<br />Company in India
+            Leading Property Management &<br />Rental Services in Jaipur
           </h1>
           <p style={{
             fontFamily: "'Outfit', sans-serif",
@@ -71,8 +71,7 @@ export default function About() {
             maxWidth: "min(560px, 90%)",
             margin: 0,
           }}>
-            With a strong base in Jaipur, expanding to metros and high-growth cities,
-            we specialize in maximizing property ROI through seamless management.
+            As a leading property management and rental service provider in Jaipur, Black Tie Hospitality manages and operates a diverse portfolio of hotels, studio apartments, villas, BNBs, and residential properties with a focus on operational excellence, guest satisfaction, and long-term value creation. 
           </p>
         </div>
       </section>
@@ -201,7 +200,7 @@ export default function About() {
                 lineHeight: 1.8,
                 marginBottom: "clamp(20px, 3vw, 32px)",
               }}>
-                Founded in 2014 in Jaipur by Ankit Jain and Rahul Sharma, we started with a
+                Founded in 2014 in Jaipur by Aditya Sharma, we started with a
                 single hotel and a vision to transform India's property management landscape.
                 Today, we manage 500+ rooms across multiple cities and continue to grow.
               </p>

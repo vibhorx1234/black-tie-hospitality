@@ -552,7 +552,7 @@ export default function PropertiesShowcase() {
               margin: 0,
               textTransform: "uppercase",
             }}>
-              Properties Showcase
+              featured Properties
             </p>
             <div style={{
               width: 36,
@@ -629,23 +629,49 @@ export default function PropertiesShowcase() {
                   <div className="prop-overlay" />
                   <div className="prop-plus">+</div>
 
-                  {/* Badge */}
-                  <div style={{
-                    position: "absolute",
-                    top: isMobile ? 8 : 10,
-                    left: isMobile ? 8 : 10,
-                    background: "rgba(13,17,23,0.75)",
-                    border: "1px solid rgba(201,168,76,0.35)",
-                    color: "#C9A84C",
-                    fontFamily: "'Outfit', sans-serif",
-                    fontSize: isMobile ? 9 : 11,
-                    padding: isMobile ? "3px 6px" : "4px 8px",
-                    borderRadius: "4px",
-                    letterSpacing: "0.06em",
-                    backdropFilter: "blur(4px)",
-                  }}>
-                    {p.badge}
-                  </div>
+                  {/* Star Rating — top right */}
+                  {p.rating && (
+                    <div style={{
+                      position: "absolute",
+                      top: isMobile ? 8 : 10,
+                      right: isMobile ? 8 : 10,
+                      background: "rgba(13,17,23,0.75)",
+                      borderRadius: "4px",
+                      padding: isMobile ? "3px 6px" : "4px 8px",
+                      backdropFilter: "blur(4px)",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 3,
+                    }}>
+                      {Array.from({ length: 5 }).map((_, i) => {
+                        const fill = i < Math.floor(p.rating) ? "#C9A84C"
+                          : i < p.rating ? "url(#half-gold)" : "rgba(201,168,76,0.2)";
+                        return (
+                          <svg key={i} width={isMobile ? 9 : 11} height={isMobile ? 9 : 11} viewBox="0 0 20 20">
+                            <defs>
+                              <linearGradient id="half-gold" x1="0" x2="1" y1="0" y2="0">
+                                <stop offset="50%" stopColor="#C9A84C" />
+                                <stop offset="50%" stopColor="rgba(201,168,76,0.2)" />
+                              </linearGradient>
+                            </defs>
+                            <polygon
+                              points="10,1 12.9,7 19.5,7.6 14.5,12 16.2,18.5 10,15 3.8,18.5 5.5,12 0.5,7.6 7.1,7"
+                              fill={fill}
+                            />
+                          </svg>
+                        );
+                      })}
+                      <span style={{
+                        fontFamily: "'Outfit', sans-serif",
+                        fontSize: isMobile ? 9 : 10,
+                        color: "#C9A84C",
+                        letterSpacing: "0.04em",
+                        marginLeft: 1,
+                      }}>
+                        {p.rating}
+                      </span>
+                    </div>
+                  )}
 
                   {/* Text */}
                   <div style={{
