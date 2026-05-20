@@ -539,8 +539,8 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
                     controls
                     style={{
                       width: "100%",
-                      maxHeight: "360px",
-                      objectFit: "contain",
+                      maxHeight: "300px",
+                      objectFit: "cover",
                       borderRadius: 8,
                       border: "1px solid rgba(201,168,76,0.15)",
                       background: "#000",

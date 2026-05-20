@@ -25,7 +25,7 @@ function getVisible(width) {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  PropertyModal — full detail overlay (ported from properties.jsx)
+//  PropertyModal — full detail overlay with multiple video support
 // ─────────────────────────────────────────────────────────────
 function PropertyModal({ selected, onClose, onPrev, onNext }) {
   const width = useWindowWidth();
@@ -33,11 +33,13 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
 
   const [activeTab, setActiveTab] = useState("photos");
   const [activeImg, setActiveImg] = useState(0);
+  const [activeVideoIdx, setActiveVideoIdx] = useState(0);
 
   // Reset gallery when a new property is opened
   useEffect(() => {
     setActiveImg(0);
     setActiveTab("photos");
+    setActiveVideoIdx(0);
   }, [selected?.id]);
 
   // Lock body scroll
@@ -50,7 +52,13 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
   if (!selected) return null;
 
   const hasImages = selected.images && selected.images.length > 0;
-  const hasVideo = !!selected.video;
+
+  // Normalise videos: support string (single) or array (multiple)
+  const videos = Array.isArray(selected.videos)
+    ? selected.videos
+    : selected.videos ? [selected.videos] : [];
+  const hasVideo = videos.length > 0;
+
   const hasMedia = hasImages || hasVideo;
 
   const heroSrc = hasImages
@@ -64,6 +72,15 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
   const galleryNext = (e) => {
     e.stopPropagation();
     setActiveImg((i) => (i + 1) % selected.images.length);
+  };
+
+  const videoPrev = (e) => {
+    e.stopPropagation();
+    setActiveVideoIdx((i) => (i - 1 + videos.length) % videos.length);
+  };
+  const videoNext = (e) => {
+    e.stopPropagation();
+    setActiveVideoIdx((i) => (i + 1) % videos.length);
   };
 
   return (
@@ -110,10 +127,10 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
           }} />
         )}
 
-        {/* ── MEDIA AREA ── */}
+        {/* ── MEDIA AREA ───────────────────────────────────────── */}
         <div style={{ position: "relative", flexShrink: 0 }}>
 
-          {/* Tab switcher — only when both images and video exist */}
+          {/* Tab switcher — only shown when both images and video exist */}
           {hasImages && hasVideo && (
             <div style={{
               position: "absolute", top: 14, left: 14,
@@ -164,7 +181,7 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
           <button onClick={(e) => { e.stopPropagation(); onNext(); }} style={modalNavArrow("right")}>›</button>
 
           {/* ── PHOTO VIEW ── */}
-          {(activeTab === "photos" || !hasVideo) && (
+          {(activeTab === "photos" || !hasVideo) && hasImages && (
             <>
               <img
                 src={heroSrc}
@@ -186,7 +203,7 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
               }} />
 
               {/* Gallery arrows — only when multiple images */}
-              {hasImages && selected.images.length > 1 && (
+              {selected.images.length > 1 && (
                 <>
                   <button onClick={galleryPrev} style={galleryArrow("left")}>‹</button>
                   <button onClick={galleryNext} style={galleryArrow("right")}>›</button>
@@ -209,7 +226,7 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
               )}
 
               {/* Thumbnail strip — desktop, when 2+ images */}
-              {!isMobile && hasImages && selected.images.length > 1 && (
+              {!isMobile && selected.images.length > 1 && (
                 <div style={{
                   position: "absolute", bottom: 0, left: 0, right: 0,
                   display: "flex", gap: 4, padding: "8px 12px 8px",
@@ -239,36 +256,147 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
             </>
           )}
 
-          {/* ── VIDEO VIEW ── */}
+          {/* ── VIDEO VIEW — supports multiple videos ── */}
           {activeTab === "video" && hasVideo && (
-            <video
-              src={selected.video}
-              controls
-              autoPlay
-              style={{
-                width: "100%",
-                aspectRatio: isMobile ? "4/3" : "16/9",
-                objectFit: "cover",
-                display: "block",
-                background: "#000",
-              }}
-            />
+            <div style={{ position: "relative" }}>
+              <video
+                key={activeVideoIdx}
+                src={videos[activeVideoIdx]}
+                preload="metadata"
+                controls
+                autoPlay
+                style={{
+                  width: "100%",
+                  aspectRatio: isMobile ? "4/3" : "16/9",
+                  objectFit: "cover",
+                  display: "block",
+                  background: "#000",
+                }}
+              />
+
+              {/* Navigation arrows — only when multiple videos */}
+              {videos.length > 1 && (
+                <>
+                  <button onClick={videoPrev} style={galleryArrow("left")}>‹</button>
+                  <button onClick={videoNext} style={galleryArrow("right")}>›</button>
+
+                  {/* Video counter */}
+                  <div style={{
+                    position: "absolute", bottom: 12, left: "50%",
+                    transform: "translateX(-50%)",
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: "0.65rem",
+                    color: "rgba(255,255,255,0.6)",
+                    background: "rgba(0,0,0,0.45)",
+                    padding: "3px 10px", borderRadius: "20px",
+                    pointerEvents: "none",
+                    zIndex: 4,
+                  }}>
+                    {activeVideoIdx + 1} / {videos.length}
+                  </div>
+
+                  {/* Video thumbnail strip — desktop only */}
+                  {!isMobile && (
+                    <div style={{
+                      position: "absolute", bottom: 0, left: 0, right: 0,
+                      display: "flex", gap: 4, padding: "8px 12px 8px",
+                      overflowX: "auto", zIndex: 5,
+                      scrollbarWidth: "none",
+                    }}>
+                      {videos.map((src, i) => (
+                        <video
+                          key={i}
+                          src={src}
+                          preload="metadata"
+                          muted
+                          onClick={() => setActiveVideoIdx(i)}
+                          style={{
+                            width: 64, height: 38,
+                            objectFit: "cover",
+                            borderRadius: 4,
+                            flexShrink: 0,
+                            cursor: "pointer",
+                            border: `2px solid ${i === activeVideoIdx ? "#C9A84C" : "transparent"}`,
+                            opacity: i === activeVideoIdx ? 1 : 0.6,
+                            transition: "all 0.2s ease",
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           )}
 
-          {/* Only video, no photos */}
-          {!hasImages && hasVideo && activeTab === "photos" && (
-            <video
-              src={selected.video}
-              controls
-              autoPlay
-              style={{
-                width: "100%",
-                aspectRatio: isMobile ? "4/3" : "16/9",
-                objectFit: "cover",
-                display: "block",
-                background: "#000",
-              }}
-            />
+          {/* When only videos exist (no photos), show video directly */}
+          {!hasImages && hasVideo && (
+            <div style={{ position: "relative" }}>
+              <video
+                key={activeVideoIdx}
+                src={videos[activeVideoIdx]}
+                preload="metadata"
+                controls
+                autoPlay
+                style={{
+                  width: "100%",
+                  aspectRatio: isMobile ? "4/3" : "16/9",
+                  objectFit: "cover",
+                  display: "block",
+                  background: "#000",
+                }}
+              />
+
+              {videos.length > 1 && (
+                <>
+                  <button onClick={videoPrev} style={galleryArrow("left")}>‹</button>
+                  <button onClick={videoNext} style={galleryArrow("right")}>›</button>
+
+                  <div style={{
+                    position: "absolute", bottom: 12, left: "50%",
+                    transform: "translateX(-50%)",
+                    fontFamily: "'Outfit', sans-serif",
+                    fontSize: "0.65rem",
+                    color: "rgba(255,255,255,0.6)",
+                    background: "rgba(0,0,0,0.45)",
+                    padding: "3px 10px", borderRadius: "20px",
+                    pointerEvents: "none",
+                    zIndex: 4,
+                  }}>
+                    {activeVideoIdx + 1} / {videos.length}
+                  </div>
+
+                  {!isMobile && (
+                    <div style={{
+                      position: "absolute", bottom: 0, left: 0, right: 0,
+                      display: "flex", gap: 4, padding: "8px 12px 8px",
+                      overflowX: "auto", zIndex: 5,
+                      scrollbarWidth: "none",
+                    }}>
+                      {videos.map((src, i) => (
+                        <video
+                          key={i}
+                          src={src}
+                          preload="metadata"
+                          muted
+                          onClick={() => setActiveVideoIdx(i)}
+                          style={{
+                            width: 64, height: 38,
+                            objectFit: "cover",
+                            borderRadius: 4,
+                            flexShrink: 0,
+                            cursor: "pointer",
+                            border: `2px solid ${i === activeVideoIdx ? "#C9A84C" : "transparent"}`,
+                            opacity: i === activeVideoIdx ? 1 : 0.6,
+                            transition: "all 0.2s ease",
+                          }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
+            </div>
           )}
 
           {/* No media placeholder */}
@@ -362,18 +490,6 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
               borderBottom: "1px solid rgba(255,255,255,0.06)",
               flexWrap: "wrap",
             }}>
-              {selected.rooms && (
-                <div>
-                  <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.rooms}</p>
-                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rooms</p>
-                </div>
-              )}
-              {selected.units && (
-                <div>
-                  <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.units}</p>
-                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Units</p>
-                </div>
-              )}
               <div>
                 <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#C9A84C", margin: 0 }}>{selected.rating} ★</p>
                 <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rating</p>
@@ -407,7 +523,7 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
               </div>
             )}
 
-            {/* Video section — bottom of content when in photos tab */}
+            {/* Bottom video section — only when photos tab active and both images + videos exist */}
             {hasVideo && activeTab === "photos" && hasImages && (
               <div style={{ marginTop: 20 }}>
                 <p style={{
@@ -415,18 +531,26 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
                   letterSpacing: "0.18em", color: "#C9A84C",
                   textTransform: "uppercase", marginBottom: 10, marginTop: 0,
                 }}>
-                  Property Video
+                  {videos.length > 1 ? `Property Videos (${videos.length})` : "Property Video"}
                 </p>
-                <video
-                  src={selected.video}
-                  controls
-                  style={{
-                    width: "100%",
-                    borderRadius: 8,
-                    border: "1px solid rgba(201,168,76,0.15)",
-                    background: "#000",
-                  }}
-                />
+                {videos.map((src, i) => (
+                  <video
+                    key={i}
+                    src={src}
+                    controls
+                    style={{
+                      width: "100%",
+                      maxHeight: "300px",
+                      aspectRatio: isMobile ? "4/3" : "16/9",
+                      objectFit: "cover",
+                      borderRadius: 8,
+                      border: "1px solid rgba(201,168,76,0.15)",
+                      background: "#000",
+                      display: "block",
+                      marginBottom: i < videos.length - 1 ? 10 : 0,
+                    }}
+                  />
+                ))}
               </div>
             )}
           </div>
@@ -436,7 +560,7 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
   );
 }
 
-// ── Gallery arrow (within the image, for multi-image cycling) ─────────────────
+// ── Gallery arrow (within image/video, for cycling) ───────────────────────────
 function galleryArrow(side) {
   return {
     position: "absolute",
@@ -528,7 +652,6 @@ export default function PropertiesShowcase() {
   };
 
   // Helper: get the thumbnail to show on the carousel card
-  // Prefers images[0], falls back to legacy `image` field
   const getThumb = (p) =>
     (p.images && p.images.length > 0) ? p.images[0] : (p.image || "");
 
@@ -606,10 +729,9 @@ export default function PropertiesShowcase() {
                     aspectRatio: "3/2",
                     width: "100%",
                     height: 0,
-                    paddingBottom: "66.66%",   // 3:2 ratio enforced via padding trick
+                    paddingBottom: "66.66%",
                   }}
                 >
-                  // AFTER
                   <img
                     src={getThumb(p)}
                     alt={p.name}
