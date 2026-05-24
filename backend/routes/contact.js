@@ -18,7 +18,7 @@ router.post('/', async (req, res) => {
   }
 
   const ownerMailOptions = {
-    from: `"BTH Website" <${process.env.EMAIL_USER}>`,
+    from: `"Black Tie Hospitality" <${process.env.EMAIL_USER}>`,
     to: process.env.OWNER_EMAIL,
     subject: `[BTH Enquiry] ${subject || 'New Contact Form Submission'}`,
     html: `
