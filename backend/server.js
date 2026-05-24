@@ -7,9 +7,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: "*",
   methods: ['GET', 'POST'],
-  credentials: true,
 }));
 
 app.use(express.json());
@@ -18,6 +17,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/contact', contactRoute);
 
 app.get('/health', (req, res) => {
+  res.json({ status: 'OK', message: 'Black Tie Hospitality API is running' });
+});
+app.get('/', (req, res) => {
   res.json({ status: 'OK', message: 'Black Tie Hospitality API is running' });
 });
 
