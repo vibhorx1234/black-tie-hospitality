@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 router.post('/', async (req, res) => {
   const { name, email, phone, subject, message, propertyInterest } = req.body;
 
-  if (!name || !email || !message) {
+  if (!name || !phone || !message) {
     return res.status(400).json({ success: false, error: 'Name, email, and message are required.' });
   }
 
@@ -83,8 +83,8 @@ router.post('/', async (req, res) => {
           <p style="color: #c0bdb8; line-height: 1.8; font-size: 15px;">Warm regards,<br/><strong style="color: #F5F0E8;">The Black Tie Hospitality Team</strong></p>
         </div>
         <div style="padding: 20px 30px; background: #0a0d14; text-align: center;">
-          <p style="margin: 0 0 8px; color: #555; font-size: 12px;">📍 23S, Netaji Puram Prasad, Banipark, Jaipur, Rajasthan 302016</p>
-          <p style="margin: 0; color: #555; font-size: 12px;">📞 +91 01555 58899 &nbsp;|&nbsp; ✉️ info@blacktiehospitality.com</p>
+          <p style="margin: 0 0 8px; color: #555; font-size: 12px;">📍 N-266, 2nd Floor, New Aatish Market, Mansarovar, Jaipur, Rajasthan 302020</p>
+          <p style="margin: 0; color: #555; font-size: 12px;">📞 +91 99829 31469 &nbsp;|&nbsp; ✉️ hi.blacktie@gmail.com</p>
         </div>
       </div>
     `,
@@ -92,7 +92,9 @@ router.post('/', async (req, res) => {
 
   try {
     await transporter.sendMail(ownerMailOptions);
-    await transporter.sendMail(autoReplyOptions);
+    if (email) {
+      await transporter.sendMail(autoReplyOptions);
+    }
     return res.status(200).json({ success: true, message: 'Your message has been sent successfully!' });
   } catch (error) {
     console.error('Email error:', error);
