@@ -6,6 +6,7 @@ export const FOUNDERS = [
     name: 'Aditya Sharma',
     role: 'Co-Founder & CEO',
     instagram: 'https://www.instagram.com/blacktiehospitality/',
+    linkedin: 'https://www.linkedin.com/in/aditya-vega-realtors/',
     avatar: 'AS',
     image: ceo,
   }

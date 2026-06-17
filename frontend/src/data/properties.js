@@ -155,6 +155,17 @@ import magnus25 from './../assets/magnus/25.JPG';
 import magnus26 from './../assets/magnus/26.JPG';
 import magnus27 from './../assets/magnus/27.JPG';
 
+import ruby1 from './../assets/ruby/1.webp';
+import ruby2 from './../assets/ruby/2.webp';
+import ruby3 from './../assets/ruby/3.webp';
+import ruby4 from './../assets/ruby/4.webp';
+import ruby5 from './../assets/ruby/5.webp';
+import ruby6 from './../assets/ruby/6.webp';
+import ruby7 from './../assets/ruby/7.webp';
+import ruby8 from './../assets/ruby/8.webp';
+import ruby9 from './../assets/ruby/9.webp';
+import ruby10 from './../assets/ruby/10.webp';
+
 // ─────────────────────────────────────────────────────────────
 //  HOTELS
 // ─────────────────────────────────────────────────────────────
@@ -357,7 +368,7 @@ export const APARTMENTS = [
     description:
       'Ruby Suites is a polished serviced apartment offering with a focus on comfort and value. Spacious suites with quality furnishings, reliable amenities, and an attentive management team make it a popular choice for extended-stay guests and investors alike.',
     amenities: ['Furnished Suites', 'Free Wi-Fi', 'AC', 'Security', 'Parking', 'Power Backup', 'Lift'],
-    images: [],
+    images: [ruby1, ruby2, ruby3, ruby4, ruby5, ruby6, ruby7, ruby8, ruby9, ruby10],
     videos: null,
     featured: false,
   },

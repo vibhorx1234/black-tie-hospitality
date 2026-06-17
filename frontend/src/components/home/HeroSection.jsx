@@ -254,7 +254,7 @@ export default function HeroSection() {
                 <div
                   style={{
                     fontSize: "clamp(9px, 1.5vw, 11px)",
-                    color: "rgba(245,240,232,0.5)",
+                    color: "rgba(245,240,232)",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",

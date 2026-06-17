@@ -54,12 +54,24 @@ export default function AboutSection() {
               fontSize: "clamp(14px, 2vw, 15px)",
               color: "#5a5550",
               lineHeight: 1.8,
-              marginBottom: "8rem",
+              marginBottom: "1rem",
             }}
           >
             From tenant screening to financial reporting, we handle every aspect
             of property management so you can enjoy passive income without the
             hassle.
+          </p>
+
+          <p
+            style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: "clamp(14px, 2vw, 15px)",
+              color: "#5a5550",
+              lineHeight: 1.8,
+              marginBottom: "8rem",
+            }}
+          >
+            Our commitment to operational excellence ensures that every property is managed with meticulous attention to detail, promoting guest satisfaction as our top priority. We strive not only to enhance the experience of our guests but also to generate long-term value for property owners, establishing a reputation built on reliability and quality service.
           </p>
 
           {/* CTA Buttons — flex row with wrap + gap */}
@@ -70,6 +82,7 @@ export default function AboutSection() {
               flexWrap: "wrap",
               gap: "0.75rem",
               alignItems: "center",
+              marginTop: "-6rem",
             }}
           >
             <Link to="/about" style={{ textDecoration: "none" }}>

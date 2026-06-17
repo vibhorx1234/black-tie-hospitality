@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FOUNDERS } from "../../data/founders";
 import InstagramIcon from "../../vectors/instagram.svg";
+import LinkedInIcon from "../../vectors/linkedin.svg";
 
 function useWindowWidth() {
   const [width, setWidth] = useState(
@@ -24,6 +25,25 @@ const InstagramBtn = ({ href }) => (
     <img
       src={InstagramIcon}
       alt="Instagram"
+      style={{
+        width: "22px",
+        height: "22px",
+        filter: "brightness(0) saturate(100%) invert(72%) sepia(47%) saturate(500%) hue-rotate(5deg)",
+      }}
+    />
+  </a>
+);
+
+const LinkedInBtn = ({ href }) => (
+  <a
+    href={href}
+    target="_blank"
+    rel="noreferrer"
+    style={{ display: "inline-flex", alignItems: "center", textDecoration: "none" }}
+  >
+    <img
+      src={LinkedInIcon}
+      alt="LinkedIn"
       style={{
         width: "22px",
         height: "22px",
@@ -245,9 +265,11 @@ export default function FoundersSection() {
             >
               {founder.role}
             </p>
-            <InstagramBtn href={founder.instagram} />
+            <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+              <LinkedInBtn href={founder.linkedin} />
+              <InstagramBtn href={founder.instagram} />
+            </div>
           </div>
-
           {/* CTAs */}
           <div
             style={{
