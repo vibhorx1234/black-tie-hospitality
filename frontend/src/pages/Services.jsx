@@ -6,7 +6,7 @@ import TestimonialsSection from "../components/home/TestimonialsSection";
 import { SERVICES, HOW_WE_WORK, WHY_CHOOSE, FUTURE_PROJECTIONS } from "../data/services";
 import { HOTELS, APARTMENTS } from "../data/properties";
 import { models, compareData } from "../data/models";
-import ModelsSection from "../components/home/ModelsSection";
+import ceo from "./../assets/team/ceo.jpeg";
 
 const Icons = {
   fixed: (
@@ -62,8 +62,6 @@ function CompareModal({ onClose }) {
   const isMobile = windowWidth < 640;
 
   const cols = ["fixed", "revenue", "management", "custom"];
-
-  // Shorter labels on mobile so columns don't overflow
   const colLabels = {
     fixed: isMobile ? "Fixed" : "Fixed Lease",
     revenue: isMobile ? "Revenue" : "Revenue Share",
@@ -126,7 +124,6 @@ function CompareModal({ onClose }) {
           borderRadius: "16px",
           width: "100%",
           maxWidth: "760px",
-          // No horizontal overflow — padding shrinks on mobile
           padding: isMobile
             ? "20px 14px 20px"
             : "clamp(20px, 5vw, 40px) clamp(16px, 5vw, 40px) clamp(20px, 4vw, 36px)",
@@ -135,14 +132,12 @@ function CompareModal({ onClose }) {
           boxSizing: "border-box",
         }}
       >
-        {/* Decorative corner glow */}
         <div style={{
           position: "absolute", top: 0, right: 0, width: 120, height: 120,
           background: "radial-gradient(circle at top right, rgba(201,168,76,0.07), transparent 70%)",
           borderRadius: "0 16px 0 0", pointerEvents: "none",
         }} />
 
-        {/* Header */}
         <div style={{
           display: "flex", justifyContent: "space-between",
           alignItems: "flex-start",
@@ -168,7 +163,6 @@ function CompareModal({ onClose }) {
               Choose Your Partnership Model
             </h3>
           </div>
-          {/* flexShrink:0 + marginLeft so it never gets squished */}
           <button
             onClick={onClose}
             style={{
@@ -188,11 +182,9 @@ function CompareModal({ onClose }) {
           </button>
         </div>
 
-        {/* Table — NO horizontal scroll, adapts via font/padding */}
         <div style={{ width: "100%" }}>
           <table style={{ width: "100%", borderCollapse: "collapse", tableLayout: "fixed" }}>
             <colgroup>
-              {/* Feature label col takes ~38% on mobile, 36% on desktop */}
               <col style={{ width: isMobile ? "38%" : "36%" }} />
               <col /><col /><col /><col />
             </colgroup>
@@ -218,7 +210,6 @@ function CompareModal({ onClose }) {
                     fontSize: isMobile ? "8.5px" : "10px",
                     color: "#C9A84C", fontWeight: 600,
                     letterSpacing: "0.02em",
-                    // Allow wrapping on tiny screens
                     wordBreak: "break-word",
                     lineHeight: 1.3,
                   }}>
@@ -242,7 +233,6 @@ function CompareModal({ onClose }) {
                     color: "rgba(240,234,214,0.75)",
                     letterSpacing: "0.01em",
                     lineHeight: 1.35,
-                    // Allow label to wrap rather than push width
                     wordBreak: "break-word",
                   }}>
                     {row.label}
@@ -261,7 +251,6 @@ function CompareModal({ onClose }) {
           </table>
         </div>
 
-        {/* Legend */}
         <div style={{
           display: "flex", flexWrap: "wrap",
           gap: isMobile ? "8px 14px" : "12px 20px",
@@ -282,7 +271,6 @@ function CompareModal({ onClose }) {
           ))}
         </div>
 
-        {/* CTA */}
         <div style={{ marginTop: isMobile ? 20 : 24, textAlign: "center" }}>
           <Link
             to="/contact"
@@ -300,7 +288,6 @@ function CompareModal({ onClose }) {
               borderRadius: "8px",
               textTransform: "uppercase",
               transition: "opacity 0.2s",
-              // Full width on very small screens
               width: windowWidth < 380 ? "100%" : "auto",
               boxSizing: "border-box",
             }}
@@ -343,30 +330,127 @@ export default function Services() {
           position: "absolute", inset: 0,
           background: "linear-gradient(to top, #0D1117 30%, transparent 80%)",
         }} />
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "clamp(36px, 6vw, 60px) clamp(1rem, 4vw, 2rem) clamp(36px, 5vw, 52px)", position: "relative", zIndex: 1, width: "100%", boxSizing: "border-box" }}>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "12px" }}>
+        <div style={{
+          maxWidth: "1280px", margin: "0 auto",
+          padding: "clamp(36px, 6vw, 60px) clamp(1rem, 4vw, 2rem) clamp(36px, 5vw, 52px)",
+          position: "relative", zIndex: 1, width: "100%", boxSizing: "border-box",
+        }}>
+          <p style={{
+            fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)",
+            fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase",
+            color: "#C9A84C", marginBottom: "12px",
+          }}>
             OUR SERVICES
           </p>
-          <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(1.6rem, 4vw, 3.2rem)", fontWeight: 700, color: "#F5F0E8", lineHeight: 1.15, marginBottom: "16px" }}>
+          <h1 style={{
+            fontFamily: "'Cinzel', serif", fontSize: "clamp(1.6rem, 4vw, 3.2rem)",
+            fontWeight: 700, color: "#F5F0E8", lineHeight: 1.15, marginBottom: "16px",
+          }}>
             Comprehensive Solutions.<br />Stress-Free Ownership.
           </h1>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(13px, 2vw, 15px)", color: "#8a8580", lineHeight: 1.7, maxWidth: "500px", margin: 0 }}>
+          <p style={{
+            fontFamily: "'Outfit', sans-serif", fontSize: "clamp(13px, 2vw, 15px)",
+            color: "#8a8580", lineHeight: 1.7, maxWidth: "500px", margin: 0,
+          }}>
             Comprehensive property management solutions designed to maximize returns and deliver hassle-free ownership across Jaipur and beyond.
           </p>
         </div>
       </section>
 
-      {/* ── SERVICES GRID ── */}
+      {/* ── 1. PROPERTY PORTFOLIO — LIGHT ── */}
       <section style={{ background: "#F5F0E8", padding: "clamp(48px, 8vw, 80px) 0" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2rem)", boxSizing: "border-box" }}>
           <div style={{ textAlign: "center", marginBottom: "clamp(32px, 5vw, 48px)" }}>
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "8px" }}>
+            <p style={{
+              fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)",
+              fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase",
+              color: "#C9A84C", marginBottom: "8px",
+            }}>
+              OUR PROPERTY PORTFOLIO
+            </p>
+            <div style={{ width: "40px", height: "2px", background: "linear-gradient(90deg,#C9A84C,#e8c97a)", margin: "0 auto" }} />
+          </div>
+
+          <div className="portfolio-grid" style={{ display: "grid", gap: "clamp(20px, 4vw, 40px)" }}>
+            {/* Hotels */}
+            <div style={{
+              background: "#ffffff",
+              border: "1px solid rgba(0,0,0,0.07)",
+              borderRadius: "12px", overflow: "hidden",
+              boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
+            }}>
+              <div style={{ height: "clamp(120px, 15vw, 160px)", overflow: "hidden" }}>
+                <img src="https://picsum.photos/seed/hotels-port/600/200" alt="Hotels" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </div>
+              <div style={{ padding: "clamp(16px, 3vw, 24px)" }}>
+                <h3 style={{
+                  fontFamily: "'Cinzel', serif", fontSize: "clamp(12px, 1.8vw, 14px)",
+                  color: "#0D1117", fontWeight: 600, marginBottom: "16px", marginTop: 0,
+                }}>Hotels</h3>
+                <div className="property-list-grid" style={{ display: "grid", gap: "4px 20px" }}>
+                  {HOTELS.map((h, i) => (
+                    <p key={h.id} style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.3vw, 12px)", color: "#6b6560", margin: 0 }}>
+                      <span style={{ color: "#C9A84C", marginRight: "6px" }}>{String(i + 1).padStart(2, "0")}</span>{h.name}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Apartments */}
+            <div style={{
+              background: "#ffffff",
+              border: "1px solid rgba(0,0,0,0.07)",
+              borderRadius: "12px", overflow: "hidden",
+              boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
+            }}>
+              <div style={{ height: "clamp(120px, 15vw, 160px)", overflow: "hidden" }}>
+                <img src="https://picsum.photos/seed/apts-port/600/200" alt="Studio Apartments" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </div>
+              <div style={{ padding: "clamp(16px, 3vw, 24px)" }}>
+                <h3 style={{
+                  fontFamily: "'Cinzel', serif", fontSize: "clamp(12px, 1.8vw, 14px)",
+                  color: "#0D1117", fontWeight: 600, marginBottom: "16px", marginTop: 0,
+                }}>Studio Apartments</h3>
+                <div className="property-list-grid" style={{ display: "grid", gap: "4px 20px" }}>
+                  {APARTMENTS.map((a, i) => (
+                    <p key={a.id} style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.3vw, 12px)", color: "#6b6560", margin: 0 }}>
+                      <span style={{ color: "#C9A84C", marginRight: "6px" }}>{String(i + 1).padStart(2, "0")}</span>{a.name}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p style={{
+            fontFamily: "'Outfit', sans-serif", fontSize: "clamp(12px, 1.5vw, 13px)",
+            color: "#8a8580", textAlign: "center", marginTop: "24px",
+            maxWidth: "700px", marginLeft: "auto", marginRight: "auto", lineHeight: 1.6,
+          }}>
+            Our properties are spread across key locations in Jaipur and nearby cities, catering to medical tourists, students, corporates, and leisure travelers with well-maintained, fully-equipped accommodations.
+          </p>
+        </div>
+      </section>
+
+      {/* ── 2. WHAT WE OFFER — DARK ── */}
+      <section style={{
+        background: "linear-gradient(180deg, #0D1117 0%, #111827 100%)",
+        padding: "clamp(48px, 8vw, 80px) 0",
+      }}>
+        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2rem)", boxSizing: "border-box" }}>
+          <div style={{ textAlign: "center", marginBottom: "clamp(32px, 5vw, 48px)" }}>
+            <p style={{
+              fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)",
+              fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase",
+              color: "#C9A84C", marginBottom: "8px",
+            }}>
               WHAT WE OFFER
             </p>
             <div style={{ width: "40px", height: "2px", background: "linear-gradient(90deg,#C9A84C,#e8c97a)", margin: "0 auto" }} />
           </div>
 
-          <div className="services-grid" style={{ display: "grid", gap: "1.25rem" }}>
+          <div className="services-grid" style={{ display: "grid", gap: "clamp(1rem, 2vw, 1.5rem)" }}>
             {SERVICES.map((service, index) => {
               const isHovered = hoveredService === index;
               return (
@@ -382,62 +466,84 @@ export default function Services() {
                     cursor: "pointer",
                     transition: "all 0.4s ease",
                     transform: isHovered ? "translateY(-6px)" : "translateY(0)",
-                    background: isHovered ? "#ffffff" : "#f9f8f6",
+                    background: isHovered
+                      ? "linear-gradient(180deg, rgba(13,17,23,0.98) 0%, rgba(17,24,39,0.98) 100%)"
+                      : "rgba(255,255,255,0.03)",
                     border: isHovered
-                      ? "1px solid rgba(201,168,76,0.35)"
-                      : "1px solid rgba(0,0,0,0.06)",
-                    boxShadow: isHovered ? "0 12px 32px rgba(0,0,0,0.08)" : "none",
+                      ? "1px solid rgba(201,168,76,0.45)"
+                      : "1px solid rgba(255,255,255,0.06)",
+                    boxShadow: isHovered
+                      ? "0 0 0 1px rgba(201,168,76,0.15), 0 14px 40px rgba(0,0,0,0.4)"
+                      : "none",
                   }}
                 >
+                  {/* Gold glow overlay */}
                   <div style={{
                     position: "absolute", inset: 0,
                     background: isHovered
-                      ? "radial-gradient(circle at top left, rgba(201,168,76,0.06), transparent 60%)"
+                      ? "radial-gradient(circle at top left, rgba(201,168,76,0.08), transparent 60%)"
                       : "transparent",
                     transition: "all 0.4s ease",
                     zIndex: 1,
                   }} />
 
                   <div style={{ position: "relative", zIndex: 2 }}>
+                    {/* Icon */}
                     <div style={{
-                      width: "48px", height: "48px",
+                      width: "clamp(40px, 6vw, 48px)",
+                      height: "clamp(40px, 6vw, 48px)",
+                      flexShrink: 0,
                       borderRadius: "50%",
-                      border: isHovered ? "1px solid #C9A84C" : "1px solid rgba(0,0,0,0.1)",
+                      border: isHovered
+                        ? "1px solid #C9A84C"
+                        : "1px solid rgba(201,168,76,0.3)",
                       display: "flex", alignItems: "center", justifyContent: "center",
-                      marginBottom: "1rem",
+                      marginBottom: "clamp(0.75rem, 2vw, 1rem)",
                       background: isHovered ? "rgba(201,168,76,0.08)" : "transparent",
                       transition: "all 0.3s ease",
                     }}>
                       <img
                         src={service.icon}
                         alt={service.title}
-                        style={{ width: "24px", height: "24px", objectFit: "contain", filter: "invert(67%) sepia(40%) saturate(500%) hue-rotate(2deg)" }}
+                        style={{
+                          width: "clamp(18px, 3vw, 24px)",
+                          height: "clamp(18px, 3vw, 24px)",
+                          objectFit: "contain",
+                          filter: "invert(67%) sepia(40%) saturate(500%) hue-rotate(2deg)",
+                        }}
                       />
                     </div>
 
+                    {/* Title */}
                     <h3 style={{
                       fontFamily: "'Cormorant Garamond', serif",
-                      fontSize: "clamp(16px, 2vw, 18px)", fontWeight: 600,
-                      color: "#0D1117",
+                      fontSize: "clamp(16px, 2.5vw, 18px)", fontWeight: 600,
+                      color: isHovered ? "#F5F0E8" : "#EDEDED",
                       marginBottom: "8px",
                       transition: "color 0.3s ease",
                     }}>
                       {service.title}
                     </h3>
 
-                    <p style={{
-                      fontFamily: "'Outfit', sans-serif", fontSize: "clamp(12px, 1.5vw, 13px)",
-                      color: "#6a6560", lineHeight: 1.6, margin: 0,
+                    {/* Short desc */}
+                    <p className="service-short-desc" style={{
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: "clamp(12px, 1.8vw, 13px)",
+                      color: isHovered ? "rgba(245,240,232,0.45)" : "rgba(255,255,255,0.6)",
+                      lineHeight: 1.6, margin: 0,
                       opacity: isHovered ? 0.4 : 1,
                       transition: "all 0.3s ease",
                     }}>
                       {service.shortDesc}
                     </p>
 
-                    <div style={{
+                    {/* Full desc — hover reveal */}
+                    <div className="service-full-desc" style={{
                       marginTop: "12px",
-                      fontFamily: "'Outfit', sans-serif", fontSize: "clamp(12px, 1.5vw, 13px)",
-                      lineHeight: 1.7, color: "#5a5550",
+                      fontFamily: "'Outfit', sans-serif",
+                      fontSize: "clamp(12px, 1.8vw, 13px)",
+                      lineHeight: 1.7,
+                      color: "rgba(245,240,232,0.75)",
                       opacity: isHovered ? 1 : 0,
                       transform: isHovered ? "translateY(0)" : "translateY(8px)",
                       maxHeight: isHovered ? "200px" : "0px",
@@ -454,11 +560,15 @@ export default function Services() {
         </div>
       </section>
 
-      {/* ── PARTNERSHIP MODELS ── */}
-      <section style={{ background: "#111827", padding: "clamp(48px, 8vw, 80px) 0" }}>
+      {/* ── 3. PARTNERSHIP MODELS — LIGHT ── */}
+      <section style={{ background: "#F5F0E8", padding: "clamp(48px, 8vw, 80px) 0" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2rem)", boxSizing: "border-box" }}>
           <div style={{ textAlign: "center", marginBottom: "clamp(32px, 5vw, 48px)" }}>
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "8px" }}>
+            <p style={{
+              fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)",
+              fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase",
+              color: "#C9A84C", marginBottom: "8px",
+            }}>
               PARTNERSHIP MODELS
             </p>
             <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(13px, 2vw, 14px)", color: "#8a8580", margin: 0 }}>
@@ -477,19 +587,27 @@ export default function Services() {
                   style={{
                     padding: "clamp(18px, 3vw, 24px) clamp(14px, 2.5vw, 20px)",
                     borderRadius: "12px",
-                    background: isActive ? "rgba(201,168,76,0.06)" : "rgba(255,255,255,0.02)",
-                    border: isActive ? "1px solid rgba(201,168,76,0.35)" : "1px solid rgba(255,255,255,0.07)",
+                    background: isActive ? "rgba(201,168,76,0.06)" : "#ffffff",
+                    border: isActive ? "1px solid rgba(201,168,76,0.45)" : "1px solid rgba(0,0,0,0.07)",
                     transform: isActive ? "translateY(-5px)" : "none",
-                    boxShadow: isActive ? "0 10px 28px rgba(0,0,0,0.3)" : "none",
+                    boxShadow: isActive ? "0 10px 28px rgba(0,0,0,0.1)" : "0 2px 8px rgba(0,0,0,0.04)",
                     transition: "all 0.3s ease",
                     cursor: "default",
                   }}
                 >
-                  <div style={{ color: "#C9A84C", marginBottom: "12px" }}>{Icons[m.icon]}</div>
-                  <p style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(11px, 1.5vw, 13px)", fontWeight: 600, color: "#F5F0E8", marginBottom: "6px" }}>
+                  <div style={{ color: "#C9A84C", marginBottom: "12px" }}>
+                    {Icons[m.icon]}
+                  </div>
+                  <p style={{
+                    fontFamily: "'Cinzel', serif", fontSize: "clamp(11px, 1.5vw, 13px)",
+                    fontWeight: 600, color: "#0D1117", marginBottom: "6px",
+                  }}>
                     {m.label}
                   </p>
-                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.5vw, 12px)", color: "#6b6560", lineHeight: 1.5, margin: 0 }}>
+                  <p style={{
+                    fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.5vw, 12px)",
+                    color: "#8a8580", lineHeight: 1.5, margin: 0,
+                  }}>
                     {m.desc}
                   </p>
                 </div>
@@ -520,14 +638,14 @@ export default function Services() {
 
       {modalOpen && <CompareModal onClose={() => setModalOpen(false)} />}
 
-      {/* ── HOW WE WORK ── */}
+      {/* ── 4. HOW WE WORK — DARK ── */}
       <section style={{ background: "#0D1117", padding: "clamp(48px, 8vw, 80px) 0" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2rem)", boxSizing: "border-box" }}>
           <div className="how-grid" style={{ display: "grid", gap: "clamp(32px, 5vw, 60px)", alignItems: "center" }}>
             {/* Left image */}
             <div style={{ borderRadius: "12px", overflow: "hidden", aspectRatio: "4/5", maxHeight: "500px" }}>
               <img
-                src="https://picsum.photos/seed/how-work/600/750"
+                src={ceo}
                 alt="How we work"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
@@ -535,7 +653,11 @@ export default function Services() {
 
             {/* Right steps */}
             <div>
-              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "12px" }}>
+              <p style={{
+                fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)",
+                fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase",
+                color: "#C9A84C", marginBottom: "12px",
+              }}>
                 HOW WE WORK
               </p>
               <div style={{ display: "flex", flexDirection: "column", gap: "clamp(16px, 3vw, 24px)", marginTop: "clamp(16px, 3vw, 28px)" }}>
@@ -551,8 +673,14 @@ export default function Services() {
                       <span style={{ fontFamily: "'Cinzel', serif", fontSize: "12px", color: "#C9A84C", fontWeight: 700 }}>{step.step}</span>
                     </div>
                     <div>
-                      <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(13px, 1.8vw, 14px)", fontWeight: 600, color: "#F5F0E8", marginBottom: "4px", marginTop: 0 }}>{step.title}</h3>
-                      <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(12px, 1.5vw, 13px)", color: "#6b6560", lineHeight: 1.6, margin: 0 }}>{step.desc}</p>
+                      <h3 style={{
+                        fontFamily: "'Outfit', sans-serif", fontSize: "clamp(13px, 1.8vw, 14px)",
+                        fontWeight: 600, color: "#F5F0E8", marginBottom: "4px", marginTop: 0,
+                      }}>{step.title}</h3>
+                      <p style={{
+                        fontFamily: "'Outfit', sans-serif", fontSize: "clamp(12px, 1.5vw, 13px)",
+                        color: "#6b6560", lineHeight: 1.6, margin: 0,
+                      }}>{step.desc}</p>
                     </div>
                   </div>
                 ))}
@@ -562,11 +690,15 @@ export default function Services() {
         </div>
       </section>
 
-      {/* ── WHY CHOOSE ── */}
+      {/* ── 5. WHY CHOOSE — LIGHT ── */}
       <section style={{ background: "#F5F0E8", padding: "clamp(48px, 8vw, 80px) 0" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2rem)", boxSizing: "border-box" }}>
           <div style={{ textAlign: "center", marginBottom: "clamp(32px, 5vw, 48px)" }}>
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "8px" }}>
+            <p style={{
+              fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)",
+              fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase",
+              color: "#C9A84C", marginBottom: "8px",
+            }}>
               WHY CHOOSE BLACK TIE HOSPITALITY?
             </p>
             <div style={{ width: "40px", height: "2px", background: "linear-gradient(90deg,#C9A84C,#e8c97a)", margin: "0 auto" }} />
@@ -578,7 +710,7 @@ export default function Services() {
                 style={{
                   textAlign: "center",
                   padding: "clamp(20px, 3vw, 28px) clamp(12px, 2vw, 16px)",
-                  background: "#fff",
+                  background: "#ffffff",
                   border: "1px solid rgba(0,0,0,0.07)",
                   borderRadius: "10px",
                   transition: "all 0.35s ease",
@@ -613,73 +745,33 @@ export default function Services() {
                     style={{ width: "24px", height: "24px", objectFit: "contain", filter: "invert(67%) sepia(40%) saturate(500%) hue-rotate(2deg)" }}
                   />
                 </div>
-                <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(10px, 1.2vw, 12px)", color: "#0D1117", fontWeight: 600, marginBottom: "6px", marginTop: 0 }}>{w.title}</h3>
+                <h3 style={{
+                  fontFamily: "'Cinzel', serif", fontSize: "clamp(10px, 1.2vw, 12px)",
+                  color: "#0D1117", fontWeight: 600, marginBottom: "6px", marginTop: 0,
+                }}>{w.title}</h3>
                 <div style={{ width: "24px", height: "1.5px", background: "linear-gradient(90deg, #C9A84C, #e8c97a)", margin: "6px auto 8px", borderRadius: "2px" }} />
-                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.3vw, 12px)", color: "#6b6560", lineHeight: 1.5, margin: 0 }}>{w.desc}</p>
+                <p style={{
+                  fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.3vw, 12px)",
+                  color: "#6b6560", lineHeight: 1.5, margin: 0,
+                }}>{w.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ── PROPERTY PORTFOLIO ── */}
-      <section style={{ background: "#000000", padding: "clamp(48px, 8vw, 80px) 0" }}>
+      {/* ── 6. FUTURE PROJECTIONS — DARK ── */}
+      {/* <section style={{ background: "#111827", padding: "clamp(48px, 8vw, 80px) 0" }}>
         <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2rem)", boxSizing: "border-box" }}>
           <div style={{ textAlign: "center", marginBottom: "clamp(32px, 5vw, 48px)" }}>
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "8px" }}>
-              OUR PROPERTY PORTFOLIO
-            </p>
-          </div>
-
-          <div className="portfolio-grid" style={{ display: "grid", gap: "clamp(20px, 4vw, 40px)" }}>
-            {/* Hotels */}
-            <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "12px", overflow: "hidden" }}>
-              <div style={{ height: "clamp(120px, 15vw, 160px)", overflow: "hidden" }}>
-                <img src="https://picsum.photos/seed/hotels-port/600/200" alt="Hotels" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-              </div>
-              <div style={{ padding: "clamp(16px, 3vw, 24px)" }}>
-                <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(12px, 1.8vw, 14px)", color: "#F5F0E8", fontWeight: 600, marginBottom: "16px", marginTop: 0 }}>Hotels</h3>
-                <div className="property-list-grid" style={{ display: "grid", gap: "4px 20px" }}>
-                  {HOTELS.map((h, i) => (
-                    <p key={h.id} style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.3vw, 12px)", color: "#8a8580", margin: 0 }}>
-                      <span style={{ color: "#C9A84C", marginRight: "6px" }}>{String(i + 1).padStart(2, "0")}</span>{h.name}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Apartments */}
-            <div style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: "12px", overflow: "hidden" }}>
-              <div style={{ height: "clamp(120px, 15vw, 160px)", overflow: "hidden" }}>
-                <img src="https://picsum.photos/seed/apts-port/600/200" alt="Studio Apartments" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-              </div>
-              <div style={{ padding: "clamp(16px, 3vw, 24px)" }}>
-                <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: "clamp(12px, 1.8vw, 14px)", color: "#F5F0E8", fontWeight: 600, marginBottom: "16px", marginTop: 0 }}>Studio Apartments</h3>
-                <div className="property-list-grid" style={{ display: "grid", gap: "4px 20px" }}>
-                  {APARTMENTS.map((a, i) => (
-                    <p key={a.id} style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.3vw, 12px)", color: "#8a8580", margin: 0 }}>
-                      <span style={{ color: "#C9A84C", marginRight: "6px" }}>{String(i + 1).padStart(2, "0")}</span>{a.name}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(12px, 1.5vw, 13px)", color: "#6b6560", textAlign: "center", marginTop: "24px", maxWidth: "700px", marginLeft: "auto", marginRight: "auto", lineHeight: 1.6 }}>
-            Our properties are spread across key locations in Jaipur and nearby cities, catering to medical tourists, students, corporates, and leisure travelers with well-maintained, fully-equipped accommodations.
-          </p>
-        </div>
-      </section>
-
-      {/* ── FUTURE PROJECTIONS ── */}
-      <section style={{ background: "#111827", padding: "clamp(48px, 8vw, 80px) 0" }}>
-        <div style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 clamp(1rem, 4vw, 2rem)", boxSizing: "border-box" }}>
-          <div style={{ textAlign: "center", marginBottom: "clamp(32px, 5vw, 48px)" }}>
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)", fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase", color: "#C9A84C", marginBottom: "8px" }}>
+            <p style={{
+              fontFamily: "'Outfit', sans-serif", fontSize: "clamp(0.7rem, 1.5vw, 0.85rem)",
+              fontWeight: 600, letterSpacing: "0.22em", textTransform: "uppercase",
+              color: "#C9A84C", marginBottom: "8px",
+            }}>
               FUTURE PROJECTIONS
             </p>
+            <div style={{ width: "40px", height: "2px", background: "linear-gradient(90deg,#C9A84C,#e8c97a)", margin: "0 auto" }} />
           </div>
           <div className="proj-grid" style={{ display: "grid", gap: "clamp(12px, 2vw, 20px)" }}>
             {FUTURE_PROJECTIONS.map((p) => (
@@ -692,8 +784,14 @@ export default function Services() {
                   padding: "clamp(16px, 3vw, 24px)",
                   transition: "all 0.3s",
                 }}
-                onMouseEnter={(e) => { e.currentTarget.style.borderColor = "rgba(201,168,76,0.25)"; e.currentTarget.style.transform = "translateY(-4px)"; }}
-                onMouseLeave={(e) => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)"; e.currentTarget.style.transform = "translateY(0)"; }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(201,168,76,0.25)";
+                  e.currentTarget.style.transform = "translateY(-4px)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = "rgba(255,255,255,0.06)";
+                  e.currentTarget.style.transform = "translateY(0)";
+                }}
               >
                 <div style={{
                   width: "44px", height: "44px",
@@ -705,13 +803,19 @@ export default function Services() {
                 }}>
                   <span style={{ fontFamily: "'Cinzel', serif", fontSize: "12px", color: "#C9A84C", fontWeight: 700 }}>{p.num}</span>
                 </div>
-                <h3 style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(12px, 1.5vw, 13px)", fontWeight: 600, color: "#F5F0E8", marginBottom: "8px", marginTop: 0, lineHeight: 1.4 }}>{p.title}</h3>
-                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.3vw, 12px)", color: "#6b6560", lineHeight: 1.5, margin: 0 }}>{p.desc}</p>
+                <h3 style={{
+                  fontFamily: "'Outfit', sans-serif", fontSize: "clamp(12px, 1.5vw, 13px)",
+                  fontWeight: 600, color: "#F5F0E8", marginBottom: "8px", marginTop: 0, lineHeight: 1.4,
+                }}>{p.title}</h3>
+                <p style={{
+                  fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.3vw, 12px)",
+                  color: "#6b6560", lineHeight: 1.5, margin: 0,
+                }}>{p.desc}</p>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       <ClientsSection />
       <TestimonialsSection />
@@ -722,11 +826,24 @@ export default function Services() {
         .services-grid {
           grid-template-columns: repeat(3, 1fr);
         }
-        @media (max-width: 1024px) {
+        @media (max-width: 960px) {
           .services-grid { grid-template-columns: repeat(2, 1fr) !important; }
         }
-        @media (max-width: 500px) {
+        @media (max-width: 560px) {
           .services-grid { grid-template-columns: 1fr !important; }
+        }
+
+        /* Touch: always show full desc */
+        @media (hover: none) {
+          .service-full-desc {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+            max-height: none !important;
+            overflow: visible !important;
+          }
+          .service-short-desc {
+            opacity: 0.6 !important;
+          }
         }
 
         /* ── Partnership Models ── */

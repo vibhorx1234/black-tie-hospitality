@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import React from "react";
 import { ALL_PROPERTIES } from "../../data/properties";
 
+const CAROUSEL_PROPERTIES = ALL_PROPERTIES
+  .filter(p => p.type?.toLowerCase().includes("apartment"))
+  .slice(0, 8);
+
 // ── Responsive hook ────────────────────────────────────────────────────────────
 function useWindowWidth() {
   const [width, setWidth] = useState(
@@ -473,29 +477,6 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
             {/* Divider */}
             <div style={{ width: 36, height: 1, background: "rgba(201,168,76,0.4)", marginBottom: 14 }} />
 
-            {/* Description */}
-            <p style={{
-              fontFamily: "'Outfit', sans-serif",
-              fontSize: isMobile ? "0.78rem" : "0.8rem",
-              color: "#8a8580", lineHeight: 1.8, margin: "0 0 18px 0",
-            }}>
-              {selected.description}
-            </p>
-
-            {/* Stats row */}
-            <div style={{
-              display: "flex", gap: isMobile ? 16 : 24,
-              marginBottom: 18, padding: "12px 0",
-              borderTop: "1px solid rgba(255,255,255,0.06)",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
-              flexWrap: "wrap",
-            }}>
-              <div>
-                <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#C9A84C", margin: 0 }}>{selected.rating} ★</p>
-                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rating</p>
-              </div>
-            </div>
-
             {/* Amenities */}
             {selected.amenities && selected.amenities.length > 0 && (
               <div>
@@ -522,6 +503,31 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
                 </div>
               </div>
             )}
+
+            <div style={{ width: 36, height: 1, marginBottom: 14 }} />
+
+            {/* Stats row */}
+            <div style={{
+              display: "flex", gap: isMobile ? 16 : 24,
+              marginBottom: 18, padding: "12px 0",
+              borderTop: "1px solid rgba(255,255,255,0.06)",
+              borderBottom: "1px solid rgba(255,255,255,0.06)",
+              flexWrap: "wrap",
+            }}>
+              <div>
+                <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#C9A84C", margin: 0 }}>{selected.rating} ★</p>
+                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rating</p>
+              </div>
+            </div>
+
+            {/* Description */}
+            <p style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: isMobile ? "0.78rem" : "0.8rem",
+              color: "#8a8580", lineHeight: 1.8, margin: "0 0 18px 0",
+            }}>
+              {selected.description}
+            </p>
 
             {/* Bottom video section — only when photos tab active and both images + videos exist */}
             {hasVideo && activeTab === "photos" && hasImages && (
@@ -616,24 +622,24 @@ export default function PropertiesShowcase() {
   const startX = useRef(0);
   const isDragging = useRef(false);
 
-  const total = ALL_PROPERTIES.length;
+  const total = CAROUSEL_PROPERTIES.length;
   const mod = (n, m) => ((n % m) + m) % m;
 
   const next = () => setIndex((p) => mod(p + 1, total));
   const prev = () => setIndex((p) => mod(p - 1, total));
 
   const selectedIndex = selected
-    ? ALL_PROPERTIES.findIndex((p) => p.id === selected.id)
+    ? CAROUSEL_PROPERTIES.findIndex((p) => p.id === selected.id)
     : -1;
 
   const nextModal = () => {
     const nextIdx = mod(selectedIndex + 1, total);
-    setSelected(ALL_PROPERTIES[nextIdx]);
+    setSelected(CAROUSEL_PROPERTIES[nextIdx]);
     setIndex(nextIdx);
   };
   const prevModal = () => {
     const prevIdx = mod(selectedIndex - 1, total);
-    setSelected(ALL_PROPERTIES[prevIdx]);
+    setSelected(CAROUSEL_PROPERTIES[prevIdx]);
     setIndex(prevIdx);
   };
 
@@ -709,7 +715,7 @@ export default function PropertiesShowcase() {
               touchAction: "pan-y",
             }}
           >
-            {ALL_PROPERTIES.concat(ALL_PROPERTIES).map((p, i) => (
+            {CAROUSEL_PROPERTIES.concat(CAROUSEL_PROPERTIES).map((p, i) => (
               <div
                 key={i}
                 style={{
@@ -837,7 +843,7 @@ export default function PropertiesShowcase() {
         {isMobile && (
           <div style={{ marginTop: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 12 }}>
             <div style={{ display: "flex", gap: 6 }}>
-              {ALL_PROPERTIES.map((_, i) => (
+              {CAROUSEL_PROPERTIES.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setIndex(i)}

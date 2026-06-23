@@ -7,164 +7,165 @@
 import urbanSuites1 from './../assets/urban suites/1.jpeg';
 import urbanSuites2 from './../assets/urban suites/2.jpeg';
 import urbanSuites3 from './../assets/urban suites/3.jpeg';
-import urbanSuites4 from './../assets/urban suites/4.jpeg';
+// import urbanSuites4 from './../assets/urban suites/4.jpeg';
 import urbanSuitesVideo from './../assets/urban suites/video1.mp4';
 
 // Grand Anukampa (33 images)
-import grandAnukampa1 from './../assets/grand anukampa/1.jpeg';
-import grandAnukampa2 from './../assets/grand anukampa/2.jpeg';
+import grandAnukampa6 from './../assets/grand anukampa/1.jpeg';
+import grandAnukampa5 from './../assets/grand anukampa/2.jpeg';
 import grandAnukampa3 from './../assets/grand anukampa/3.jpeg';
-import grandAnukampa4 from './../assets/grand anukampa/4.jpeg';
-import grandAnukampa5 from './../assets/grand anukampa/5.jpeg';
-import grandAnukampa6 from './../assets/grand anukampa/6.jpeg';
-import grandAnukampa7 from './../assets/grand anukampa/7.jpeg';
-import grandAnukampa8 from './../assets/grand anukampa/8.jpeg';
-import grandAnukampa9 from './../assets/grand anukampa/9.jpeg';
-import grandAnukampa10 from './../assets/grand anukampa/10.jpeg';
-import grandAnukampa11 from './../assets/grand anukampa/11.jpeg';
-import grandAnukampa12 from './../assets/grand anukampa/12.jpeg';
-import grandAnukampa13 from './../assets/grand anukampa/13.jpeg';
-import grandAnukampa14 from './../assets/grand anukampa/14.jpeg';
-import grandAnukampa15 from './../assets/grand anukampa/15.jpeg';
-import grandAnukampa16 from './../assets/grand anukampa/16.jpeg';
-import grandAnukampa17 from './../assets/grand anukampa/17.jpeg';
-import grandAnukampa18 from './../assets/grand anukampa/18.jpeg';
-import grandAnukampa19 from './../assets/grand anukampa/19.jpeg';
-import grandAnukampa20 from './../assets/grand anukampa/20.jpeg';
-import grandAnukampa21 from './../assets/grand anukampa/21.jpeg';
-import grandAnukampa22 from './../assets/grand anukampa/22.jpeg';
-import grandAnukampa23 from './../assets/grand anukampa/23.jpeg';
-import grandAnukampa24 from './../assets/grand anukampa/24.jpeg';
-import grandAnukampa25 from './../assets/grand anukampa/25.jpeg';
-import grandAnukampa26 from './../assets/grand anukampa/26.jpeg';
-import grandAnukampa27 from './../assets/grand anukampa/27.jpeg';
-import grandAnukampa28 from './../assets/grand anukampa/28.jpeg';
-import grandAnukampa29 from './../assets/grand anukampa/29.jpeg';
-import grandAnukampa30 from './../assets/grand anukampa/30.jpeg';
-import grandAnukampa31 from './../assets/grand anukampa/31.jpeg';
-import grandAnukampa32 from './../assets/grand anukampa/32.jpeg';
-import grandAnukampa33 from './../assets/grand anukampa/33.jpeg';
+import grandAnukampa7 from './../assets/grand anukampa/4.jpeg';
+// import grandAnukampa5 from './../assets/grand anukampa/5.jpeg';
+import grandAnukampa1 from './../assets/grand anukampa/6.jpeg';
+import grandAnukampa2 from './../assets/grand anukampa/7.jpeg';
+// import grandAnukampa8 from './../assets/grand anukampa/8.jpeg';
+// import grandAnukampa9 from './../assets/grand anukampa/9.jpeg';
+import grandAnukampa4 from './../assets/grand anukampa/10.jpeg';
+// import grandAnukampa11 from './../assets/grand anukampa/11.jpeg';
+// import grandAnukampa12 from './../assets/grand anukampa/12.jpeg';
+// import grandAnukampa13 from './../assets/grand anukampa/13.jpeg';
+// import grandAnukampa14 from './../assets/grand anukampa/14.jpeg';
+// import grandAnukampa15 from './../assets/grand anukampa/15.jpeg';
+// import grandAnukampa16 from './../assets/grand anukampa/16.jpeg';
+// import grandAnukampa17 from './../assets/grand anukampa/17.jpeg';
+// import grandAnukampa18 from './../assets/grand anukampa/18.jpeg';
+// import grandAnukampa19 from './../assets/grand anukampa/19.jpeg';
+// import grandAnukampa20 from './../assets/grand anukampa/20.jpeg';
+// import grandAnukampa21 from './../assets/grand anukampa/21.jpeg';
+// import grandAnukampa22 from './../assets/grand anukampa/22.jpeg';
+// import grandAnukampa23 from './../assets/grand anukampa/23.jpeg';
+// import grandAnukampa24 from './../assets/grand anukampa/24.jpeg';
+// import grandAnukampa25 from './../assets/grand anukampa/25.jpeg';
+// import grandAnukampa26 from './../assets/grand anukampa/26.jpeg';
+// import grandAnukampa27 from './../assets/grand anukampa/27.jpeg';
+// import grandAnukampa28 from './../assets/grand anukampa/28.jpeg';
+// import grandAnukampa29 from './../assets/grand anukampa/29.jpeg';
+// import grandAnukampa30 from './../assets/grand anukampa/30.jpeg';
+// import grandAnukampa31 from './../assets/grand anukampa/31.jpeg';
+// import grandAnukampa32 from './../assets/grand anukampa/32.jpeg';
+// import grandAnukampa33 from './../assets/grand anukampa/33.jpeg';
 import grandAnukampaVideo from './../assets/grand anukampa/video1.mp4';
 
 // Vidhyadeep (25 images, no videos)
-import vidhyadeep1 from './../assets/vidhyadeep/1.jpeg';
-import vidhyadeep2 from './../assets/vidhyadeep/2.jpeg';
-import vidhyadeep3 from './../assets/vidhyadeep/3.jpeg';
-import vidhyadeep4 from './../assets/vidhyadeep/4.jpeg';
-import vidhyadeep5 from './../assets/vidhyadeep/5.jpeg';
-import vidhyadeep6 from './../assets/vidhyadeep/6.jpeg';
-import vidhyadeep7 from './../assets/vidhyadeep/7.jpeg';
-import vidhyadeep8 from './../assets/vidhyadeep/8.jpeg';
-import vidhyadeep9 from './../assets/vidhyadeep/9.jpeg';
-import vidhyadeep10 from './../assets/vidhyadeep/10.jpeg';
-import vidhyadeep11 from './../assets/vidhyadeep/11.jpeg';
-import vidhyadeep12 from './../assets/vidhyadeep/12.jpeg';
-import vidhyadeep13 from './../assets/vidhyadeep/13.jpeg';
-import vidhyadeep14 from './../assets/vidhyadeep/14.jpeg';
-import vidhyadeep15 from './../assets/vidhyadeep/15.jpeg';
-import vidhyadeep16 from './../assets/vidhyadeep/16.jpeg';
-import vidhyadeep17 from './../assets/vidhyadeep/17.jpeg';
-import vidhyadeep18 from './../assets/vidhyadeep/18.jpeg';
-import vidhyadeep19 from './../assets/vidhyadeep/19.jpeg';
-import vidhyadeep20 from './../assets/vidhyadeep/20.jpeg';
-import vidhyadeep21 from './../assets/vidhyadeep/21.jpeg';
-import vidhyadeep22 from './../assets/vidhyadeep/22.jpeg';
-import vidhyadeep23 from './../assets/vidhyadeep/23.jpeg';
-import vidhyadeep24 from './../assets/vidhyadeep/24.jpeg';
-import vidhyadeep25 from './../assets/vidhyadeep/25.jpeg';
+// import vidhyadeep1 from './../assets/vidhyadeep/1.jpeg';
+// import vidhyadeep2 from './../assets/vidhyadeep/2.jpeg';
+// import vidhyadeep3 from './../assets/vidhyadeep/3.jpeg';
+// import vidhyadeep4 from './../assets/vidhyadeep/4.jpeg';
+import vidhyadeep6 from './../assets/vidhyadeep/5.jpeg';
+// import vidhyadeep6 from './../assets/vidhyadeep/6.jpeg';
+import vidhyadeep4 from './../assets/vidhyadeep/7.jpeg';
+import vidhyadeep1 from './../assets/vidhyadeep/8.jpeg';
+import vidhyadeep2 from './../assets/vidhyadeep/9.jpeg';
+import vidhyadeep3 from './../assets/vidhyadeep/10.jpeg';
+// import vidhyadeep11 from './../assets/vidhyadeep/11.jpeg';
+// import vidhyadeep12 from './../assets/vidhyadeep/12.jpeg';
+import vidhyadeep5 from './../assets/vidhyadeep/13.jpeg';
+// import vidhyadeep14 from './../assets/vidhyadeep/14.jpeg';
+// import vidhyadeep15 from './../assets/vidhyadeep/15.jpeg';
+// import vidhyadeep16 from './../assets/vidhyadeep/16.jpeg';
+// import vidhyadeep17 from './../assets/vidhyadeep/17.jpeg';
+// import vidhyadeep18 from './../assets/vidhyadeep/18.jpeg';
+// import vidhyadeep19 from './../assets/vidhyadeep/19.jpeg';
+// import vidhyadeep20 from './../assets/vidhyadeep/20.jpeg';
+// import vidhyadeep21 from './../assets/vidhyadeep/21.jpeg';
+// import vidhyadeep22 from './../assets/vidhyadeep/22.jpeg';
+// import vidhyadeep23 from './../assets/vidhyadeep/23.jpeg';
+// import vidhyadeep24 from './../assets/vidhyadeep/24.jpeg';
+// import vidhyadeep25 from './../assets/vidhyadeep/25.jpeg';
 
 // Pink Peacock 2.0 & 3.0 (videos only for now)
 import pinkPeacock2Video from './../assets/the pink peacock stays 2.0/video1.mp4';
 import pinkPeacock3Video from './../assets/the pink peacock stays 3.0/video1.mp4';
 
-import solitaire1 from './../assets/solitaire/1.JPG';
-import solitaire2 from './../assets/solitaire/2.JPG';
-import solitaire3 from './../assets/solitaire/3.JPG';
-import solitaire4 from './../assets/solitaire/4.JPG';
-import solitaire5 from './../assets/solitaire/5.JPG';
-import solitaire6 from './../assets/solitaire/6.JPG';
-import solitaire7 from './../assets/solitaire/7.JPG';
-import solitaire8 from './../assets/solitaire/8.JPG';
-import solitaire9 from './../assets/solitaire/9.JPG';
-import solitaire10 from './../assets/solitaire/10.JPG';
-import solitaire11 from './../assets/solitaire/11.JPG';
-import solitaire12 from './../assets/solitaire/12.JPG';
-import solitaire13 from './../assets/solitaire/13.JPG';
-import solitaire14 from './../assets/solitaire/14.JPG';
-import solitaire15 from './../assets/solitaire/15.JPG';
-import solitaire16 from './../assets/solitaire/16.JPG';
-import solitaire17 from './../assets/solitaire/17.JPG';
-import solitaire18 from './../assets/solitaire/18.JPG';
-import solitaire19 from './../assets/solitaire/19.JPG';
-import solitaire20 from './../assets/solitaire/20.JPG';
-import solitaire21 from './../assets/solitaire/21.JPG';
-import solitaire22 from './../assets/solitaire/22.JPG';
-import solitaire23 from './../assets/solitaire/23.JPG';
-import solitaire24 from './../assets/solitaire/24.JPG';
-import solitaire25 from './../assets/solitaire/25.JPG';
-import solitaire26 from './../assets/solitaire/26.JPG';
-import solitaire27 from './../assets/solitaire/27.JPG';
-import solitaire28 from './../assets/solitaire/28.JPG';
-import solitaire29 from './../assets/solitaire/29.JPG';
-import solitaire30 from './../assets/solitaire/30.JPG';
+// import solitaire1 from './../assets/solitaire/1.JPG';
+// import solitaire2 from './../assets/solitaire/2.JPG';
+// import solitaire3 from './../assets/solitaire/3.JPG';
+// import solitaire4 from './../assets/solitaire/4.JPG';
+// import solitaire1 from './../assets/solitaire/5.JPG';
+// import solitaire6 from './../assets/solitaire/6.JPG';
+import solitaire5 from './../assets/solitaire/7.JPG';
+// import solitaire8 from './../assets/solitaire/8.JPG';
+import solitaire6 from './../assets/solitaire/9.JPG';
+// import solitaire10 from './../assets/solitaire/10.JPG';
+import solitaire2 from './../assets/solitaire/11.JPG';
+// import solitaire12 from './../assets/solitaire/12.JPG';
+import solitaire4 from './../assets/solitaire/13.JPG';
+// import solitaire14 from './../assets/solitaire/14.JPG';
+// import solitaire15 from './../assets/solitaire/15.JPG';
+import solitaire7 from './../assets/solitaire/16.JPG';
+import solitaire8 from './../assets/solitaire/17.JPG';
+// import solitaire18 from './../assets/solitaire/18.JPG';
+// import solitaire19 from './../assets/solitaire/19.JPG';
+import solitaire3 from './../assets/solitaire/20.JPG';
+// import solitaire21 from './../assets/solitaire/21.JPG';
+// import solitaire4 from './../assets/solitaire/22.JPG';
+// import solitaire23 from './../assets/solitaire/23.JPG';
+// import solitaire24 from './../assets/solitaire/24.JPG';
+import solitaire1 from './../assets/solitaire/25.JPG';
+// import solitaire26 from './../assets/solitaire/26.JPG';
+// import solitaire27 from './../assets/solitaire/27.JPG';
+// import solitaire28 from './../assets/solitaire/28.JPG';
+// import solitaire29 from './../assets/solitaire/29.JPG';
+// import solitaire30 from './../assets/solitaire/30.JPG';
 
-import grace1 from './../assets/grace/1.JPG';
-import grace2 from './../assets/grace/2.JPG';
-import grace3 from './../assets/grace/3.JPG';
-import grace4 from './../assets/grace/4.JPG';
-import grace5 from './../assets/grace/5.JPG';
-import grace6 from './../assets/grace/6.JPG';
-import grace7 from './../assets/grace/7.JPG';
-import grace8 from './../assets/grace/8.JPG';
-import grace9 from './../assets/grace/9.JPG';
-import grace10 from './../assets/grace/10.JPG';
-import grace11 from './../assets/grace/11.JPG';
-import grace12 from './../assets/grace/12.JPG';
-import grace13 from './../assets/grace/13.JPG';
-import grace14 from './../assets/grace/14.JPG';
-import grace15 from './../assets/grace/15.JPG';
 
-import manhattan16 from './../assets/manhattan/16.JPG';
-import manhattan17 from './../assets/manhattan/17.JPG';
-import manhattan18 from './../assets/manhattan/18.JPG';
-import manhattan19 from './../assets/manhattan/19.JPG';
-import manhattan20 from './../assets/manhattan/20.JPG';
-import manhattan21 from './../assets/manhattan/21.JPG';
-import manhattan22 from './../assets/manhattan/22.JPG';
-import manhattan23 from './../assets/manhattan/23.JPG';
-import manhattan24 from './../assets/manhattan/24.JPG';
-import manhattan25 from './../assets/manhattan/25.JPG';
-import manhattan26 from './../assets/manhattan/26.JPG';
-import manhattan27 from './../assets/manhattan/27.JPG';
-import manhattan28 from './../assets/manhattan/28.JPG';
-import manhattan29 from './../assets/manhattan/29.JPG';
-import manhattan30 from './../assets/manhattan/30.JPG';
-import manhattan31 from './../assets/manhattan/31.JPG';
+// import grace1 from './../assets/grace/1.JPG';
+// import grace2 from './../assets/grace/2.JPG';
+// import grace3 from './../assets/grace/3.JPG';
+import grace2 from './../assets/grace/4.JPG';
+import grace1 from './../assets/grace/5.JPG';
+// import grace6 from './../assets/grace/6.JPG';
+// import grace3 from './../assets/grace/7.JPG';
+import grace5 from './../assets/grace/8.JPG';
+// import grace9 from './../assets/grace/9.JPG';
+import grace4 from './../assets/grace/10.JPG';
+// import grace11 from './../assets/grace/11.JPG';
+import grace6 from './../assets/grace/12.JPG';
+// import grace13 from './../assets/grace/13.JPG';
+import grace3 from './../assets/grace/14.JPG';
+// import grace15 from './../assets/grace/15.JPG';
 
-import magnus15 from './../assets/magnus/15.JPG';
-import magnus16 from './../assets/magnus/16.JPG';
-import magnus17 from './../assets/magnus/17.JPG';
-import magnus18 from './../assets/magnus/18.JPG';
-import magnus19 from './../assets/magnus/19.JPG';
-import magnus20 from './../assets/magnus/20.JPG';
-import magnus21 from './../assets/magnus/21.JPG';
-import magnus22 from './../assets/magnus/22.JPG';
-import magnus23 from './../assets/magnus/23.JPG';
-import magnus24 from './../assets/magnus/24.JPG';
-import magnus25 from './../assets/magnus/25.JPG';
-import magnus26 from './../assets/magnus/26.JPG';
-import magnus27 from './../assets/magnus/27.JPG';
+// import manhattan3 from './../assets/manhattan/16.JPG';
+import manhattan6 from './../assets/manhattan/17.JPG';
+import manhattan7 from './../assets/manhattan/18.JPG';
+import manhattan5 from './../assets/manhattan/19.JPG';
+// import manhattan20 from './../assets/manhattan/20.JPG';
+// import manhattan21 from './../assets/manhattan/21.JPG';
+// import manhattan22 from './../assets/manhattan/22.JPG';
+// import manhattan23 from './../assets/manhattan/23.JPG';
+// import manhattan24 from './../assets/manhattan/24.JPG';
+// import manhattan25 from './../assets/manhattan/25.JPG';
+// import manhattan26 from './../assets/manhattan/26.JPG';
+import manhattan1 from './../assets/manhattan/27.JPG';
+import manhattan2 from './../assets/manhattan/28.JPG';
+import manhattan3 from './../assets/manhattan/29.JPG';
+// import manhattan30 from './../assets/manhattan/30.JPG';
+import manhattan4 from './../assets/manhattan/31.JPG';
 
-import ruby1 from './../assets/ruby/1.webp';
+// import magnus15 from './../assets/magnus/15.JPG';
+import magnus4 from './../assets/magnus/16.JPG';
+// import magnus17 from './../assets/magnus/17.JPG';
+// import magnus18 from './../assets/magnus/18.JPG';
+// import magnus19 from './../assets/magnus/19.JPG';
+import magnus2 from './../assets/magnus/20.JPG';
+import magnus1 from './../assets/magnus/21.JPG';
+import magnus3 from './../assets/magnus/22.JPG';
+// import magnus23 from './../assets/magnus/23.JPG';
+// import magnus24 from './../assets/magnus/24.JPG';
+import magnus5 from './../assets/magnus/25.JPG';
+// import magnus26 from './../assets/magnus/26.JPG';
+// import magnus27 from './../assets/magnus/27.JPG';
+
+import ruby6 from './../assets/ruby/1.webp';
 import ruby2 from './../assets/ruby/2.webp';
-import ruby3 from './../assets/ruby/3.webp';
-import ruby4 from './../assets/ruby/4.webp';
-import ruby5 from './../assets/ruby/5.webp';
-import ruby6 from './../assets/ruby/6.webp';
-import ruby7 from './../assets/ruby/7.webp';
-import ruby8 from './../assets/ruby/8.webp';
-import ruby9 from './../assets/ruby/9.webp';
-import ruby10 from './../assets/ruby/10.webp';
+// import ruby3 from './../assets/ruby/3.webp';
+import ruby3 from './../assets/ruby/4.webp';
+import ruby1 from './../assets/ruby/5.webp';
+import ruby5 from './../assets/ruby/6.webp';
+// import ruby7 from './../assets/ruby/7.webp';
+// import ruby8 from './../assets/ruby/8.webp';
+// import ruby9 from './../assets/ruby/9.webp';
+import ruby4 from './../assets/ruby/10.webp';
 
 // ─────────────────────────────────────────────────────────────
 //  HOTELS
@@ -274,8 +275,8 @@ export const HOTELS = [
 export const APARTMENTS = [
   {
     id: 'a01',
-    name: 'Urban Suites',
-    location: 'Jagatpura, Jaipur',
+    name: 'CKM Urban Suites',
+    location: 'Mahal Road, Near Bombay Hospital',
     mapsLink: 'https://maps.app.goo.gl/XqiTLLayScENScnf8',
     type: 'Apartment',
     category: 'Ultra-Luxury',
@@ -287,14 +288,14 @@ export const APARTMENTS = [
       'Free Wi-Fi', 'AC', 'Fully Furnished', 'Co-Working Space', 'Event Area',
       'Parking', 'Power Backup', 'Security', 'Lift',
     ],
-    images: [urbanSuites1, urbanSuites2, urbanSuites3, urbanSuites4],
+    images: [urbanSuites1, urbanSuites2, urbanSuites3],
     videos: urbanSuitesVideo,
     featured: true,
   },
   {
     id: 'a02',
     name: 'Grand Anukampa',
-    location: 'Shyam Nagar, Main Ajmer Road, Jaipur',
+    location: 'Shyam Nagar, Jaipur',
     mapsLink: 'https://share.google/QUsEDxna8gqrWzzzG',
     type: 'Apartment',
     category: 'Boutique Serviced',
@@ -308,14 +309,7 @@ export const APARTMENTS = [
     ],
     images: [
       grandAnukampa1, grandAnukampa2, grandAnukampa3, grandAnukampa4,
-      grandAnukampa5, grandAnukampa6, grandAnukampa7, grandAnukampa8,
-      grandAnukampa9, grandAnukampa10, grandAnukampa11, grandAnukampa12,
-      grandAnukampa13, grandAnukampa14, grandAnukampa15, grandAnukampa16,
-      grandAnukampa17, grandAnukampa18, grandAnukampa19, grandAnukampa20,
-      grandAnukampa21, grandAnukampa22, grandAnukampa23, grandAnukampa24,
-      grandAnukampa25, grandAnukampa26, grandAnukampa27, grandAnukampa28,
-      grandAnukampa29, grandAnukampa30, grandAnukampa31, grandAnukampa32,
-      grandAnukampa33,
+      grandAnukampa5, grandAnukampa6, grandAnukampa7
     ],
     videos: grandAnukampaVideo,
     featured: true,
@@ -323,9 +317,9 @@ export const APARTMENTS = [
   {
     id: 'a03',
     name: 'The Pink Peacock Stays (Vidhyadeep)',
-    location: 'Jaipur, Rajasthan (Near Jaipur Railway Station)',
+    location: 'Gopalbari, Jaipur',
     mapsLink: 'https://maps.app.goo.gl/vv7RVewWgtRAooAD8',
-    type: 'Hybrid Stay',
+    type: 'Apartment',
     category: 'Boutique Stay + Convenient Living',
     units: 'Approx. 28+ Rooms & Apartments',
     rating: 4.0,
@@ -344,10 +338,7 @@ export const APARTMENTS = [
 
     images: [
       vidhyadeep1, vidhyadeep2, vidhyadeep3, vidhyadeep4, vidhyadeep5,
-      vidhyadeep6, vidhyadeep7, vidhyadeep8, vidhyadeep9, vidhyadeep10,
-      vidhyadeep11, vidhyadeep12, vidhyadeep13, vidhyadeep14, vidhyadeep15,
-      vidhyadeep16, vidhyadeep17, vidhyadeep18, vidhyadeep19, vidhyadeep20,
-      vidhyadeep21, vidhyadeep22, vidhyadeep23, vidhyadeep24, vidhyadeep25
+      vidhyadeep6
     ],
 
     videos: [
@@ -360,7 +351,7 @@ export const APARTMENTS = [
   {
     id: 'a04',
     name: 'Ruby Suites',
-    location: 'Jaipur, Rajasthan',
+    location: 'Gopalbari, Jaipur',
     mapsLink: 'https://maps.app.goo.gl/VquU9NPDmJmcK9cz5',
     type: 'Apartment',
     category: 'Premium Suites',
@@ -368,14 +359,14 @@ export const APARTMENTS = [
     description:
       'Ruby Suites is a polished serviced apartment offering with a focus on comfort and value. Spacious suites with quality furnishings, reliable amenities, and an attentive management team make it a popular choice for extended-stay guests and investors alike.',
     amenities: ['Furnished Suites', 'Free Wi-Fi', 'AC', 'Security', 'Parking', 'Power Backup', 'Lift'],
-    images: [ruby1, ruby2, ruby3, ruby4, ruby5, ruby6, ruby7, ruby8, ruby9, ruby10],
+    images: [ruby1, ruby2, ruby3, ruby4, ruby5, ruby6],
     videos: null,
     featured: false,
   },
   {
     id: 'a05',
     name: 'Solitaire Suites',
-    location: 'Jaipur, Rajasthan',
+    location: 'Jagatpura, Jaipur',
     mapsLink: 'https://share.google/Z5vBhoQBWrRzh3h2d',
     type: 'Apartment',
     category: 'Premium',
@@ -385,11 +376,7 @@ export const APARTMENTS = [
     amenities: ['Furnished Units', 'Free Wi-Fi', 'AC', 'Security', 'Parking', 'Power Backup', 'Lift'],
     images: [
       solitaire1, solitaire2, solitaire3, solitaire4, solitaire5,
-      solitaire6, solitaire7, solitaire8, solitaire9, solitaire10,
-      solitaire11, solitaire12, solitaire13, solitaire14, solitaire15,
-      solitaire16, solitaire17, solitaire18, solitaire19, solitaire20,
-      solitaire21, solitaire22, solitaire23, solitaire24, solitaire25,
-      solitaire26, solitaire27, solitaire28, solitaire29, solitaire30,
+      solitaire6, solitaire7, solitaire8
     ],
     videos: null,
     featured: false,
@@ -397,7 +384,7 @@ export const APARTMENTS = [
   {
     id: 'a06',
     name: 'Manhattan RIviera',
-    location: 'Jaipur, Rajasthan',
+    location: 'Mahal Rd, near Bombay Hospital ',
     mapsLink: 'https://maps.app.goo.gl/RGbz6jCU9ckCSeCG9',
     type: 'Apartment',
     category: 'Premium',
@@ -406,10 +393,7 @@ export const APARTMENTS = [
       'Riverra Manhattan blends urban sophistication with residential comfort. Thoughtfully designed apartments with modern interiors, quality furnishings, and a curated set of lifestyle amenities for professionals and families seeking an elevated living experience in Jaipur.',
     amenities: ['Furnished Units', 'Free Wi-Fi', 'AC', 'Security', 'Parking', 'Power Backup', 'Lift', 'Intercom'],
     images: [
-      manhattan16, manhattan17, manhattan18, manhattan19, manhattan20,
-      manhattan21, manhattan22, manhattan23, manhattan24, manhattan25,
-      manhattan26, manhattan27, manhattan28, manhattan29, manhattan30,
-      manhattan31,
+      manhattan1, manhattan2, manhattan3, manhattan4, manhattan5, manhattan6, manhattan7
     ],
     videos: null,
     featured: false,
@@ -417,7 +401,7 @@ export const APARTMENTS = [
   {
     id: 'a07',
     name: 'GKB Grace',
-    location: 'Jaipur, Rajasthan',
+    location: 'Omaxe City, Ajmer Road, Jaipur',
     mapsLink: 'https://maps.app.goo.gl/WuuaH3MW91jTWUdZ8',
     type: 'Apartment',
     category: 'Residential',
@@ -427,8 +411,7 @@ export const APARTMENTS = [
     amenities: ['AC', 'Free Wi-Fi', 'Security', 'Parking', 'Power Backup', 'Lift', 'Landscaped Garden'],
     images: [
       grace1, grace2, grace3, grace4, grace5,
-      grace6, grace7, grace8, grace9, grace10,
-      grace11, grace12, grace13, grace14, grace15,
+      grace6
     ],
     videos: null,
     featured: false,
@@ -436,7 +419,7 @@ export const APARTMENTS = [
   {
     id: 'a08',
     name: 'Magnus',
-    location: 'Jaipur, Rajasthan',
+    location: 'Tonk Road, Jaipur',
     mapsLink: 'https://maps.app.goo.gl/ysKMS2UK5qSiFABT8',
     type: 'Apartment',
     category: 'Luxury',
@@ -445,9 +428,7 @@ export const APARTMENTS = [
       'Magnus by Redwood is a statement in luxury residential development. Grand proportions, premium finishes, and a comprehensive suite of lifestyle amenities create a living environment befitting its bold name — truly a property that stands apart.',
     amenities: ['Swimming Pool', 'Gymnasium', 'Clubhouse', 'AC', 'Free Wi-Fi', 'Security', 'Parking', 'Power Backup', 'Lift'],
     images: [
-      magnus15, magnus16, magnus17, magnus18, magnus19,
-      magnus20, magnus21, magnus22, magnus23, magnus24,
-      magnus25, magnus26, magnus27,
+      magnus1, magnus2, magnus3, magnus4, magnus5
     ],
     videos: null,
     featured: false,

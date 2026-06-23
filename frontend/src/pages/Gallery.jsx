@@ -304,8 +304,9 @@ export default function Gallery() {
                 alt={selected.title}
                 style={{
                   width: "100%",
-                  aspectRatio: "16/9",
-                  objectFit: "cover",
+                  height: "auto",
+                  maxHeight: "80vh",
+                  objectFit: "contain", // or "cover" if you prefer cropping over letterboxing
                   display: "block",
                 }}
               />
@@ -316,7 +317,7 @@ export default function Gallery() {
             </div>
 
             {/* Text content — scrollable if needed */}
-            <div style={{
+            {/* <div style={{
               padding: "clamp(16px, 3vw, 24px) clamp(18px, 3.5vw, 28px) clamp(20px, 3.5vw, 28px)",
               color: "#F5F0E8",
               overflowY: "auto",
@@ -372,7 +373,6 @@ export default function Gallery() {
                 {selected.description}
               </p>
 
-              {/* Counter */}
               <p style={{
                 fontFamily: "'Outfit', sans-serif",
                 fontSize: "clamp(10px, 1.2vw, 11px)",
@@ -383,7 +383,7 @@ export default function Gallery() {
               }}>
                 {selectedIndex + 1} / {total}
               </p>
-            </div>
+            </div> */}
           </div>
         </div>
       )}

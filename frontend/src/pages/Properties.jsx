@@ -18,27 +18,22 @@ function useWindowWidth() {
 }
 
 // ─────────────────────────────────────────────────────────────
-//  PropertyModal — full detail overlay with image gallery,
-//  video player, Google Maps link, and amenities
+//  PropertyModal
 // ─────────────────────────────────────────────────────────────
-
 function PropertyModal({ selected, onClose, onPrev, onNext }) {
   const width = useWindowWidth();
   const isMobile = width < 768;
 
-  // Gallery state
-  const [activeTab, setActiveTab] = useState("photos"); // "photos" | "video"
+  const [activeTab, setActiveTab] = useState("photos");
   const [activeImg, setActiveImg] = useState(0);
   const [activeVideoIdx, setActiveVideoIdx] = useState(0);
 
-  // Reset gallery when a new property is opened
   useEffect(() => {
     setActiveImg(0);
     setActiveTab("photos");
     setActiveVideoIdx(0);
   }, [selected?.id]);
 
-  // Lock body scroll
   useEffect(() => {
     if (selected) document.body.style.overflow = "hidden";
     else document.body.style.overflow = "";
@@ -49,20 +44,11 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
 
   const hasImages = selected.images && selected.images.length > 0;
 
-  // Normalise video: support string (single) or array (multiple)
   const videos = Array.isArray(selected.videos)
     ? selected.videos
     : selected.videos ? [selected.videos] : [];
   const hasVideo = videos.length > 0;
 
-  const hasMedia = hasImages || hasVideo;
-
-  // The image shown in the hero area
-  const heroSrc = hasImages
-    ? selected.images[activeImg]
-    : "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80";
-
-  // Prev / next within the image gallery
   const galleryPrev = (e) => {
     e.stopPropagation();
     setActiveImg((i) => (i - 1 + selected.images.length) % selected.images.length);
@@ -72,7 +58,6 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
     setActiveImg((i) => (i + 1) % selected.images.length);
   };
 
-  // Prev / next within the video gallery
   const videoPrev = (e) => {
     e.stopPropagation();
     setActiveVideoIdx((i) => (i - 1 + videos.length) % videos.length);
@@ -126,10 +111,10 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
           }} />
         )}
 
-        {/* ── MEDIA AREA ───────────────────────────────────────── */}
+        {/* ── MEDIA AREA ── */}
         <div style={{ position: "relative", flexShrink: 0 }}>
 
-          {/* Tab switcher — only shown when both images and video exist */}
+          {/* Tab switcher — only when both images AND video exist */}
           {hasImages && hasVideo && (
             <div style={{
               position: "absolute", top: 14, left: 14,
@@ -175,11 +160,42 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
             ×
           </button>
 
+          {/* ── NO IMAGE & NO VIDEO — placeholder ── */}
+          {!hasImages && !hasVideo && (
+            <div style={{
+              width: "100%",
+              aspectRatio: isMobile ? "4/3" : "16/9",
+              background: "#0D1117",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 10,
+              borderBottom: "1px solid rgba(201,168,76,0.1)",
+            }}>
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="rgba(201,168,76,0.35)" strokeWidth="1.2">
+                <rect x="3" y="3" width="18" height="18" rx="2" />
+                <circle cx="8.5" cy="8.5" r="1.5" />
+                <polyline points="21 15 16 10 5 21" />
+              </svg>
+              <p style={{
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: "0.7rem",
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                color: "rgba(201,168,76,0.45)",
+                margin: 0,
+              }}>
+                No Image Available
+              </p>
+            </div>
+          )}
+
           {/* ── PHOTO VIEW ── */}
-          {(activeTab === "photos" || !hasVideo) && (
+          {hasImages && (activeTab === "photos" || !hasVideo) && (
             <>
               <img
-                src={heroSrc}
+                src={selected.images[activeImg]}
                 alt={selected.name}
                 style={{
                   width: "100%",
@@ -189,7 +205,6 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
                 }}
               />
 
-              {/* Gradient overlay */}
               <div style={{
                 position: "absolute", bottom: 0, left: 0, right: 0,
                 height: "40%",
@@ -197,13 +212,10 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
                 pointerEvents: "none",
               }} />
 
-              {/* Gallery arrows — only when multiple images */}
-              {hasImages && selected.images.length > 1 && (
+              {selected.images.length > 1 && (
                 <>
                   <button onClick={galleryPrev} style={modalArrow("left")}>‹</button>
                   <button onClick={galleryNext} style={modalArrow("right")}>›</button>
-
-                  {/* Image counter */}
                   <div style={{
                     position: "absolute", bottom: 12, left: "50%",
                     transform: "translateX(-50%)",
@@ -212,34 +224,26 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
                     color: "rgba(255,255,255,0.6)",
                     background: "rgba(0,0,0,0.45)",
                     padding: "3px 10px", borderRadius: "20px",
-                    pointerEvents: "none",
-                    zIndex: 4,
+                    pointerEvents: "none", zIndex: 4,
                   }}>
                     {activeImg + 1} / {selected.images.length}
                   </div>
                 </>
               )}
 
-              {/* Thumbnail strip — desktop, when 2+ images */}
-              {!isMobile && hasImages && selected.images.length > 1 && (
+              {!isMobile && selected.images.length > 1 && (
                 <div style={{
                   position: "absolute", bottom: 0, left: 0, right: 0,
                   display: "flex", gap: 4, padding: "8px 12px 8px",
-                  overflowX: "auto", zIndex: 5,
-                  scrollbarWidth: "none",
+                  overflowX: "auto", zIndex: 5, scrollbarWidth: "none",
                 }}>
                   {selected.images.map((src, i) => (
                     <img
-                      key={i}
-                      src={src}
-                      alt=""
+                      key={i} src={src} alt=""
                       onClick={() => setActiveImg(i)}
                       style={{
-                        width: 48, height: 34,
-                        objectFit: "cover",
-                        borderRadius: 4,
-                        flexShrink: 0,
-                        cursor: "pointer",
+                        width: 48, height: 34, objectFit: "cover",
+                        borderRadius: 4, flexShrink: 0, cursor: "pointer",
                         border: `2px solid ${i === activeImg ? "#C9A84C" : "transparent"}`,
                         opacity: i === activeImg ? 1 : 0.6,
                         transition: "all 0.2s ease",
@@ -251,16 +255,14 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
             </>
           )}
 
-          {/* ── VIDEO VIEW — supports multiple videos ── */}
-          {activeTab === "video" && hasVideo && (
+          {/* ── VIDEO-ONLY view (no images) ── */}
+          {!hasImages && hasVideo && (
             <div style={{ position: "relative" }}>
               <video
                 key={activeVideoIdx}
                 src={videos[activeVideoIdx]}
                 preload="metadata"
-                muted
-                controls
-                autoPlay
+                muted controls autoPlay
                 style={{
                   width: "100%",
                   aspectRatio: isMobile ? "4/3" : "16/9",
@@ -269,48 +271,32 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
                   background: "#000",
                 }}
               />
-
-              {/* Navigation arrows — only when multiple videos */}
               {videos.length > 1 && (
                 <>
                   <button onClick={videoPrev} style={modalArrow("left")}>‹</button>
                   <button onClick={videoNext} style={modalArrow("right")}>›</button>
-
-                  {/* Video counter */}
                   <div style={{
                     position: "absolute", bottom: 12, left: "50%",
                     transform: "translateX(-50%)",
-                    fontFamily: "'Outfit', sans-serif",
-                    fontSize: "0.65rem",
-                    color: "rgba(255,255,255,0.6)",
-                    background: "rgba(0,0,0,0.45)",
+                    fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem",
+                    color: "rgba(255,255,255,0.6)", background: "rgba(0,0,0,0.45)",
                     padding: "3px 10px", borderRadius: "20px",
-                    pointerEvents: "none",
-                    zIndex: 4,
+                    pointerEvents: "none", zIndex: 4,
                   }}>
                     {activeVideoIdx + 1} / {videos.length}
                   </div>
-
-                  {/* Video thumbnail strip — desktop only */}
                   {!isMobile && (
                     <div style={{
                       position: "absolute", bottom: 0, left: 0, right: 0,
                       display: "flex", gap: 4, padding: "8px 12px 8px",
-                      overflowX: "auto", zIndex: 5,
-                      scrollbarWidth: "none",
+                      overflowX: "auto", zIndex: 5, scrollbarWidth: "none",
                     }}>
                       {videos.map((src, i) => (
-                        <video
-                          key={i}
-                          src={src}
-                          muted
+                        <video key={i} src={src} muted
                           onClick={() => setActiveVideoIdx(i)}
                           style={{
-                            width: 64, height: 38,
-                            objectFit: "cover",
-                            borderRadius: 4,
-                            flexShrink: 0,
-                            cursor: "pointer",
+                            width: 64, height: 38, objectFit: "cover",
+                            borderRadius: 4, flexShrink: 0, cursor: "pointer",
                             border: `2px solid ${i === activeVideoIdx ? "#C9A84C" : "transparent"}`,
                             opacity: i === activeVideoIdx ? 1 : 0.6,
                             transition: "all 0.2s ease",
@@ -324,16 +310,14 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
             </div>
           )}
 
-          {/* When only videos exist (no photos), show video directly in photos tab */}
-          {!hasImages && hasVideo && activeTab === "photos" && (
+          {/* ── VIDEO TAB view (has both images and video, user clicked "video") ── */}
+          {hasImages && hasVideo && activeTab === "video" && (
             <div style={{ position: "relative" }}>
               <video
-                key={i}
-                src={videos[i]}
+                key={activeVideoIdx}
+                src={videos[activeVideoIdx]}
                 preload="metadata"
-                muted
-                controls
-                autoPlay
+                muted controls autoPlay
                 style={{
                   width: "100%",
                   aspectRatio: isMobile ? "4/3" : "16/9",
@@ -342,45 +326,32 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
                   background: "#000",
                 }}
               />
-
               {videos.length > 1 && (
                 <>
                   <button onClick={videoPrev} style={modalArrow("left")}>‹</button>
                   <button onClick={videoNext} style={modalArrow("right")}>›</button>
-
                   <div style={{
                     position: "absolute", bottom: 12, left: "50%",
                     transform: "translateX(-50%)",
-                    fontFamily: "'Outfit', sans-serif",
-                    fontSize: "0.65rem",
-                    color: "rgba(255,255,255,0.6)",
-                    background: "rgba(0,0,0,0.45)",
+                    fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem",
+                    color: "rgba(255,255,255,0.6)", background: "rgba(0,0,0,0.45)",
                     padding: "3px 10px", borderRadius: "20px",
-                    pointerEvents: "none",
-                    zIndex: 4,
+                    pointerEvents: "none", zIndex: 4,
                   }}>
                     {activeVideoIdx + 1} / {videos.length}
                   </div>
-
                   {!isMobile && (
                     <div style={{
                       position: "absolute", bottom: 0, left: 0, right: 0,
                       display: "flex", gap: 4, padding: "8px 12px 8px",
-                      overflowX: "auto", zIndex: 5,
-                      scrollbarWidth: "none",
+                      overflowX: "auto", zIndex: 5, scrollbarWidth: "none",
                     }}>
                       {videos.map((src, i) => (
-                        <video
-                          key={i}
-                          src={src}
-                          muted
+                        <video key={i} src={src} muted
                           onClick={() => setActiveVideoIdx(i)}
                           style={{
-                            width: 64, height: 38,
-                            objectFit: "cover",
-                            borderRadius: 4,
-                            flexShrink: 0,
-                            cursor: "pointer",
+                            width: 64, height: 38, objectFit: "cover",
+                            borderRadius: 4, flexShrink: 0, cursor: "pointer",
                             border: `2px solid ${i === activeVideoIdx ? "#C9A84C" : "transparent"}`,
                             opacity: i === activeVideoIdx ? 1 : 0.6,
                             transition: "all 0.2s ease",
@@ -391,23 +362,11 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
                   )}
                 </>
               )}
-            </div>
-          )}
-
-          {/* No media placeholder */}
-          {!hasMedia && (
-            <div style={{
-              width: "100%",
-              aspectRatio: isMobile ? "4/3" : "16/9",
-              background: "#0D1117",
-              display: "flex", alignItems: "center", justifyContent: "center",
-            }}>
-              <span style={{ fontSize: 48, opacity: 0.25 }}>🏨</span>
             </div>
           )}
         </div>
 
-        {/* ── SCROLLABLE CONTENT ────────────────────────────────── */}
+        {/* ── SCROLLABLE CONTENT ── */}
         <div style={{ overflowY: "auto", flexGrow: 1, WebkitOverflowScrolling: "touch" }}>
           <div style={{ padding: isMobile ? "20px 18px 36px" : "24px 28px 32px", color: "#F5F0E8" }}>
 
@@ -468,35 +427,6 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
             {/* Divider */}
             <div style={{ width: 36, height: 1, background: "rgba(201,168,76,0.4)", marginBottom: 14 }} />
 
-            {/* Description */}
-            <p style={{
-              fontFamily: "'Outfit', sans-serif",
-              fontSize: isMobile ? "0.78rem" : "0.8rem",
-              color: "#8a8580", lineHeight: 1.8, margin: "0 0 18px 0",
-            }}>
-              {selected.description}
-            </p>
-
-            {/* Stats row */}
-            <div style={{
-              display: "flex", gap: isMobile ? 16 : 24,
-              marginBottom: 18, padding: "12px 0",
-              borderTop: "1px solid rgba(255,255,255,0.06)",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
-              flexWrap: "wrap",
-            }}>
-              {selected.rooms && (
-                <div>
-                  <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.rooms}</p>
-                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rooms</p>
-                </div>
-              )}
-              <div>
-                <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#C9A84C", margin: 0 }}>{selected.rating} ★</p>
-                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rating</p>
-              </div>
-            </div>
-
             {/* Amenities */}
             <div>
               <p style={{
@@ -522,7 +452,38 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
               </div>
             </div>
 
-            {/* Video section — shown at the bottom when in photos tab and videos exist */}
+             <div style={{ width: 36, height: 1, marginBottom: 14 }} />
+
+            {/* Stats row */}
+            <div style={{
+              display: "flex", gap: isMobile ? 16 : 24,
+              marginBottom: 18, padding: "12px 0",
+              borderTop: "1px solid rgba(255,255,255,0.06)",
+              borderBottom: "1px solid rgba(255,255,255,0.06)",
+              flexWrap: "wrap",
+            }}>
+              {/* {selected.rooms && (
+                <div>
+                  <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#F5F0E8", margin: 0 }}>{selected.rooms}</p>
+                  <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rooms</p>
+                </div>
+              )} */}
+              <div>
+                <p style={{ fontFamily: "'Cinzel', serif", fontSize: "0.95rem", color: "#C9A84C", margin: 0 }}>{selected.rating} ★</p>
+                <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#8a8580", letterSpacing: "0.12em", textTransform: "uppercase", margin: "2px 0 0" }}>Rating</p>
+              </div>
+            </div>
+
+            {/* Description */}
+            <p style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: isMobile ? "0.78rem" : "0.8rem",
+              color: "#8a8580", lineHeight: 1.8, margin: "0 0 18px 0",
+            }}>
+              {selected.description}
+            </p>
+
+            {/* Video section — shown at bottom when in photos tab and videos exist alongside images */}
             {hasVideo && activeTab === "photos" && hasImages && (
               <div style={{ marginTop: 20 }}>
                 <p style={{
@@ -534,17 +495,12 @@ function PropertyModal({ selected, onClose, onPrev, onNext }) {
                 </p>
                 {videos.map((src, i) => (
                   <video
-                    key={i}
-                    src={src}
-                    controls
+                    key={i} src={src} controls
                     style={{
-                      width: "100%",
-                      maxHeight: "300px",
-                      objectFit: "cover",
-                      borderRadius: 8,
+                      width: "100%", maxHeight: "300px",
+                      objectFit: "cover", borderRadius: 8,
                       border: "1px solid rgba(201,168,76,0.15)",
-                      background: "#000",
-                      display: "block",
+                      background: "#000", display: "block",
                       marginBottom: i < videos.length - 1 ? 10 : 0,
                     }}
                   />
@@ -580,50 +536,17 @@ function modalArrow(side) {
 
 
 // ─────────────────────────────────────────────────────────────
-//  PropertyCard — grid card with hover effect
+//  PropertyCard
 // ─────────────────────────────────────────────────────────────
 function PropertyCard({ item, index, onClick, isMobile }) {
   const [hovered, setHovered] = useState(false);
 
-  // Determine the thumbnail: first image, or null
   const thumb = item.images && item.images.length > 0 ? item.images[0] : null;
 
-  // Normalise video: support string (single) or array (multiple)
   const videos = Array.isArray(item.videos)
     ? item.videos
     : item.videos ? [item.videos] : [];
   const hasVideo = videos.length > 0;
-
-  // "And many more" placeholder card (no image AND no video)
-  if (!thumb && !hasVideo) {
-    return (
-      <div style={{
-        background: "#111827",
-        border: "1px solid rgba(201,168,76,0.2)",
-        borderRadius: "8px",
-        overflow: "hidden",
-        cursor: "pointer",
-      }}
-        onClick={() => onClick && onClick(item)}
-      >
-        <div style={{
-          background: "#0D1117", aspectRatio: "3/2",
-          display: "flex", flexDirection: "column",
-          alignItems: "center", justifyContent: "center", gap: "8px",
-        }}>
-          <span style={{ fontSize: isMobile ? "24px" : "32px" }}>🏨</span>
-          <span style={{ fontFamily: "'Cinzel', serif", fontSize: "11px", color: "#C9A84C", letterSpacing: "0.1em" }}>View Details</span>
-        </div>
-        <div style={{ padding: isMobile ? "10px" : "12px" }}>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: isMobile ? "11px" : "12px", color: "#F5F0E8", fontWeight: 600, margin: "0 0 2px" }}>{item.name}</p>
-          <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: isMobile ? "10px" : "11px", color: "#C9A84C", margin: 0 }}>📍 {item.location}</p>
-        </div>
-      </div>
-    );
-  }
-
-  // If no image but has video(s), show the first video as the thumbnail/hero
-  const showVideoThumbnail = !thumb && hasVideo;
 
   return (
     <div
@@ -642,22 +565,16 @@ function PropertyCard({ item, index, onClick, isMobile }) {
         position: "relative",
       }}
     >
-
       {/* Star Rating — top right */}
       {item.rating && (
         <div style={{
-          position: "absolute",
-          top: "10px",
-          right: "10px",
-          zIndex: 2,
+          position: "absolute", top: "10px", right: "10px", zIndex: 2,
           background: "rgba(13,17,23,0.75)",
           border: "1px solid rgba(201,168,76,0.35)",
           borderRadius: "4px",
           padding: isMobile ? "3px 6px" : "4px 8px",
           backdropFilter: "blur(4px)",
-          display: "flex",
-          alignItems: "center",
-          gap: 3,
+          display: "flex", alignItems: "center", gap: 3,
         }}>
           {Array.from({ length: 5 }).map((_, i) => {
             const fill = i < Math.floor(item.rating) ? "#C9A84C"
@@ -680,15 +597,12 @@ function PropertyCard({ item, index, onClick, isMobile }) {
           <span style={{
             fontFamily: "'Outfit', sans-serif",
             fontSize: isMobile ? 9 : 10,
-            color: "#C9A84C",
-            letterSpacing: "0.04em",
-            marginLeft: 1,
+            color: "#C9A84C", letterSpacing: "0.04em", marginLeft: 1,
           }}>
             {item.rating}
           </span>
         </div>
       )}
-
 
       {/* Hover plus — desktop only */}
       {!isMobile && (
@@ -707,17 +621,7 @@ function PropertyCard({ item, index, onClick, isMobile }) {
 
       {/* Media area */}
       <div style={{ aspectRatio: "3/2", overflow: "hidden", position: "relative" }}>
-        {showVideoThumbnail ? (
-          <video
-            src={videos[0]}
-            preload="metadata"
-            muted
-            style={{
-              width: "100%", height: "100%", objectFit: "cover",
-              display: "block",
-            }}
-          />
-        ) : (
+        {thumb ? (
           <img
             src={thumb}
             alt={item.name}
@@ -727,6 +631,38 @@ function PropertyCard({ item, index, onClick, isMobile }) {
               transition: "transform 0.5s ease",
             }}
           />
+        ) : hasVideo ? (
+          <video
+            src={videos[0]}
+            preload="metadata"
+            muted
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+          />
+        ) : (
+          /* ── No image / no video placeholder ── */
+          <div style={{
+            width: "100%", height: "100%",
+            background: "#0D1117",
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
+            gap: 8,
+          }}>
+            <svg width={isMobile ? 24 : 30} height={isMobile ? 24 : 30} viewBox="0 0 24 24"
+              fill="none" stroke="rgba(201,168,76,0.3)" strokeWidth="1.2">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+            <span style={{
+              fontFamily: "'Outfit', sans-serif",
+              fontSize: isMobile ? "8px" : "9px",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              color: "rgba(201,168,76,0.35)",
+            }}>
+              No Image Available
+            </span>
+          </div>
         )}
       </div>
 
@@ -737,9 +673,7 @@ function PropertyCard({ item, index, onClick, isMobile }) {
           color: "#F5F0E8", fontWeight: 600,
           marginBottom: "4px", marginTop: 0,
           lineHeight: 1.3,
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          whiteSpace: "nowrap",
+          overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
         }}>
           {item.name}
         </p>
@@ -759,7 +693,7 @@ function PropertyCard({ item, index, onClick, isMobile }) {
 
 
 // ─────────────────────────────────────────────────────────────
-//  SectionHeader — unchanged
+//  SectionHeader
 // ─────────────────────────────────────────────────────────────
 function SectionHeader({ title, subtitle, isMobile }) {
   return (
@@ -788,7 +722,6 @@ export default function Properties() {
   const [selected, setSelected] = useState(null);
   const width = useWindowWidth();
   const isMobile = width < 768;
-  const isSmall = width < 480;
 
   const mod = (n, m) => ((n % m) + m) % m;
 
@@ -860,11 +793,7 @@ export default function Properties() {
           </p>
 
           {/* Stats */}
-          <div style={{
-            display: "flex",
-            gap: isMobile ? "20px" : "40px",
-            flexWrap: "wrap",
-          }}>
+          <div style={{ display: "flex", gap: isMobile ? "20px" : "40px", flexWrap: "wrap" }}>
             {STATS.map((s) => (
               <div key={s.label} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
                 <div style={{
@@ -896,7 +825,7 @@ export default function Properties() {
                   <p style={{
                     fontFamily: "'Outfit', sans-serif",
                     fontSize: isMobile ? "10px" : "11px",
-                    color: "#6b6560", margin: 0,
+                    color: "rgba(245,240,232)", margin: 0,
                   }}>
                     {s.label}
                   </p>
@@ -907,7 +836,7 @@ export default function Properties() {
         </div>
       </section>
 
-      {/* ── HOTELS + STUDIO APARTMENTS — single unified section ── */}
+      {/* ── HOTELS + STUDIO APARTMENTS ── */}
       <section style={{ background: "#F5F0E8", padding: "clamp(40px, 6vw, 72px) 0 clamp(40px, 6vw, 72px)" }}>
         <div style={{
           maxWidth: "1280px", margin: "0 auto",
@@ -915,42 +844,34 @@ export default function Properties() {
           boxSizing: "border-box",
         }}>
 
-          {/* ── HOTELS ── */}
           <SectionHeader
-            title="HOTELS"
-            subtitle="Premium stays for every kind of traveler."
+            title="STUDIO APARTMENTS"
+            subtitle="Modern living spaces for professionals, students & long-term stays."
             isMobile={isMobile}
           />
-          <div
-            className="prop-grid"
-            style={{ marginTop: isMobile ? "16px" : "20px", display: "grid", gap: isMobile ? "10px" : "12px" }}
-          >
-            {HOTELS.map((h, i) => (
-              <PropertyCard key={h.id} item={h} index={i} onClick={openModal} isMobile={isMobile} />
+          <div className="prop-grid" style={{ marginTop: isMobile ? "16px" : "20px", display: "grid", gap: isMobile ? "10px" : "12px" }}>
+            {APARTMENTS.map((a, i) => (
+              <PropertyCard key={a.id} item={a} index={i} onClick={openModal} isMobile={isMobile} />
             ))}
           </div>
 
-          {/* ── Internal divider ── */}
           <div style={{
             margin: isMobile ? "32px 0" : "52px 0",
             height: "1px",
             background: "linear-gradient(90deg, transparent, rgba(201,168,76,0.3), transparent)",
           }} />
 
-          {/* ── STUDIO APARTMENTS ── */}
           <SectionHeader
-            title="STUDIO APARTMENTS"
-            subtitle="Modern living spaces for professionals, students & long-term stays."
+            title="HOTELS"
+            subtitle="Premium stays for every kind of traveler."
             isMobile={isMobile}
           />
-          <div
-            className="prop-grid"
-            style={{ marginTop: isMobile ? "16px" : "20px", display: "grid", gap: isMobile ? "10px" : "12px" }}
-          >
-            {APARTMENTS.map((a, i) => (
-              <PropertyCard key={a.id} item={a} index={i} onClick={openModal} isMobile={isMobile} />
+          <div className="prop-grid" style={{ marginTop: isMobile ? "16px" : "20px", display: "grid", gap: isMobile ? "10px" : "12px" }}>
+            {HOTELS.map((h, i) => (
+              <PropertyCard key={h.id} item={h} index={i} onClick={openModal} isMobile={isMobile} />
             ))}
           </div>
+
         </div>
       </section>
 
@@ -1034,22 +955,11 @@ export default function Properties() {
       />
 
       <style>{`
-        /* ── Property grid: 5 cols desktop → 4 → 3 → 2 → 1 ── */
-        .prop-grid {
-          grid-template-columns: repeat(5, 1fr);
-        }
-        @media (max-width: 1100px) {
-          .prop-grid { grid-template-columns: repeat(4, 1fr) !important; }
-        }
-        @media (max-width: 860px) {
-          .prop-grid { grid-template-columns: repeat(3, 1fr) !important; }
-        }
-        @media (max-width: 560px) {
-          .prop-grid { grid-template-columns: repeat(2, 1fr) !important; }
-        }
-        @media (max-width: 340px) {
-          .prop-grid { grid-template-columns: 1fr !important; }
-        }
+        .prop-grid { grid-template-columns: repeat(5, 1fr); }
+        @media (max-width: 1100px) { .prop-grid { grid-template-columns: repeat(4, 1fr) !important; } }
+        @media (max-width: 860px)  { .prop-grid { grid-template-columns: repeat(3, 1fr) !important; } }
+        @media (max-width: 560px)  { .prop-grid { grid-template-columns: repeat(2, 1fr) !important; } }
+        @media (max-width: 340px)  { .prop-grid { grid-template-columns: 1fr !important; } }
       `}</style>
     </>
   );

@@ -8,8 +8,8 @@ import phone from "../vectors/phone.svg";
 import mail from "../vectors/mail.svg";
 import LinkedInIcon from "../vectors/linkedin.svg";
 import InstagramIcon from "../vectors/instagram.svg";
-import FacebookIcon from "../vectors/facebook.svg";
-import YouTubeIcon from "../vectors/youtube.svg";
+// import FacebookIcon from "../vectors/facebook.svg";
+// import YouTubeIcon from "../vectors/youtube.svg";
 import WhatsAppIcon from "../vectors/whatsapp.svg";
 import ceo from "./../assets/team/ceo.jpeg";
 
@@ -43,10 +43,11 @@ export const milestones = [
     { year: "2020", title: "Tech Integration", desc: "Launched owner portal and tenant app for real-time management." },
     { year: "2022", title: "500+ Rooms Milestone", desc: "Crossed 500 rooms managed across multiple cities." },
     { year: "2024", title: "Expanding Nationally", desc: "Entering Tier 2 cities and exploring international markets." },
+    { year: "2026", title: "500+ Rooms & Luxury Portfolio", desc: "Crossed 500 rooms managed and launched a dedicated luxury villa segment across Rajasthan." },
 ];
 
 export const teamMembers = [
-    { name: "Aditya Sharma", role: "Co-Founder & CEO", img: ceo, color: "#C9A84C" },
+    { name: "Aditya Sharma", role: "Founder & CEO", img: ceo, color: "#C9A84C" },
     { name: "Rahul Sharma", role: "Co-Founder & COO", img: "https://picsum.photos/seed/team2/200/200", color: "#4caf82" },
     { name: "Priya Verma", role: "Head of Operations", img: "https://picsum.photos/seed/team3/200/200", color: "#4a90d9" },
     { name: "Amit Singh", role: "Head of Technology", img: "https://picsum.photos/seed/team4/200/200", color: "#b57bee" },
@@ -80,7 +81,7 @@ export const contactInfo = [
 export const SOCIAL_LINKS = [
     { icon: LinkedInIcon, href: "https://linkedin.com" },
     { icon: InstagramIcon, href: "https://instagram.com/blacktiehospitality/" },
-    { icon: FacebookIcon, href: "https://facebook.com" },
-    { icon: YouTubeIcon, href: "https://youtube.com" },
+    // { icon: FacebookIcon, href: "https://facebook.com" },
+    // { icon: YouTubeIcon, href: "https://youtube.com" },
     { icon: WhatsAppIcon, href: "https://wa.me/9198982931469" },
 ];

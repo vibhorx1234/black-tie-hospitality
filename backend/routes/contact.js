@@ -13,7 +13,7 @@ const transporter = nodemailer.createTransport({
 router.post('/', async (req, res) => {
   const { name, email, phone, subject, message, propertyInterest } = req.body;
 
-  if (!name || !phone || !message) {
+  if (!name || !phone) {
     return res.status(400).json({ success: false, error: 'Name, email, and message are required.' });
   }
 

@@ -298,7 +298,7 @@ export default function FoundersSection() {
               onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
               onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
             >
-              Become a Partner
+              Enguire a property
             </a>
 
             <a

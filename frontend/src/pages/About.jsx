@@ -8,6 +8,7 @@ import { values, milestones, teamMembers } from "../data/about";
 
 import team1 from "./../assets/team/team1.jpeg";
 import team3 from "./../assets/team/team3.jpeg";
+import ceo from "./../assets/team/ceo.jpeg";
 
 export default function About() {
   return (
@@ -135,7 +136,7 @@ export default function About() {
                 <div style={{
                   fontFamily: "'Outfit', sans-serif",
                   fontSize: "clamp(9px, 1.1vw, 11px)",
-                  color: "rgba(245,240,232,0.5)",
+                  color: "rgba(245,240,232)",
                   marginTop: "2px",
                 }}>
                   {stat.label}
@@ -241,7 +242,7 @@ export default function About() {
                 style={{ borderRadius: "8px", width: "100%", objectFit: "cover" }}
               />
               <img
-                src={team3}
+                src={ceo}
                 alt="Our team"
                 style={{
                   borderRadius: "8px",

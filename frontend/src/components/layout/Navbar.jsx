@@ -5,8 +5,8 @@ import logo from "../../vectors/logo.svg";
 
 const navLinks = [
   { label: "Home", path: "/" },
-  { label: "Services", path: "/services" },
   { label: "Properties", path: "/properties" },
+  { label: "Services", path: "/services" },
   { label: "Gallery", path: "/gallery" },
   { label: "About Us", path: "/about" },
   { label: "Contact Us", path: "/contact" },

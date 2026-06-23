@@ -33,7 +33,6 @@ export default function Contact() {
     if (!form.name.trim()) errs.name = "Name is required";
     if (!form.phone.trim()) errs.phone = "Phone number is required";
     if (form.email.trim() && !/\S+@\S+\.\S+/.test(form.email)) errs.email = "Invalid email";
-    if (!form.message.trim()) errs.message = "Message is required";
     return errs;
   };
 
@@ -435,7 +434,7 @@ export default function Contact() {
                     {/* Message */}
                     <div>
                       <label style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.1vw, 12px)", color: "#8a8580", display: "block", marginBottom: "6px" }}>
-                        Message / Property Name *
+                        Message / Property Name
                       </label>
                       <textarea
                         name="message"

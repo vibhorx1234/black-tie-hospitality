@@ -18,10 +18,9 @@ function useWindowWidth() {
 // ── Single autoplay iframe card ────────────────────────────────────────────────
 function VideoCard({ video, isMobile }) {
   const containerRef = useRef(null);
+  const videoRef = useRef(null);
   const [visible, setVisible] = useState(false);
-  const [loaded, setLoaded] = useState(false);
 
-  // Intersection Observer — play only when card enters viewport
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -33,9 +32,16 @@ function VideoCard({ video, isMobile }) {
     return () => observer.disconnect();
   }, []);
 
-  const src = visible
-    ? `https://www.youtube.com/embed/${video.youtubeId}?autoplay=1&mute=1&loop=1&playlist=${video.youtubeId}&controls=0&rel=0&modestbranding=1&playsinline=1&enablejsapi=0`
-    : "";
+  // Play/pause based on visibility
+  useEffect(() => {
+    const vid = videoRef.current;
+    if (!vid) return;
+    if (visible) {
+      vid.play().catch(() => { }); // catch autoplay policy errors silently
+    } else {
+      vid.pause();
+    }
+  }, [visible]);
 
   return (
     <div
@@ -61,88 +67,41 @@ function VideoCard({ video, isMobile }) {
     >
       {/* Video wrapper — portrait 9:13 */}
       <div style={{ position: "relative", width: "100%", aspectRatio: "9/13", background: "#f7f5f2" }}>
-        {/* Skeleton shimmer while iframe loads */}
-        {!loaded && (
-          <div style={{
+        <video
+          ref={videoRef}
+          src={video.videoSrc}
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          style={{
             position: "absolute",
             inset: 0,
-            background: "linear-gradient(90deg, #f0ece4 25%, #f7f5f0 50%, #f0ece4 75%)",
-            backgroundSize: "200% 100%",
-            animation: "shimmer 1.4s infinite",
-          }} />
-        )}
-
-        {visible && (
-          <iframe
-            src={src}
-            title={video.title}
-            allow="autoplay; encrypted-media"
-            allowFullScreen
-            onLoad={() => setLoaded(true)}
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              border: "none",
-              display: "block",
-              opacity: loaded ? 1 : 0,
-              transition: "opacity 0.4s ease",
-            }}
-          />
-        )}
+            width: "100%",
+            height: "100%",
+            objectFit: "cover",
+            display: "block",
+          }}
+        />
 
         {/* Gold corner accent */}
-        <div style={{
-          position: "absolute",
-          top: 10,
-          left: 10,
-          width: 28,
-          height: 2,
-          background: "#C9A84C",
-          borderRadius: 1,
-          pointerEvents: "none",
-          zIndex: 2,
-        }} />
-        <div style={{
-          position: "absolute",
-          top: 10,
-          left: 10,
-          width: 2,
-          height: 28,
-          background: "#C9A84C",
-          borderRadius: 1,
-          pointerEvents: "none",
-          zIndex: 2,
-        }} />
+        <div style={{ position: "absolute", top: 10, left: 10, width: 28, height: 2, background: "#C9A84C", borderRadius: 1, pointerEvents: "none", zIndex: 2 }} />
+        <div style={{ position: "absolute", top: 10, left: 10, width: 2, height: 28, background: "#C9A84C", borderRadius: 1, pointerEvents: "none", zIndex: 2 }} />
       </div>
 
       {/* Card footer */}
-      <div style={{
+      {/* <div style={{
         padding: isMobile ? "8px 10px" : "10px 14px",
         borderTop: "1px solid rgba(201,168,76,0.12)",
         background: "#fff",
       }}>
-        <p style={{
-          fontFamily: "'Cinzel', serif",
-          fontSize: isMobile ? 12 : 13,
-          fontWeight: 600,
-          color: "#1a1714",
-          margin: "0 0 2px",
-          lineHeight: 1.3,
-        }}>
+        <p style={{ fontFamily: "'Cinzel', serif", fontSize: isMobile ? 12 : 13, fontWeight: 600, color: "#1a1714", margin: "0 0 2px", lineHeight: 1.3 }}>
           {video.title}
         </p>
-        <p style={{
-          fontFamily: "'Outfit', sans-serif",
-          fontSize: isMobile ? 10 : 11,
-          color: "#C9A84C",
-          margin: 0,
-          letterSpacing: "0.06em",
-        }}>
+        <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: isMobile ? 10 : 11, color: "#C9A84C", margin: 0, letterSpacing: "0.06em" }}>
           {video.subtitle}
         </p>
-      </div>
+      </div> */}
     </div>
   );
 }
@@ -235,11 +194,11 @@ export default function VideoShowcaseSection() {
 
       {/* ── Global Keyframes ── */}
       <style>{`
-        @keyframes shimmer {
-          0%   { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
-        }
-      `}</style>
+          @keyframes shimmer {
+            0%   { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+          }
+        `}</style>
     </section>
   );
 }

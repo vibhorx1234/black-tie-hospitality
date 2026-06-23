@@ -85,7 +85,7 @@ export default function Footer() {
             marginTop: 0,
             maxWidth: isTablet ? "420px" : "100%",
           }}>
-            Premium Property Management Solutions Across India
+            Leading Property Management & Rental Services in Jaipur
           </p>
 
           {/* Social Icons */}
@@ -282,11 +282,11 @@ export default function Footer() {
           color: "#5a5550",
           margin: 0,
         }}>
-          © 2026 Black Tie Hospitality. All Rights Reserved.
+          © 2026 Black Tie Hospitality. The Young Marketers. All Rights Reserved.
         </p>
         <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
           <a
-            href="#"
+            href="/privacy-policy"
             style={{
               fontFamily: "'Outfit', sans-serif",
               fontSize: "11px",
@@ -301,7 +301,7 @@ export default function Footer() {
           </a>
           <span style={{ color: "#5a5550", fontSize: "11px" }}>|</span>
           <a
-            href="#"
+            href="/terms"
             style={{
               fontFamily: "'Outfit', sans-serif",
               fontSize: "11px",

@@ -9,6 +9,8 @@ import Properties from "./pages/Properties";
 import Gallery from "./pages/Gallery";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
 import WhatsAppIcon from "../src/vectors/whatsapp.svg";
 
 // ── Responsive hook ────────────────────────────────────────────────────────────
@@ -151,6 +153,8 @@ function AppLayout() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms" element={<TermsOfService />} />
           <Route
             path="*"
             element={
