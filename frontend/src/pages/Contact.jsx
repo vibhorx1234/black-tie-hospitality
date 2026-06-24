@@ -1,6 +1,7 @@
 import { useState } from "react";
 import React from "react";
 import { contactInfo, SOCIAL_LINKS } from "../data/about";
+import grandAnukampa5 from './../assets/grand anukampa/2.jpeg';
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
@@ -99,16 +100,22 @@ export default function Contact() {
         display: "flex",
         alignItems: "flex-end",
       }}>
-        <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage: "url(https://picsum.photos/seed/about-hero/1400/600)",
-          backgroundSize: "cover", backgroundPosition: "center",
-          opacity: 0.18,
-        }} />
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(to top, #0D1117 40%, rgba(13,17,23,0.6) 100%)",
-        }} />
+        {/* Background image */}
+                <div style={{
+                  position: "absolute",
+                  inset: 0,
+                  backgroundImage: `url(${grandAnukampa5})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  opacity: 0.65,
+                  zIndex: 0,
+                }} />
+                <div style={{
+                  position: "absolute",
+                  inset: 0,
+                  background: "linear-gradient(to top, #0D1117 0%, transparent 80%)",
+                  zIndex: 0,
+                }} />
 
         <div style={{
           maxWidth: "1440px",

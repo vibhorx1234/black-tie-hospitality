@@ -7,6 +7,9 @@ import { SERVICES, HOW_WE_WORK, WHY_CHOOSE, FUTURE_PROJECTIONS } from "../data/s
 import { HOTELS, APARTMENTS } from "../data/properties";
 import { models, compareData } from "../data/models";
 import ceo from "./../assets/team/ceo.jpeg";
+import grace4 from './../assets/grace/10.JPG';
+import studio from './../assets/studio.png';
+import hotel from './../assets/hotel.avif';
 
 const Icons = {
   fixed: (
@@ -321,14 +324,14 @@ export default function Services() {
       }}>
         <div style={{
           position: "absolute", inset: 0,
-          backgroundImage: "url(https://picsum.photos/seed/svc-hero/1400/600)",
+          backgroundImage: `url(${grace4})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.25,
+          opacity: 0.35,
         }} />
         <div style={{
           position: "absolute", inset: 0,
-          background: "linear-gradient(to top, #0D1117 30%, transparent 80%)",
+          background: "linear-gradient(to top, #0D1117 10%, transparent 80%)",
         }} />
         <div style={{
           maxWidth: "1280px", margin: "0 auto",
@@ -380,7 +383,7 @@ export default function Services() {
               boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
             }}>
               <div style={{ height: "clamp(120px, 15vw, 160px)", overflow: "hidden" }}>
-                <img src="https://picsum.photos/seed/hotels-port/600/200" alt="Hotels" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src={hotel} alt="Hotels" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <div style={{ padding: "clamp(16px, 3vw, 24px)" }}>
                 <h3 style={{
@@ -405,7 +408,7 @@ export default function Services() {
               boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
             }}>
               <div style={{ height: "clamp(120px, 15vw, 160px)", overflow: "hidden" }}>
-                <img src="https://picsum.photos/seed/apts-port/600/200" alt="Studio Apartments" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src={studio} alt="Studio Apartments" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <div style={{ padding: "clamp(16px, 3vw, 24px)" }}>
                 <h3 style={{

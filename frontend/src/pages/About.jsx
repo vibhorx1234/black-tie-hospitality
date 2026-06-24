@@ -5,6 +5,7 @@ import TestimonialsSection from "../components/home/TestimonialsSection";
 import React from "react";
 import { STATS } from "../data/clients";
 import { values, milestones, teamMembers } from "../data/about";
+import grace1 from './../assets/grace/5.JPG';
 
 import team1 from "./../assets/team/team1.jpeg";
 import team3 from "./../assets/team/team3.jpeg";
@@ -23,15 +24,21 @@ export default function About() {
         display: "flex",
         alignItems: "flex-end",
       }}>
+        {/* Background image */}
         <div style={{
-          position: "absolute", inset: 0,
-          backgroundImage: "url(https://picsum.photos/seed/about-hero/1400/600)",
-          backgroundSize: "cover", backgroundPosition: "center",
-          opacity: 0.18,
+          position: "absolute",
+          inset: 0,
+          backgroundImage: `url(${grace1})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.45,
+          zIndex: 0,
         }} />
         <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(to top, #0D1117 40%, rgba(13,17,23,0.6) 100%)",
+          position: "absolute",
+          inset: 0,
+          background: "linear-gradient(to top, #0D1117 20%, transparent 80%)",
+          zIndex: 0,
         }} />
 
         <div style={{
@@ -72,7 +79,7 @@ export default function About() {
             maxWidth: "min(560px, 90%)",
             margin: 0,
           }}>
-            As a leading property management and rental service provider in Jaipur, Black Tie Hospitality manages and operates a diverse portfolio of hotels, studio apartments, villas, BNBs, and residential properties with a focus on operational excellence, guest satisfaction, and long-term value creation. 
+            As a leading property management and rental service provider in Jaipur, Black Tie Hospitality manages and operates a diverse portfolio of hotels, studio apartments, villas, BNBs, and residential properties with a focus on operational excellence, guest satisfaction, and long-term value creation.
           </p>
         </div>
       </section>

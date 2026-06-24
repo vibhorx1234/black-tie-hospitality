@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import CTABanner from "../components/home/CTABanner";
 import { HOTELS, APARTMENTS, ALL_PROPERTIES } from "../data/properties";
 import { STATS } from "../data/clients";
+import grandAnukampa7 from './../assets/grand anukampa/4.jpeg';
 
 // ── Responsive hook ────────────────────────────────────────────────────────────
 function useWindowWidth() {
@@ -754,12 +755,12 @@ export default function Properties() {
       }}>
         <div style={{
           position: "absolute", inset: 0,
-          backgroundImage: "url(https://picsum.photos/seed/prop-hero/1400/600)",
-          backgroundSize: "cover", backgroundPosition: "center", opacity: 0.25,
+          backgroundImage: `url(${grandAnukampa7})`,
+          backgroundSize: "cover", backgroundPosition: "center", opacity: 0.35,
         }} />
         <div style={{
           position: "absolute", inset: 0,
-          background: "linear-gradient(to top, #0D1117 30%, transparent 80%)",
+          background: "linear-gradient(to top, #0D1117 10%, transparent 80%)",
         }} />
 
         <div style={{

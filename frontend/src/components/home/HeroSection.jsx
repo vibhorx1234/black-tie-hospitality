@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import Button from "../ui/Button";
 import React from "react";
 import { STATS } from "../../data/clients";
+import homeHero from "../../assets/home-hero.png";
 
 export default function HeroSection() {
   const [loaded, setLoaded] = useState(false);
@@ -28,7 +29,7 @@ export default function HeroSection() {
         style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: `url('https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1800&q=80')`,
+          backgroundImage: `url(${homeHero})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           transform: loaded ? "scale(1)" : "scale(1.05)",
@@ -42,7 +43,7 @@ export default function HeroSection() {
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(105deg, rgba(10,13,18,0.92) 45%, rgba(10,13,18,0.5) 75%, rgba(10,13,18,0.2) 100%)",
+            "linear-gradient(105deg, rgba(10,13,18,0.92) 30%, rgba(10,13,18,0.5) 75%, rgba(10,13,18,0.2) 100%)",
         }}
       />
       <div

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import React from "react";
 import CTABanner from "../components/home/CTABanner";
 import { GALLERY_ITEMS } from "../data/gallery";
+import vidhyadeep1 from './../assets/vidhyadeep/8.jpeg';
 
 const ALL_CATEGORIES = ["All", ...Array.from(new Set(GALLERY_ITEMS.map((g) => g.category)))];
 
@@ -73,10 +74,10 @@ export default function Gallery() {
         <div style={{
           position: "absolute",
           inset: 0,
-          backgroundImage: "url(https://picsum.photos/seed/prop-hero/1400/600)",
+          backgroundImage: `url(${vidhyadeep1})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          opacity: 0.25,
+          opacity: 0.45,
           zIndex: 0,
         }} />
 
@@ -93,7 +94,7 @@ export default function Gallery() {
         <div style={{
           position: "absolute",
           inset: 0,
-          background: "linear-gradient(to top, #0D1117 30%, transparent 80%)",
+          background: "linear-gradient(to top, #0D1117 20%, transparent 80%)",
           zIndex: 0,
         }} />
 
