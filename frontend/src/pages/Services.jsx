@@ -374,32 +374,42 @@ export default function Services() {
             <div style={{ width: "40px", height: "2px", background: "linear-gradient(90deg,#C9A84C,#e8c97a)", margin: "0 auto" }} />
           </div>
 
-          <div className="portfolio-grid" style={{ display: "grid", gap: "clamp(20px, 4vw, 40px)" }}>
-            {/* Hotels */}
-            <div style={{
-              background: "#ffffff",
-              border: "1px solid rgba(0,0,0,0.07)",
-              borderRadius: "12px", overflow: "hidden",
-              boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
-            }}>
-              <div style={{ height: "clamp(120px, 15vw, 160px)", overflow: "hidden" }}>
-                <img src={hotel} alt="Hotels" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-              </div>
-              <div style={{ padding: "clamp(16px, 3vw, 24px)" }}>
-                <h3 style={{
-                  fontFamily: "'Cinzel', serif", fontSize: "clamp(12px, 1.8vw, 14px)",
-                  color: "#0D1117", fontWeight: 600, marginBottom: "16px", marginTop: 0,
-                }}>Hotels</h3>
-                <div className="property-list-grid" style={{ display: "grid", gap: "4px 20px" }}>
-                  {HOTELS.map((h, i) => (
-                    <p key={h.id} style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.3vw, 12px)", color: "#6b6560", margin: 0 }}>
-                      <span style={{ color: "#C9A84C", marginRight: "6px" }}>{String(i + 1).padStart(2, "0")}</span>{h.name}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            </div>
+          <div style={{ textAlign: "center" }}>
+            <a
+              href="https://wa.me/919898293146"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "inline-block",
+                fontFamily: "'Outfit', sans-serif",
+                fontSize: "clamp(12px, 1.5vw, 14px)",
+                fontWeight: 600,
+                letterSpacing: "0.15em",
+                textTransform: "uppercase",
+                color: "#0D1117",
+                background: "linear-gradient(135deg, #C9A84C, #e8c97a)",
+                padding: "clamp(12px, 2vw, 15px) clamp(28px, 5vw, 48px)",
+                borderRadius: "8px",
+                textDecoration: "none",
+                boxShadow: "0 4px 20px rgba(201,168,76,0.35)",
+                transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                marginTop: "clamp(-12px, -2vw, -20px)",
+                marginBottom: "clamp(24px, 4vw, 36px)",
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = "translateY(-2px)";
+                e.currentTarget.style.boxShadow = "0 8px 28px rgba(201,168,76,0.45)";
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = "translateY(0)";
+                e.currentTarget.style.boxShadow = "0 4px 20px rgba(201,168,76,0.35)";
+              }}
+            >
+              Book a Property / Room
+            </a>
+          </div>
 
+          <div className="portfolio-grid" style={{ display: "grid", gap: "clamp(20px, 4vw, 40px)" }}>
             {/* Apartments */}
             <div style={{
               background: "#ffffff",
@@ -419,6 +429,30 @@ export default function Services() {
                   {APARTMENTS.map((a, i) => (
                     <p key={a.id} style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.3vw, 12px)", color: "#6b6560", margin: 0 }}>
                       <span style={{ color: "#C9A84C", marginRight: "6px" }}>{String(i + 1).padStart(2, "0")}</span>{a.name}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
+            {/* Hotels */}
+            <div style={{
+              background: "#ffffff",
+              border: "1px solid rgba(0,0,0,0.07)",
+              borderRadius: "12px", overflow: "hidden",
+              boxShadow: "0 2px 16px rgba(0,0,0,0.05)",
+            }}>
+              <div style={{ height: "clamp(120px, 15vw, 160px)", overflow: "hidden" }}>
+                <img src={hotel} alt="Hotels" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </div>
+              <div style={{ padding: "clamp(16px, 3vw, 24px)" }}>
+                <h3 style={{
+                  fontFamily: "'Cinzel', serif", fontSize: "clamp(12px, 1.8vw, 14px)",
+                  color: "#0D1117", fontWeight: 600, marginBottom: "16px", marginTop: 0,
+                }}>Hotels</h3>
+                <div className="property-list-grid" style={{ display: "grid", gap: "4px 20px" }}>
+                  {HOTELS.map((h, i) => (
+                    <p key={h.id} style={{ fontFamily: "'Outfit', sans-serif", fontSize: "clamp(11px, 1.3vw, 12px)", color: "#6b6560", margin: 0 }}>
+                      <span style={{ color: "#C9A84C", marginRight: "6px" }}>{String(i + 1).padStart(2, "0")}</span>{h.name}
                     </p>
                   ))}
                 </div>

@@ -418,7 +418,7 @@ export const APARTMENTS = [
   },
   {
     id: 'a08',
-    name: 'Magnus',
+    name: 'Redwood Magnus',
     location: 'Tonk Road, Jaipur',
     mapsLink: 'https://maps.app.goo.gl/ysKMS2UK5qSiFABT8',
     type: 'Apartment',

@@ -63,7 +63,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g01',
     title: 'Studio Suite — Full View',
-    category: 'Interiors',
+    category: 'CKM Urban Suites',
     description: 'A fully furnished studio suite at CKM Urban Suites — twin beds, wooden shelving, teal accent chair, flat-screen TV, and modern fittings across this ultra-luxury studio complex in Jagatpura.',
     image: urbanSuites1,
     property: 'CKM Urban Suites, Mahal Road, Near Bombay Hospital, Jaipur',
@@ -71,7 +71,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g02',
     title: 'Studio Suite — Living Corner',
-    category: 'Interiors',
+    category: 'CKM Urban Suites',
     description: 'The living and workstation corner of a studio suite at CKM Urban Suites — lush indoor plants, a dedicated desk with teal chair, and a warm, well-lit atmosphere designed for comfort and productivity.',
     image: urbanSuites2,
     property: 'CKM Urban Suites, Mahal Road, Near Bombay Hospital, Jaipur',
@@ -79,7 +79,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g03',
     title: 'Studio Suite — Wide Angle',
-    category: 'Interiors',
+    category: 'CKM Urban Suites',
     description: 'A wide-angle view of the studio suite at CKM Urban Suites showing the full layout — bed, TV unit, mini fridge, and smart use of space that sets a new benchmark for studio living in Jaipur.',
     image: urbanSuites3,
     property: 'CKM Urban Suites, Mahal Road, Near Bombay Hospital, Jaipur',
@@ -89,7 +89,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g04',
     title: 'Twin Bedroom Suite',
-    category: 'Interiors',
+    category: 'Grand Anukampa',
     description: 'A stylish twin bedroom suite at Grand Anukampa — wooden flooring, green floral bedding, AC, and warm recessed lighting across this iconic boutique serviced apartment on Ajmer Road.',
     image: grandAnukampa1,
     property: 'Grand Anukampa, Shyam Nagar, Ajmer Road, Jaipur',
@@ -97,7 +97,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g05',
     title: 'City View Lounge Corner',
-    category: 'Interiors',
+    category: 'Grand Anukampa',
     description: 'A serene lounge corner at Grand Anukampa — a plush brown armchair, side table, and floor-to-ceiling window with sweeping city views, perfect for unwinding after a long day.',
     image: grandAnukampa2,
     property: 'Grand Anukampa, Shyam Nagar, Ajmer Road, Jaipur',
@@ -105,7 +105,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g06',
     title: 'Rooftop Infinity Pool',
-    category: 'Amenities',
+    category: 'Grand Anukampa',
     description: 'The stunning rooftop infinity pool at Grand Anukampa — a premium highlight of this 11-floor boutique serviced apartment complex, offering sweeping views over Shyam Nagar, Jaipur.',
     image: grandAnukampa6,
     property: 'Grand Anukampa, Shyam Nagar, Ajmer Road, Jaipur',
@@ -115,7 +115,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g07',
     title: 'Premium Suite Bedroom',
-    category: 'Interiors',
+    category: 'Pink Peacock Stays (Vidhyadeep)',
     description: 'A spacious premium suite at Pink Peacock Stays — navy blue upholstered bed, warm ambient ceiling lighting, lounge seating, and a calm restful atmosphere in Gopalbari.',
     image: vidhyadeep1,
     property: 'The Pink Peacock Stays, Gopalbari, Jaipur',
@@ -123,7 +123,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g08',
     title: 'Signature King Room',
-    category: 'Interiors',
+    category: 'Pink Peacock Stays (Vidhyadeep)',
     description: 'The signature king bedroom at Pink Peacock Stays — bold green headboard, premium linen, designer wall art, and warm mood lighting for a boutique hotel experience.',
     image: vidhyadeep2,
     property: 'The Pink Peacock Stays, Gopalbari, Jaipur',
@@ -131,7 +131,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g09',
     title: 'Deluxe Room with Balcony',
-    category: 'Interiors',
+    category: 'Pink Peacock Stays (Vidhyadeep)',
     description: 'A bright, airy deluxe room at Pink Peacock Stays — warm beige tones, oval mirror, and a private balcony with outdoor seating overlooking the city.',
     image: vidhyadeep5,
     property: 'The Pink Peacock Stays, Gopalbari, Jaipur',
@@ -141,7 +141,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g10',
     title: 'Deluxe Room with Balcony',
-    category: 'Interiors',
+    category: 'Ruby Suites',
     description: 'A bright, well-appointed deluxe room at Ruby Suites — warm beige tones, oval mirror, and a private balcony with outdoor seating and open city views in Gopalbari.',
     image: ruby1,
     property: 'Ruby Suites, Gopalbari, Jaipur',
@@ -149,7 +149,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g11',
     title: 'Signature King Room',
-    category: 'Interiors',
+    category: 'Ruby Suites',
     description: 'The signature king bedroom at Ruby Suites — bold green headboard, premium linen, designer wall art, and warm mood lighting for a polished extended-stay experience.',
     image: ruby4,
     property: 'Ruby Suites, Gopalbari, Jaipur',
@@ -157,7 +157,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g12',
     title: 'Premium Suite Bedroom',
-    category: 'Interiors',
+    category: 'Ruby Suites',
     description: 'A spacious premium suite at Ruby Suites — navy blue upholstered bed, warm ambient ceiling lighting, lounge seating, and a calm restful atmosphere in Gopalbari, Jaipur.',
     image: ruby6,
     property: 'Ruby Suites, Gopalbari, Jaipur',
@@ -167,7 +167,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g13',
     title: 'Contemporary Bedroom',
-    category: 'Interiors',
+    category: 'Solitaire Suites',
     description: 'A thoughtfully appointed bedroom at Solitaire Suites, Jagatpura — neutral tones, recessed lighting, and modern furnishings designed for discerning long-term residents.',
     image: solitaire1,
     property: 'Solitaire Suites, Jagatpura, Jaipur',
@@ -175,7 +175,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g14',
     title: 'Spacious Suite Interior',
-    category: 'Interiors',
+    category: 'Solitaire Suites',
     description: 'Spacious, fully furnished suite interiors at Solitaire Suites — a premium residential offering in a well-connected Jaipur neighbourhood built for modern urban living.',
     image: solitaire4,
     property: 'Solitaire Suites, Jagatpura, Jaipur',
@@ -185,7 +185,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g15',
     title: 'Modern Apartment Bedroom',
-    category: 'Interiors',
+    category: 'Manhattan Riviera',
     description: 'Sleek, modern bedroom at Manhattan Riviera — clean lines, quality finishes, and an urban aesthetic that reflects the property\'s sophisticated residential positioning.',
     image: manhattan1,
     property: 'Manhattan Riviera, Mahal Road, Near Bombay Hospital, Jaipur',
@@ -193,7 +193,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g16',
     title: 'Warm Executive Room',
-    category: 'Interiors',
+    category: 'Manhattan Riviera',
     description: 'A warm, well-appointed executive room at Manhattan Riviera — beige tones, king bed, and thoughtful furnishings for professionals and families seeking elevated city living.',
     image: manhattan2,
     property: 'Manhattan Riviera, Mahal Road, Near Bombay Hospital, Jaipur',
@@ -203,7 +203,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g17',
     title: 'Residential Bedroom',
-    category: 'Interiors',
+    category: 'GKB Grace',
     description: 'A clean, elegantly styled bedroom at GKB Grace, Omaxe City — understated quality and thoughtful design for families seeking a long-term home on Ajmer Road.',
     image: grace1,
     property: 'GKB Grace, Omaxe City, Ajmer Road, Jaipur',
@@ -211,7 +211,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g18',
     title: 'Living Area',
-    category: 'Interiors',
+    category: 'GKB Grace',
     description: 'A spacious living and dining area at GKB Grace — community-first design, warm interiors, and a calm residential atmosphere in one of Jaipur\'s well-planned townships.',
     image: grace3,
     property: 'GKB Grace, Omaxe City, Ajmer Road, Jaipur',
@@ -221,7 +221,7 @@ export const GALLERY_ITEMS = [
   {
     id: 'g19',
     title: 'Luxury Master Bedroom',
-    category: 'Interiors',
+    category: 'Redwood Magnus',
     description: 'A grand master bedroom at Magnus by Redwood — high-end finishes, plush furnishings, and bold proportions that live up to its name as one of Tonk Road\'s finest residences.',
     image: magnus1,
     property: 'Magnus by Redwood, Tonk Road, Jaipur',
@@ -229,11 +229,11 @@ export const GALLERY_ITEMS = [
   {
     id: 'g20',
     title: 'Living & Lounge Area',
-    category: 'Interiors',
+    category: 'Redwood Magnus',
     description: 'A beautifully styled living and lounge area at Magnus by Redwood — curated décor, warm lighting, and premium upholstery that define luxury residential living in Jaipur.',
     image: magnus5,
     property: 'Magnus by Redwood, Tonk Road, Jaipur',
   },
 ]
 
-export const GALLERY_CATEGORIES = ['All', 'Interiors', 'Amenities']
+export const GALLERY_CATEGORIES = ['All', 'CKM Urban Suites', 'Grand Anukampa', 'Pink Peacock Stays (Vidhyadeep)', 'Ruby Suites', 'Solitaire Suites', 'Manhattan Riviera', 'GKB Grace', 'Redwood Magnus']
